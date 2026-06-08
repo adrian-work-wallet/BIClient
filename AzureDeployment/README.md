@@ -34,16 +34,16 @@ The function app is assigned a **system-assigned managed identity** automaticall
 cd AzureDeployment
 
 azd auth login
-azd env new <ENVIRONMENT_NAME>    # e.g. contoso, northwind, acme-corp
+azd env new <ENVIRONMENT_NAME>    # e.g. contoso-wwbi, northwind-wwbi, acme-corp-wwbi
 ```
 
-The environment name is used directly as the prefix for all Azure resource names (e.g. `contoso-lrhfnk` for the function app, `contosolrhfnk` for the storage account). Choose a name that clearly identifies the client — this is especially useful when hosting multiple clients in a single Azure subscription.
+The environment name is used directly as the prefix for all Azure resource names (e.g. `contoso-wwbi-lrhfnk` for the function app, `contosowwbilrhfnk` for the storage account). Choose a name that clearly identifies the client — this is especially useful when hosting multiple clients in a single Azure subscription.
 
 **Environment name guidelines:**
 
 - Use only lowercase letters, numbers, and hyphens
 - Maximum **16 characters** — this ensures storage account names (which strip hyphens and append a 6-character uniqueness token) are never truncated and remain readable
-- Examples: `contoso`, `northwind`, `acme-corp`, `client-name`
+- Examples: `contoso-wwbi`, `northwind-wwbi`, `acme-corp-wwbi`
 
 > **First run only:** `azd up` may display a "check your Azure development tools" prompt listing optional tools (GitHub Copilot CLI, Bicep VS Code Extension, etc.). Neither is required for deployment. Press **Enter** to install the pre-selected items, or use **Space** to deselect them and then **Enter** to skip. This prompt does not appear on subsequent runs.
 
@@ -53,6 +53,7 @@ Set the Azure region and SQL connection details before running `azd up`:
 
 ```bash
 azd env set AZURE_LOCATION westeurope # replace with your region — see common values below
+azd env set AZURE_RESOURCE_GROUP <GROUP_NAME> # e.g. contoso-wwbi — omit rg- prefix if not desired
 azd env set AZURE_SQL_SERVER_NAME <SQL_SERVER_NAME> # hostname only, without .database.windows.net
 azd env set AZURE_SQL_DATABASE_NAME <DATABASE_NAME>
 azd env set TIMER_SCHEDULE '0 0 22 * * *' # NCRONTAB in UTC — see scheduling guidance below

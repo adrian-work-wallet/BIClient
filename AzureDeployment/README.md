@@ -1,0 +1,166 @@
+# Work Wallet BI Client — Azure Deployment
+
+Deploys the `WorkWallet.BI.ClientFunction` Azure Function using the [Azure Developer CLI (`azd`)](https://learn.microsoft.com/azure/developer/azure-developer-cli/overview).
+
+Running `azd up` provisions all required Azure infrastructure and deploys the function code in a single command — no manual portal steps required.
+
+## Prerequisites
+
+- [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) installed (`winget install Microsoft.Azd` on Windows)
+- An Azure subscription with permission to create resources
+- An existing Azure SQL Server and Database with the schema already deployed (see [database deployment](../README.md#55-database-deployment) in the main README)
+- Microsoft Entra ID admin access to the target SQL database (required for the post-deploy SQL grants in step 3)
+- Your Work Wallet API credentials (client ID, client secret, wallet ID, wallet secret)
+
+## What Gets Provisioned
+
+| Resource | Purpose |
+| --- | --- |
+| Storage Account | Runtime state and deployment package storage for Flex Consumption |
+| Log Analytics Workspace | Backing store for Application Insights |
+| Application Insights | Monitoring and structured logging |
+| App Service Plan (Flex Consumption) | Serverless hosting plan |
+| Function App (.NET 10 Isolated, Linux, 2048 MB) | Timer-triggered data extract |
+
+The function app is assigned a **system-assigned managed identity** automatically. Three storage role assignments are created so the function authenticates to storage without any connection string.
+
+## Deployment Steps
+
+### Step 1 — Authenticate and initialise
+
+> **Important:** all `azd` commands must be run from the `AzureDeployment` folder. Run `cd AzureDeployment` before proceeding. If you run them from the repo root, azd will not find `azure.yaml` and will fail or create environment state in the wrong location.
+
+```bash
+cd AzureDeployment
+
+azd auth login
+azd env new <ENVIRONMENT_NAME>    # e.g. workwallet-bi-mycompany
+```
+
+> **First run only:** `azd up` may display a "check your Azure development tools" prompt listing optional tools (GitHub Copilot CLI, Bicep VS Code Extension, etc.). Neither is required for deployment. Press **Enter** to install the pre-selected items, or use **Space** to deselect them and then **Enter** to skip. This prompt does not appear on subsequent runs.
+
+### Step 2 — Set required parameters
+
+Set the Azure region and SQL connection details before running `azd up`:
+
+```bash
+azd env set AZURE_LOCATION westeurope # replace with your region — see common values below
+azd env set AZURE_SQL_SERVER_NAME <SQL_SERVER_NAME> # hostname only, without .database.windows.net
+azd env set AZURE_SQL_DATABASE_NAME <DATABASE_NAME>
+azd env set TIMER_SCHEDULE '0 0 22 * * *' # NCRONTAB in UTC — see scheduling guidance below
+```
+
+Choose a timer schedule appropriate for your timezone. See [scheduling guidance](../README.md#561-scheduling-recommendations) for recommendations on avoiding peak times.
+
+**Common Azure location values:**
+
+| Region | Value |
+| --- | --- |
+| UK South | `uksouth` |
+| UK West | `ukwest` |
+| West Europe | `westeurope` |
+| North Europe | `northeurope` |
+| Australia East | `australiaeast` |
+| Australia Southeast | `australiasoutheast` |
+| East US | `eastus` |
+| East US 2 | `eastus2` |
+| West US | `westus` |
+| Southeast Asia | `southeastasia` |
+
+Use `az account list-locations --output table` to see the full list of available regions for your subscription.
+
+### Step 3 — Provision infrastructure and deploy
+
+```bash
+azd up
+```
+
+azd will prompt for:
+
+| Prompt | What to enter |
+| --- | --- |
+| Select an Azure Subscription | Choose your subscription |
+| Pick a resource group | Select **Create a new resource group** |
+
+All other parameters (`environmentName`, `location`, `sqlServerName`, `sqlDatabaseName`) are supplied automatically from the azd environment — they will not be prompted.
+
+Once answered, azd builds the function project from source, provisions all Azure resources, and deploys the function code. Takes approximately 5 minutes.
+
+At the end of provisioning, `azd` prints the function app name and resource group — note these for the steps below.
+
+### Step 3 — Grant database access (manual SQL step)
+
+The function app authenticates to Azure SQL using its system-assigned managed identity. Grant access via a Microsoft Entra ID security group:
+
+**Step 3a — Create an Entra ID security group and add the managed identity as a member.**
+
+In the Azure portal, go to Microsoft Entra ID → Groups → New group. Create a security group (e.g. `WorkWallet_BI_Database_Access`). Then navigate to the function app → Settings → Identity and copy the Object (principal) ID. Add this as a member of the group.
+
+**Step 3b — Grant the group permissions on the database.**
+
+Connect to the target Azure SQL database as a Microsoft Entra ID admin and run:
+
+```sql
+-- Create a database user mapped to the Entra ID group
+CREATE USER [WorkWallet_BI_Database_Access] FROM EXTERNAL PROVIDER;
+
+-- Create a role that allows stored procedure execution
+CREATE ROLE db_executor;
+GRANT EXECUTE TO db_executor;
+
+-- Grant the group membership of all required roles
+ALTER ROLE db_datareader ADD MEMBER [WorkWallet_BI_Database_Access];
+ALTER ROLE db_datawriter ADD MEMBER [WorkWallet_BI_Database_Access];
+ALTER ROLE db_ddladmin   ADD MEMBER [WorkWallet_BI_Database_Access];
+ALTER ROLE db_executor   ADD MEMBER [WorkWallet_BI_Database_Access];
+```
+
+Replace `WorkWallet_BI_Database_Access` with the name of your security group if you chose a different name.
+
+### Step 4 — Set secret app settings
+
+The four secret credentials are not set by `azd up` and must be configured separately. Use the az CLI (run as a single command):
+
+> **Shell quoting notes:**
+>
+> - Line continuation: the example below uses `\` (bash/zsh). In PowerShell, replace each `\` with a backtick (`` ` ``).
+> - Special characters in secret values (e.g. `$`): in bash/zsh wrap the value in single quotes — `'abc$def'`. In PowerShell, escape `$` with a backtick: `` "abc`$def" ``.
+
+```bash
+az functionapp config appsettings set \
+  --name <FUNCTION_APP_NAME> \
+  --resource-group <RESOURCE_GROUP> \
+  --settings \
+    "FuncOptions__ApiAccessClientId=<API_ACCESS_CLIENT_ID>" \
+    "FuncOptions__ApiAccessClientSecret=<API_ACCESS_CLIENT_SECRET>" \
+    "FuncOptions__AgentWallets__0__WalletId=<WALLET_ID>" \
+    "FuncOptions__AgentWallets__0__WalletSecret=<WALLET_SECRET>"
+```
+
+For multiple wallets, append additional `FuncOptions__AgentWallets__1__WalletId` / `FuncOptions__AgentWallets__1__WalletSecret` pairs.
+
+## Updating After Initial Deployment
+
+To redeploy after a code or infrastructure change:
+
+```bash
+azd deploy     # redeploy function code only
+# or
+azd up         # reprovision infrastructure and redeploy code
+```
+
+## Tearing Down
+
+To remove all provisioned Azure resources:
+
+```bash
+azd down
+```
+
+This deletes the resource group and all resources within it. The SQL server, database, and Entra ID security group (created manually in step 4) are unaffected and must be cleaned up separately if required.
+
+## Further Reading
+
+- [Main README](../README.md) — full configuration reference, error handling, and scheduling guidance
+- [Azure Developer CLI documentation](https://learn.microsoft.com/azure/developer/azure-developer-cli/)
+- [Flex Consumption plan overview](https://learn.microsoft.com/azure/azure-functions/flex-consumption-plan)

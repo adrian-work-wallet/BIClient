@@ -5,7 +5,7 @@ targetScope = 'resourceGroup'
 // ---------------------------------------------------------------------------
 
 @minLength(1)
-@maxLength(64)
+@maxLength(50)
 @description('Name of the environment. Used as a prefix in resource names.')
 param environmentName string
 
@@ -32,8 +32,7 @@ var resourceToken = toLower(uniqueString(subscription().id, resourceGroup().id, 
 var tags = { 'azd-env-name': environmentName }
 
 // Storage account names: 3-24 chars, lowercase alphanumeric only, no hyphens.
-// Environment name is stripped of hyphens then combined with a 6-char uniqueness token.
-// With a 16-char max environment name, the result is always ≤24 chars and fully readable.
+// Environment name is stripped of hyphens/underscores then combined with a uniqueness token, capped at 24 chars.
 var strippedEnvName = toLower(replace(replace(environmentName, '-', ''), '_', ''))
 var storageAccountName = take('${strippedEnvName}${resourceToken}', 24)
 
@@ -171,7 +170,7 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
         { name: 'FuncOptions__ApiAccessClientSecret', value: '' }
         { name: 'FuncOptions__AgentWallets__0__WalletId', value: '' }
         { name: 'FuncOptions__AgentWallets__0__WalletSecret', value: '' }
-        { name: 'sqldb_connection', value: 'Server=${sqlServerName}.database.windows.net;Database=${sqlDatabaseName};Authentication=Active Directory Default;Encrypt=True;' }
+        { name: 'sqldb_connection', value: 'Server=${sqlServerName}${environment().suffixes.sqlServerHostname};Database=${sqlDatabaseName};Authentication=Active Directory Default;Encrypt=True;' }
       ]
     }
   }

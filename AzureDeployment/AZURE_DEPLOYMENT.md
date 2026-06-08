@@ -44,7 +44,7 @@ The environment name is used directly as the prefix for all Azure resource names
 **Environment name guidelines:**
 
 - Use only lowercase letters, numbers, and hyphens
-- Maximum **16 characters** — this ensures storage account names (which strip hyphens and append a 6-character uniqueness token) are never truncated and remain readable
+- Maximum **16 characters** recommended — storage account names are formed by stripping hyphens/underscores from the environment name and appending a uniqueness token, capped at 24 characters total; a shorter name ensures more of the uniqueness token remains visible and the name stays readable
 - Examples: `contoso-wwbi`, `northwind-wwbi`, `acme-corp-wwbi`
 
 > **First run only:** `azd up` may display a "check your Azure development tools" prompt listing optional tools (GitHub Copilot CLI, Bicep VS Code Extension, etc.). Neither is required for deployment. Press **Enter** to install the pre-selected items, or use **Space** to deselect them and then **Enter** to skip. This prompt does not appear on subsequent runs.

@@ -133,7 +133,7 @@ Replace `WorkWallet_BI_Database_Access` with the name of your security group if 
 
 ### Step 5 — Set secret app settings
 
-The four secret credentials are not set by `azd up` and must be configured separately. Use the az CLI (run as a single command):
+The four secret credentials are not set by `azd up` and must be configured separately. You can do this either in the **Azure portal** (Function App → Settings → Environment variables) or via the az CLI (run as a single command):
 
 > **Shell quoting notes:**
 >
@@ -158,7 +158,9 @@ For multiple wallets, append additional `FuncOptions__AgentWallets__1__WalletId`
 To redeploy after a code or infrastructure change:
 
 ```bash
-azd deploy     # redeploy function code only
+azd deploy     # redeploy function code only (no infrastructure changes)
+# or
+azd provision  # reprovision infrastructure only (no code deployment) — use when you have changed main.bicep or parameters but not the function code
 # or
 azd up         # reprovision infrastructure and redeploy code
 ```

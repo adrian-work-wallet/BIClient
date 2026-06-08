@@ -330,6 +330,8 @@ Error `Invalid lastSynchronizationVersion`: usually means extraction gap exceede
 
 Project: `WorkWallet.BI.ClientFunction` (timer trigger).
 
+> **Automated infrastructure provisioning**: [`AzureDeployment/AZURE_DEPLOYMENT.md`](AzureDeployment/AZURE_DEPLOYMENT.md) describes how to provision all required Azure resources (storage, Application Insights, Flex Consumption plan, function app) and deploy the function in a single `azd up` command using the Azure Developer CLI. Read this section first for context on configuration and managed identity setup, then refer to that guide for the `azd` workflow.
+
 Assumes an Azure SQL Database as the target store. A low-cost DTU-based tier (Basic or Standard) is sufficient for most workloads. When deploying the schema (see [section 5.5](#55-database-deployment)) interactively against Azure SQL, use `Authentication=Active Directory Interactive` in the deployer connection string — it prompts for browser-based Entra ID sign-in without requiring a stored password:
 
 ```text

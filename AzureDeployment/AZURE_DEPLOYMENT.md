@@ -1,5 +1,7 @@
 # Work Wallet BI Client — Azure Deployment
 
+> **Before proceeding**, read [section 5.7 (Azure Function Deployment)](../README.md#57-azure-function-deployment) in the main README. It covers the function app creation wizard, managed identity setup, database access grants, app settings reference, and local development configuration. This document covers only the `azd`-based infrastructure provisioning and is a companion to that section, not a replacement for it.
+
 Deploys the `WorkWallet.BI.ClientFunction` Azure Function using the [Azure Developer CLI (`azd`)](https://learn.microsoft.com/azure/developer/azure-developer-cli/overview).
 
 Running `azd up` provisions all required Azure infrastructure and deploys the function code in a single command — no manual portal steps required.

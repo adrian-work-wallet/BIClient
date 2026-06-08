@@ -31,8 +31,11 @@ param timerSchedule string
 var resourceToken = toLower(uniqueString(subscription().id, resourceGroup().id, location))
 var tags = { 'azd-env-name': environmentName }
 
-// Storage account names must be 3-24 chars, lowercase alphanumeric only
-var storageAccountName = take('st${toLower(replace(replace(environmentName, '-', ''), '_', ''))}${resourceToken}', 24)
+// Storage account names: 3-24 chars, lowercase alphanumeric only, no hyphens.
+// Environment name is stripped of hyphens then combined with a 6-char uniqueness token.
+// With a 16-char max environment name, the result is always ≤24 chars and fully readable.
+var strippedEnvName = toLower(replace(replace(environmentName, '-', ''), '_', ''))
+var storageAccountName = take('${strippedEnvName}${resourceToken}', 24)
 
 // Azure built-in role definition IDs
 var storageBlobDataOwnerRoleId = 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b'
@@ -76,7 +79,7 @@ resource deploymentPackageContainer 'Microsoft.Storage/storageAccounts/blobServi
 // ---------------------------------------------------------------------------
 
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
-  name: 'log-${environmentName}-${take(resourceToken, 6)}'
+  name: '${environmentName}-logs-${take(resourceToken, 6)}'
   location: location
   tags: tags
   properties: {
@@ -86,7 +89,7 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09
 }
 
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: 'appi-${environmentName}-${take(resourceToken, 6)}'
+  name: '${environmentName}-insights-${take(resourceToken, 6)}'
   location: location
   tags: tags
   kind: 'web'
@@ -101,7 +104,7 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
 // ---------------------------------------------------------------------------
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
-  name: 'asp-${environmentName}-${take(resourceToken, 6)}'
+  name: '${environmentName}-plan-${take(resourceToken, 6)}'
   location: location
   tags: tags
   kind: 'functionapp'
@@ -119,7 +122,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
 // ---------------------------------------------------------------------------
 
 resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
-  name: 'func-${environmentName}-${take(resourceToken, 6)}'
+  name: '${environmentName}-${take(resourceToken, 6)}'
   location: location
   // azd uses the 'azd-service-name' tag to match this resource to the 'function' service in azure.yaml
   tags: union(tags, { 'azd-service-name': 'function' })

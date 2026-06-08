@@ -34,8 +34,16 @@ The function app is assigned a **system-assigned managed identity** automaticall
 cd AzureDeployment
 
 azd auth login
-azd env new <ENVIRONMENT_NAME>    # e.g. workwallet-bi-mycompany
+azd env new <ENVIRONMENT_NAME>    # e.g. contoso, northwind, acme-corp
 ```
+
+The environment name is used directly as the prefix for all Azure resource names (e.g. `contoso-lrhfnk` for the function app, `contosolrhfnk` for the storage account). Choose a name that clearly identifies the client — this is especially useful when hosting multiple clients in a single Azure subscription.
+
+**Environment name guidelines:**
+
+- Use only lowercase letters, numbers, and hyphens
+- Maximum **16 characters** — this ensures storage account names (which strip hyphens and append a 6-character uniqueness token) are never truncated and remain readable
+- Examples: `contoso`, `northwind`, `acme-corp`, `client-name`
 
 > **First run only:** `azd up` may display a "check your Azure development tools" prompt listing optional tools (GitHub Copilot CLI, Bicep VS Code Extension, etc.). Neither is required for deployment. Press **Enter** to install the pre-selected items, or use **Space** to deselect them and then **Enter** to skip. This prompt does not appear on subsequent runs.
 

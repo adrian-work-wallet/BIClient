@@ -91,7 +91,7 @@ azd will prompt for:
 | Prompt | What to enter |
 | --- | --- |
 | Select an Azure Subscription | Choose your subscription |
-| Pick a resource group | Select **Create a new resource group** |
+| Pick a resource group | Select **Create a new resource group** — always use a dedicated resource group; `azd down` deletes the entire resource group regardless of whether it pre-existed, so sharing it with other resources is unsafe |
 
 All other parameters (`environmentName`, `location`, `sqlServerName`, `sqlDatabaseName`) are supplied automatically from the azd environment — they will not be prompted.
 
@@ -169,7 +169,7 @@ To remove all provisioned Azure resources:
 azd down
 ```
 
-This deletes the resource group and all resources within it. The SQL server, database, and Entra ID security group (created manually in step 4) are unaffected and must be cleaned up separately if required.
+This deletes the **entire resource group** and all resources within it — including any resources not provisioned by azd if you reused an existing group. The SQL server, database, and Entra ID security group (created manually in step 4) are unaffected as they reside outside this resource group, but must be cleaned up separately if required.
 
 ## Further Reading
 

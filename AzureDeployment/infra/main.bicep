@@ -132,6 +132,7 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
   }
   properties: {
     serverFarmId: appServicePlan.id
+    publicNetworkAccess: 'Enabled'
     functionAppConfig: {
       deployment: {
         storage: {
@@ -152,6 +153,9 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
       }
     }
     siteConfig: {
+      cors: {
+        allowedOrigins: ['https://portal.azure.com']
+      }
       appSettings: [
         { name: 'APPLICATIONINSIGHTS_CONNECTION_STRING', value: applicationInsights.properties.ConnectionString }
         // Managed identity storage — no connection string required

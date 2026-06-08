@@ -373,7 +373,6 @@ GRANT EXECUTE TO db_executor;
 -- Grant the group membership of all required roles
 ALTER ROLE db_datareader ADD MEMBER [WorkWallet_BI_Database_Access];
 ALTER ROLE db_datawriter ADD MEMBER [WorkWallet_BI_Database_Access];
-ALTER ROLE db_ddladmin   ADD MEMBER [WorkWallet_BI_Database_Access];
 ALTER ROLE db_executor   ADD MEMBER [WorkWallet_BI_Database_Access];
 ```
 

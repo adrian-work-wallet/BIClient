@@ -11,7 +11,7 @@ Running `azd up` provisions all required Azure infrastructure and deploys the fu
 - [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) installed (`winget install Microsoft.Azd` on Windows)
 - An Azure subscription with permission to create resources
 - An existing Azure SQL Server and Database with the schema already deployed (see [database deployment](../README.md#55-database-deployment) in the main README)
-- Microsoft Entra ID admin access to the target SQL database (required for the post-deploy SQL grants in step 3)
+- Microsoft Entra ID admin access to the target SQL database (required for the post-deploy SQL grants in step 4)
 - Your Work Wallet API credentials (client ID, client secret, wallet ID, wallet secret)
 
 ## What Gets Provisioned
@@ -101,7 +101,7 @@ At the end of provisioning, `azd` prints the function app name and resource grou
 
 > **Note:** on the very first deployment, azd may report a 503 "Site Unavailable" warning after the zip deploy step. This is harmless — the Flex Consumption app takes a few seconds to start, and azd's trigger-sync check can run before it is ready. The deployment itself succeeds.
 
-### Step 3 — Grant database access (manual SQL step)
+### Step 4 — Grant database access (manual SQL step)
 
 The function app authenticates to Azure SQL using its system-assigned managed identity. Grant access via a Microsoft Entra ID security group:
 
@@ -124,13 +124,12 @@ GRANT EXECUTE TO db_executor;
 -- Grant the group membership of all required roles
 ALTER ROLE db_datareader ADD MEMBER [WorkWallet_BI_Database_Access];
 ALTER ROLE db_datawriter ADD MEMBER [WorkWallet_BI_Database_Access];
-ALTER ROLE db_ddladmin   ADD MEMBER [WorkWallet_BI_Database_Access];
 ALTER ROLE db_executor   ADD MEMBER [WorkWallet_BI_Database_Access];
 ```
 
 Replace `WorkWallet_BI_Database_Access` with the name of your security group if you chose a different name.
 
-### Step 4 — Set secret app settings
+### Step 5 — Set secret app settings
 
 The four secret credentials are not set by `azd up` and must be configured separately. Use the az CLI (run as a single command):
 

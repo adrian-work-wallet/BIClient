@@ -21,6 +21,7 @@ param sqlServerName string
 @description('Azure SQL Database name.')
 param sqlDatabaseName string
 
+@minLength(1)
 @description('Timer trigger schedule as a NCRONTAB expression (UTC). See README for scheduling guidance.')
 param timerSchedule string
 
@@ -132,6 +133,7 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
   properties: {
     serverFarmId: appServicePlan.id
     publicNetworkAccess: 'Enabled'
+    httpsOnly: true
     functionAppConfig: {
       deployment: {
         storage: {
@@ -155,6 +157,7 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
       cors: {
         allowedOrigins: ['https://portal.azure.com']
       }
+      minTlsVersion: '1.2'
       appSettings: [
         { name: 'APPLICATIONINSIGHTS_CONNECTION_STRING', value: applicationInsights.properties.ConnectionString }
         // Managed identity storage — no connection string required

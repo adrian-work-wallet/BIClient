@@ -162,11 +162,11 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
         { name: 'FuncOptions__AgentPageSize', value: '500' }
         { name: 'FuncOptions__ApiAccessAuthority', value: 'https://identity.work-wallet.com' }
         { name: 'FuncOptions__ApiAccessScope', value: 'ww_bi_extract' }
-        // Secrets — set these after deployment via the Azure portal or az CLI:
-        //   FuncOptions__ApiAccessClientId
-        //   FuncOptions__ApiAccessClientSecret
-        //   FuncOptions__AgentWallets__0__WalletId
-        //   FuncOptions__AgentWallets__0__WalletSecret
+        // Secrets — replace the empty strings with real values after deployment via the Azure portal or az CLI
+        { name: 'FuncOptions__ApiAccessClientId', value: '' }
+        { name: 'FuncOptions__ApiAccessClientSecret', value: '' }
+        { name: 'FuncOptions__AgentWallets__0__WalletId', value: '' }
+        { name: 'FuncOptions__AgentWallets__0__WalletSecret', value: '' }
         { name: 'sqldb_connection', value: 'Server=${sqlServerName}.database.windows.net;Database=${sqlDatabaseName};Authentication=Active Directory Default;Encrypt=True;' }
       ]
     }

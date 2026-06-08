@@ -88,6 +88,8 @@ Once answered, azd builds the function project from source, provisions all Azure
 
 At the end of provisioning, `azd` prints the function app name and resource group — note these for the steps below.
 
+> **Note:** on the very first deployment, azd may report a 503 "Site Unavailable" warning after the zip deploy step. This is harmless — the Flex Consumption app takes a few seconds to start, and azd's trigger-sync check can run before it is ready. The deployment itself succeeds.
+
 ### Step 3 — Grant database access (manual SQL step)
 
 The function app authenticates to Azure SQL using its system-assigned managed identity. Grant access via a Microsoft Entra ID security group:

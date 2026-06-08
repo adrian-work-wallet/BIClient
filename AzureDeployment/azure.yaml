@@ -8,3 +8,13 @@ services:
     project: ../SampleCode/WorkWallet.BI.ClientFunction
     language: dotnet
     host: function
+hooks:
+  postdeploy:
+    # Flex Consumption apps take a few seconds to start after a fresh deploy.
+    # Without this pause, azd's trigger-sync check hits a 503 (site unavailable).
+    windows:
+      shell: pwsh
+      run: Start-Sleep -Seconds 30
+    posix:
+      shell: sh
+      run: sleep 30

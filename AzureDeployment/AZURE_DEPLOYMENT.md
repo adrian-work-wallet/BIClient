@@ -55,11 +55,13 @@ Set the Azure region and SQL connection details before running `azd up`:
 
 ```bash
 azd env set AZURE_LOCATION westeurope # replace with your region — see common values below
-azd env set AZURE_RESOURCE_GROUP <GROUP_NAME> # e.g. contoso-wwbi — omit rg- prefix if not desired
+azd env set AZURE_RESOURCE_GROUP <GROUP_NAME> # e.g. contoso-wwbi-app — see naming note below
 azd env set AZURE_SQL_SERVER_NAME <SQL_SERVER_NAME> # hostname only, without .database.windows.net
 azd env set AZURE_SQL_DATABASE_NAME <DATABASE_NAME>
 azd env set TIMER_SCHEDULE '0 0 22 * * *' # NCRONTAB in UTC — see scheduling guidance below
 ```
+
+> **Resource group naming:** use a dedicated group for this function app (e.g. `contoso-wwbi-app`). If you are also hosting the Azure SQL Server in Azure, keep it in a separate group (e.g. `contoso-wwbi-db`) — this way `azd down` can tear down the function app infrastructure without touching the database.
 
 Choose a timer schedule appropriate for your timezone. See [scheduling guidance](../README.md#561-scheduling-recommendations) for recommendations on avoiding peak times.
 
@@ -105,11 +107,11 @@ At the end of provisioning, `azd` prints the function app name and resource grou
 
 The function app authenticates to Azure SQL using its system-assigned managed identity. Grant access via a Microsoft Entra ID security group:
 
-**Step 3a — Create an Entra ID security group and add the managed identity as a member.**
+**Step 4a — Create an Entra ID security group and add the managed identity as a member.**
 
 In the Azure portal, go to Microsoft Entra ID → Groups → New group. Create a security group (e.g. `WorkWallet_BI_Database_Access`). Then navigate to the function app → Settings → Identity and copy the Object (principal) ID. Add this as a member of the group.
 
-**Step 3b — Grant the group permissions on the database.**
+**Step 4b — Grant the group permissions on the database.**
 
 Connect to the target Azure SQL database as a Microsoft Entra ID admin and run:
 

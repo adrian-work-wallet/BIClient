@@ -23,6 +23,7 @@ Running `azd up` provisions all required Azure infrastructure and deploys the fu
 | Application Insights | Monitoring and structured logging |
 | App Service Plan (Flex Consumption) | Serverless hosting plan |
 | Function App (.NET 10 Isolated, Linux, 2048 MB) | Timer-triggered data extract |
+| Key Vault | Stores sensitive credentials; function app resolves them at runtime via Key Vault references |
 
 The function app is assigned a **system-assigned managed identity** automatically. Three storage role assignments are created so the function authenticates to storage without any connection string.
 
@@ -59,9 +60,15 @@ azd env set AZURE_RESOURCE_GROUP <GROUP_NAME> # e.g. contoso-wwbi-app — see na
 azd env set AZURE_SQL_SERVER_NAME <SQL_SERVER_NAME> # hostname only, without .database.windows.net
 azd env set AZURE_SQL_DATABASE_NAME <DATABASE_NAME>
 azd env set TIMER_SCHEDULE '0 0 22 * * *' # NCRONTAB in UTC — see scheduling guidance below
+azd env set WALLET_COUNT 1 # number of agent wallets; omit to default to 1
+# Recommended: grants you Key Vault Secrets Officer so you can set secrets after deployment
+# PowerShell:
+azd env set KEY_VAULT_ADMIN_OBJECT_ID (az ad signed-in-user show --query id --output tsv)
+# bash/zsh:
+# azd env set KEY_VAULT_ADMIN_OBJECT_ID $(az ad signed-in-user show --query id --output tsv)
 ```
 
-> **Resource group naming:** use a dedicated group for this function app (e.g. `contoso-wwbi-app`). If you are also hosting the Azure SQL Server in Azure, keep it in a separate group (e.g. `contoso-wwbi-db`) — this way `azd down` can tear down the function app infrastructure without touching the database.
+> **Resource group naming:** use a dedicated group for this function app (e.g. `contoso-wwbi-app`). Keep the Azure SQL Server it in a separate group (e.g. `contoso-wwbi-db`) — this way `azd down` can tear down the function app infrastructure without touching the database.
 
 Choose a timer schedule appropriate for your timezone. See [scheduling guidance](../README.md#561-scheduling-recommendations) for recommendations on avoiding peak times.
 
@@ -131,27 +138,33 @@ ALTER ROLE db_executor   ADD MEMBER [WorkWallet_BI_Database_Access];
 
 Replace `WorkWallet_BI_Database_Access` with the name of your security group if you chose a different name.
 
-### Step 5 — Set secret app settings
+### Step 5 — Set secret values in Key Vault
 
-The four secret credentials are not set by `azd up` and must be configured separately. You can do this either in the **Azure portal** (Function App → Settings → Environment variables) or via the az CLI (run as a single command):
+`azd up` provisions the Key Vault but does not write secret values, so that redeployments never overwrite credentials already in place. Set the four required secrets (and any additional wallet pairs) using the az CLI or the Azure portal (Key Vault → Objects → Secrets).
 
-> **Shell quoting notes:**
->
-> - Line continuation: the example below uses `\` (bash/zsh). In PowerShell, replace each `\` with a backtick (`` ` ``).
-> - Special characters in secret values (e.g. `$`): in bash/zsh wrap the value in single quotes — `'abc$def'`. In PowerShell, escape `$` with a backtick: `` "abc`$def" ``.
+The Key Vault name is printed in the `azd up` deployment outputs, or retrieve it with:
 
 ```bash
-az functionapp config appsettings set \
-  --name <FUNCTION_APP_NAME> \
-  --resource-group <RESOURCE_GROUP> \
-  --settings \
-    "FuncOptions__ApiAccessClientId=<API_ACCESS_CLIENT_ID>" \
-    "FuncOptions__ApiAccessClientSecret=<API_ACCESS_CLIENT_SECRET>" \
-    "FuncOptions__AgentWallets__0__WalletId=<WALLET_ID>" \
-    "FuncOptions__AgentWallets__0__WalletSecret=<WALLET_SECRET>"
+# PowerShell
+azd env get-values | Select-String keyVaultName
+# bash/zsh
+azd env get-values | grep keyVaultName
 ```
 
-For multiple wallets, append additional `FuncOptions__AgentWallets__1__WalletId` / `FuncOptions__AgentWallets__1__WalletSecret` pairs.
+Then set the secret values:
+
+```bash
+az keyvault secret set --vault-name <KEY_VAULT_NAME> --name ApiAccessClientId     --value "<API_ACCESS_CLIENT_ID>"
+az keyvault secret set --vault-name <KEY_VAULT_NAME> --name ApiAccessClientSecret --value "<API_ACCESS_CLIENT_SECRET>"
+az keyvault secret set --vault-name <KEY_VAULT_NAME> --name AgentWallet0WalletId  --value "<WALLET_ID>"
+az keyvault secret set --vault-name <KEY_VAULT_NAME> --name AgentWallet0WalletSecret --value "<WALLET_SECRET>"
+```
+
+For additional wallets, increment the index in the secret name (e.g. `AgentWallet1WalletId`, `AgentWallet1WalletSecret`, etc.).
+
+> **Access note:** to run these commands your account needs **Key Vault Secrets Officer** on the Key Vault. If you set `KEY_VAULT_ADMIN_OBJECT_ID` before running `azd up`, this role was granted automatically. Otherwise, assign it in the Azure portal (Key Vault → Access control (IAM)) or via az CLI before running the commands above.
+>
+> **Special characters in secret values** (e.g. `$`): in bash/zsh wrap the value in single quotes — `'abc$def'`. In PowerShell, escape `$` with a backtick: `` "abc`$def" ``.
 
 ## Updating After Initial Deployment
 
@@ -174,6 +187,14 @@ azd down
 ```
 
 This deletes the **entire resource group** and all resources within it — including any resources not provisioned by azd if you reused an existing group. The SQL server, database, and Entra ID security group (created manually in step 4) are unaffected as they reside outside this resource group, but must be cleaned up separately if required.
+
+> **Key Vault soft delete:** when a resource group is deleted, Azure places any Key Vaults inside it into a soft-deleted state — the vault is recoverable for 90 days but its name remains reserved. If you plan to redeploy with the same environment name in the same subscription, purge the soft-deleted vault first:
+>
+> ```bash
+> az keyvault purge --name <KEY_VAULT_NAME> --location <LOCATION>
+> ```
+>
+> Or use the Azure portal: **Key vaults** → **Manage deleted vaults** → select the vault → **Purge**.
 
 ## Further Reading
 

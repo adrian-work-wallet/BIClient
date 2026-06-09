@@ -16,6 +16,12 @@
     },
     "timerSchedule": {
       "value": "${TIMER_SCHEDULE}"
+    },
+    "walletCount": {
+      "value": "${WALLET_COUNT}"
+    },
+    "keyVaultAdminObjectId": {
+      "value": "${KEY_VAULT_ADMIN_OBJECT_ID}"
     }
   }
 }

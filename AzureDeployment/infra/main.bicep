@@ -25,6 +25,14 @@ param sqlDatabaseName string
 @description('Timer trigger schedule as a NCRONTAB expression (UTC). See README for scheduling guidance.')
 param timerSchedule string
 
+@minValue(1)
+@maxValue(10)
+@description('Number of agent wallets to configure. A WalletId and WalletSecret Key Vault secret is created for each. Set WALLET_COUNT in the azd environment; defaults to 1 if omitted.')
+param walletCount int = 1
+
+@description('Object ID of the principal (user or group) to grant Key Vault Secrets Officer access, enabling them to set secret values post-deployment. Run `az ad signed-in-user show --query id --output tsv` to obtain your own ID. Set KEY_VAULT_ADMIN_OBJECT_ID in the azd environment. Leave empty to skip this role assignment.')
+param keyVaultAdminObjectId string = ''
+
 // ---------------------------------------------------------------------------
 // Variables
 // ---------------------------------------------------------------------------
@@ -41,6 +49,23 @@ var storageAccountName = take('${strippedEnvName}${resourceToken}', 24)
 var storageBlobDataOwnerRoleId = 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b'
 var storageQueueDataContributorRoleId = '974c5e8b-45b9-4653-ba55-5f855dd0fb88'
 var storageTableDataContributorRoleId = '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3'
+var keyVaultSecretsUserRoleId = '4633458b-17de-408a-b874-0445c86b69e6'
+var keyVaultSecretsOfficerRoleId = 'b86a8fe4-44ce-4948-aee5-eccb2c155cd7'
+
+// Key Vault name: stripped environment name (up to 10 chars) + '-kv-' + 6-char uniqueness token.
+// Must be 3–24 chars, alphanumeric and hyphens, globally unique across all Azure tenants.
+var keyVaultName = '${take(strippedEnvName, 10)}-kv-${take(resourceToken, 6)}'
+
+// Wallet app settings — one Key Vault reference per wallet per setting, indexed from 0
+// Two separate arrays are required because Bicep for-expressions cannot be nested inside flatten().
+var walletIdSettings = [for i in range(0, walletCount): {
+  name: 'FuncOptions__AgentWallets__${i}__WalletId'
+  value: '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName=AgentWallet${i}WalletId)'
+}]
+var walletSecretSettings = [for i in range(0, walletCount): {
+  name: 'FuncOptions__AgentWallets__${i}__WalletSecret'
+  value: '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName=AgentWallet${i}WalletSecret)'
+}]
 
 // ---------------------------------------------------------------------------
 // Storage Account
@@ -118,6 +143,30 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
 }
 
 // ---------------------------------------------------------------------------
+// Key Vault
+// Stores sensitive credentials. The function app resolves them at runtime via
+// Key Vault references — secrets are never stored directly in application settings.
+// Secrets must be set manually after deployment (see README). Bicep does not write
+// secret values so that redeployments never overwrite credentials already in place.
+// ---------------------------------------------------------------------------
+
+resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
+  name: keyVaultName
+  location: location
+  tags: tags
+  properties: {
+    tenantId: tenant().tenantId
+    sku: {
+      family: 'A'
+      name: 'standard'
+    }
+    enableRbacAuthorization: true
+    enableSoftDelete: true
+    softDeleteRetentionInDays: 90
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Function App
 // ---------------------------------------------------------------------------
 
@@ -158,26 +207,28 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
         allowedOrigins: ['https://portal.azure.com']
       }
       minTlsVersion: '1.2'
-      appSettings: [
-        { name: 'APPLICATIONINSIGHTS_CONNECTION_STRING', value: applicationInsights.properties.ConnectionString }
-        // Managed identity storage — no connection string required
-        { name: 'AzureWebJobsStorage__accountName', value: storageAccount.name }
-        // Work Wallet BI settings
-        { name: 'BITimerTriggerSchedule', value: timerSchedule }
-        { name: 'FuncOptions__AgentApiUrl', value: 'https://bi.work-wallet.com' }
-        { name: 'FuncOptions__AgentPageSize', value: '500' }
-        { name: 'FuncOptions__ApiAccessAuthority', value: 'https://identity.work-wallet.com' }
-        { name: 'FuncOptions__ApiAccessScope', value: 'ww_bi_extract' }
-        // Secrets — replace the empty strings with real values after deployment via the Azure portal or az CLI
-        { name: 'FuncOptions__ApiAccessClientId', value: '' }
-        { name: 'FuncOptions__ApiAccessClientSecret', value: '' }
-        { name: 'FuncOptions__AgentWallets__0__WalletId', value: '' }
-        { name: 'FuncOptions__AgentWallets__0__WalletSecret', value: '' }
-        { name: 'sqldb_connection', value: 'Server=${sqlServerName}${environment().suffixes.sqlServerHostname};Database=${sqlDatabaseName};Authentication=Active Directory Default;Encrypt=True;' }
-      ]
+      appSettings: concat(
+        [
+          { name: 'APPLICATIONINSIGHTS_CONNECTION_STRING', value: applicationInsights.properties.ConnectionString }
+          // Managed identity storage — no connection string required
+          { name: 'AzureWebJobsStorage__accountName', value: storageAccount.name }
+          // Work Wallet BI settings
+          { name: 'BITimerTriggerSchedule', value: timerSchedule }
+          { name: 'FuncOptions__AgentApiUrl', value: 'https://bi.work-wallet.com' }
+          { name: 'FuncOptions__AgentPageSize', value: '500' }
+          { name: 'FuncOptions__ApiAccessAuthority', value: 'https://identity.work-wallet.com' }
+          { name: 'FuncOptions__ApiAccessScope', value: 'ww_bi_extract' }
+          // Secrets resolved from Key Vault at runtime — set real values in Key Vault after deployment
+          { name: 'FuncOptions__ApiAccessClientId', value: '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName=ApiAccessClientId)' }
+          { name: 'FuncOptions__ApiAccessClientSecret', value: '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName=ApiAccessClientSecret)' }
+          { name: 'sqldb_connection', value: 'Server=${sqlServerName}${environment().suffixes.sqlServerHostname};Database=${sqlDatabaseName};Authentication=Active Directory Default;Encrypt=True;' }
+        ],
+        walletIdSettings,
+        walletSecretSettings
+      )
     }
   }
-  dependsOn: [deploymentPackageContainer]
+  dependsOn: [deploymentPackageContainer, keyVault]
 }
 
 // ---------------------------------------------------------------------------
@@ -216,6 +267,32 @@ resource storageTableDataContributor 'Microsoft.Authorization/roleAssignments@20
 }
 
 // ---------------------------------------------------------------------------
+// Key Vault role assignments
+// ---------------------------------------------------------------------------
+
+// Key Vault Secrets User — allows the function app to read secrets at runtime
+resource keyVaultSecretsUser 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(keyVault.id, functionApp.id, keyVaultSecretsUserRoleId)
+  scope: keyVault
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', keyVaultSecretsUserRoleId)
+    principalId: functionApp.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+// Key Vault Secrets Officer — optional; grants the deployer permission to set secret values post-deployment
+resource keyVaultSecretsOfficer 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(keyVaultAdminObjectId)) {
+  name: guid(keyVault.id, keyVaultAdminObjectId, keyVaultSecretsOfficerRoleId)
+  scope: keyVault
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', keyVaultSecretsOfficerRoleId)
+    principalId: keyVaultAdminObjectId
+    principalType: 'User'
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Outputs — azd reads these to wire up services and report post-deploy info
 // ---------------------------------------------------------------------------
 
@@ -224,3 +301,4 @@ output AZURE_TENANT_ID string = tenant().tenantId
 output APPLICATIONINSIGHTS_CONNECTION_STRING string = applicationInsights.properties.ConnectionString
 output functionAppName string = functionApp.name
 output functionAppPrincipalId string = functionApp.identity.principalId
+output keyVaultName string = keyVault.name

@@ -15,7 +15,29 @@ END
 
 GO
 
--- Step 2: add missing FK constraint for ReportedByContact_key (omitted in 0022).
+-- Step 2: add missing FK constraints omitted in 0022.
+
+IF NOT EXISTS(SELECT 1 FROM sys.foreign_keys WHERE [name] = N'FK_mart.AssetAssignment_mart.Contact_Contact_key' AND parent_object_id = OBJECT_ID(N'mart.AssetAssignment'))
+BEGIN
+
+    ALTER TABLE mart.AssetAssignment
+    ADD CONSTRAINT [FK_mart.AssetAssignment_mart.Contact_Contact_key]
+        FOREIGN KEY (Contact_key) REFERENCES mart.Contact (Contact_key);
+
+END
+
+GO
+
+IF NOT EXISTS(SELECT 1 FROM sys.foreign_keys WHERE [name] = N'FK_mart.InductionTaken_mart.Contact_Contact_key' AND parent_object_id = OBJECT_ID(N'mart.InductionTaken'))
+BEGIN
+
+    ALTER TABLE mart.InductionTaken
+    ADD CONSTRAINT [FK_mart.InductionTaken_mart.Contact_Contact_key]
+        FOREIGN KEY (Contact_key) REFERENCES mart.Contact (Contact_key);
+
+END
+
+GO
 
 IF NOT EXISTS(SELECT 1 FROM sys.foreign_keys WHERE [name] = N'FK_mart.ReportedIssue_mart.Contact_ReportedByContact_key' AND parent_object_id = OBJECT_ID(N'mart.ReportedIssue'))
 BEGIN
@@ -23,6 +45,17 @@ BEGIN
     ALTER TABLE mart.ReportedIssue
     ADD CONSTRAINT [FK_mart.ReportedIssue_mart.Contact_ReportedByContact_key]
         FOREIGN KEY (ReportedByContact_key) REFERENCES mart.Contact (Contact_key);
+
+END
+
+GO
+
+IF NOT EXISTS(SELECT 1 FROM sys.foreign_keys WHERE [name] = N'FK_mart.SafetyCard_mart.Contact_EmployeeContact_key' AND parent_object_id = OBJECT_ID(N'mart.SafetyCard'))
+BEGIN
+
+    ALTER TABLE mart.SafetyCard
+    ADD CONSTRAINT [FK_mart.SafetyCard_mart.Contact_EmployeeContact_key]
+        FOREIGN KEY (EmployeeContact_key) REFERENCES mart.Contact (Contact_key);
 
 END
 

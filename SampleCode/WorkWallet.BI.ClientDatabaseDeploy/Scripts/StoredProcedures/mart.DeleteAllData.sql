@@ -126,6 +126,7 @@ BEGIN
     DELETE FROM mart.ReportedIssueOptionSelectFact;
     DELETE FROM mart.ReportedIssuePersonFact;
     DELETE FROM mart.ReportedIssueRootCauseAnalysisFact;
+    DELETE FROM mart.ReportedIssueInvestigationTeamFact;
     DELETE FROM mart.ReportedIssueBodyPart;
     DELETE FROM mart.ReportedIssueBranchOption;
     DELETE FROM mart.ReportedIssueOptionSelect;

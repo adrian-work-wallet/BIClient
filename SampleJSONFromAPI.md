@@ -1390,6 +1390,20 @@ Notes
       "EmailAddress": "alex.example@example.invalid",
       "CompanyName": "Northwind Construction Ltd",
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
+    },
+    {
+      "ContactId": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+      "Name": "Sam Supervisor",
+      "EmailAddress": "sam.supervisor@example.invalid",
+      "CompanyName": "Northwind Construction Ltd",
+      "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
+    },
+    {
+      "ContactId": "c3d4e5f6-a7b8-4c9d-8e0f-2a3b4c5d6e7f",
+      "Name": "Chris Colleague",
+      "EmailAddress": "chris.colleague@example.invalid",
+      "CompanyName": "Northwind Construction Ltd",
+      "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
   ],
   "ReportedIssues": [
@@ -1408,7 +1422,8 @@ Notes
       "ReportedIssueOverview": "Near-miss: pallet shifted during manual handling; no injury sustained but potential head impact risk identified.",
       "ReportedIssueSeverityCode": 2,
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77",
-      "CloseDate": "0001-01-01T00:00:00+00:00"
+      "CloseDate": "0001-01-01T00:00:00+00:00",
+      "LeadInvestigatorContactId": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e"
     }
   ],
   "ReportedIssueCategories": [
@@ -1511,6 +1526,13 @@ Notes
       "Option": "Supervisor",
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
+  ],
+  "ReportedIssueInvestigationTeam": [
+    {
+      "ReportedIssueId": "7b2d1c9e-8356-4a9e-b5c1-0e2f4a6b9d31",
+      "ContactId": "c3d4e5f6-a7b8-4c9d-8e0f-2a3b4c5d6e7f",
+      "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
+    }
   ]
 }
 ```
@@ -1528,7 +1550,8 @@ Notes
 - ReportedIssues
   - **ReportedIssueSeverityCode**: `-1` indicates no data
   - **CloseDate**: `0001-01-01T00:00:00+00:00` indicates no data
-
+  - **LeadInvestigatorContactId**: if `null` no field will be returned
+  
 ## SafetyCards
 
 ```json

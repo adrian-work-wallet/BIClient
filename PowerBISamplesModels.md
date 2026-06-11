@@ -167,6 +167,10 @@ Jump to the relevant section:
 
 ![Reported Issues Root Cause Analysis Model](Images/PowerBIModelDiagrams/ReportedIssues_RootCauseAnalysis.png)
 
+### Reported Issues - Investigation Team
+
+![Reported Issues Investigation Team Model](Images/PowerBIModelDiagrams/ReportedIssues_InvestigationTeam.png)
+
 ## Safety Cards
 
 ### Safety Cards - Main

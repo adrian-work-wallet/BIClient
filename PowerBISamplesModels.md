@@ -123,6 +123,10 @@ Jump to the relevant section:
 
 ![Permits Branch Option Model](Images/PowerBIModelDiagrams/Permits_BranchOption.png)
 
+### Permits - Signed By
+
+![Permits Signed By Model](Images/PowerBIModelDiagrams/Permits_SignedBy.png)
+
 ## PPE
 
 ### PPE - Stock

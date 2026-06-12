@@ -8,6 +8,7 @@ CREATE TYPE mart.ETL_PermitToWorkSignatureTable AS TABLE
     ,[Name] nvarchar(max) NOT NULL
     ,ContactId uniqueidentifier NULL
     ,JobTitle nvarchar(50) NOT NULL
+    ,[Description] nvarchar(max) NOT NULL
     ,SignedOn datetime NULL
     ,WalletId uniqueidentifier NOT NULL
     ,PRIMARY KEY (PermitToWorkSignatureId)

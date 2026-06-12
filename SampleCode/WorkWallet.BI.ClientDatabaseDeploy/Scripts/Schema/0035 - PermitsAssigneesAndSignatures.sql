@@ -35,6 +35,7 @@ BEGIN
         ,[Name] nvarchar(max) NOT NULL
         ,Contact_key int NULL -- nullable; null for free-text signatories
         ,JobTitle nvarchar(50) NOT NULL
+        ,[Description] nvarchar(max) NOT NULL
         ,SignedOn datetime NULL -- nullable; null if not provided by client at time of signing
         ,Wallet_key int NOT NULL
         ,_created datetime2(7) NOT NULL CONSTRAINT [DF_mart.PermitSignatureFact__created] DEFAULT SYSUTCDATETIME()

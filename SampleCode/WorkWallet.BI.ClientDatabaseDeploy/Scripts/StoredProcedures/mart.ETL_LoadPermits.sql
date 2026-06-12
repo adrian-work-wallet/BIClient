@@ -401,6 +401,7 @@ BEGIN
             ,[Name]
             ,ContactId
             ,JobTitle
+            ,[Description]
             ,SignedOn
             ,WalletId
         )
@@ -412,6 +413,7 @@ BEGIN
             ,[Name] nvarchar(max)
             ,ContactId uniqueidentifier -- nullable; null for free-text signatories
             ,JobTitle nvarchar(50)
+            ,[Description] nvarchar(max)
             ,SignedOn datetime -- nullable; null if not provided by client at time of signing
             ,WalletId uniqueidentifier
         );

@@ -18,6 +18,7 @@ BEGIN
         -- facts
         ,[Name]
         ,JobTitle
+        ,[Description]
         ,SignedOn
     )
     SELECT
@@ -29,6 +30,7 @@ BEGIN
         -- facts
         ,a.[Name]
         ,a.JobTitle
+        ,a.[Description]
         ,a.SignedOn
     FROM
         @permitToWorkSignatureTable AS a

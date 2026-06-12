@@ -963,6 +963,7 @@ Notes
       "Name": "Alex Taylor",
       "ContactId": "f2a3b4c5-d6e7-4f8a-9b0c-1d2e3f4a5b6c",
       "JobTitle": "Permit Coordinator",
+      "Description": "Approved and signed by",
       "SignedOn": "2025-09-08T09:20:00",
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }

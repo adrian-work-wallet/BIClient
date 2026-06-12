@@ -93,6 +93,8 @@ BEGIN
     DELETE FROM mart.PermitNumericAnswerFact;
     DELETE FROM mart.PermitDateTimeAnswerFact;
     DELETE FROM mart.PermitBranchOptionFact;
+    DELETE FROM mart.PermitAssigneeFact;
+    DELETE FROM mart.PermitSignatureFact;
     DELETE FROM mart.PermitChecklistAnswer;
     DELETE FROM mart.PermitChecklistOption;
     DELETE FROM mart.PermitNumericQuestion;

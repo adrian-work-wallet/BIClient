@@ -809,6 +809,22 @@ Notes
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
   ],
+  "Contacts": [
+    {
+      "ContactId": "e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b",
+      "Name": "Jordan Smith",
+      "EmailAddress": "jordan.smith@blueriver.invalid",
+      "CompanyName": "Blue River Contractors Ltd",
+      "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
+    },
+    {
+      "ContactId": "f2a3b4c5-d6e7-4f8a-9b0c-1d2e3f4a5b6c",
+      "Name": "Alex Taylor",
+      "EmailAddress": "alex.taylor@acme.invalid",
+      "CompanyName": "Acme Manufacturing",
+      "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
+    }
+  ],
   "Permits": [
     {
       "PermitToWorkId": "d2a7b3e9-0c41-4da2-9c23-6a5b3c2d1e0f",
@@ -841,8 +857,8 @@ Notes
       "ValidityPeriodId": 1,
       "ValidityPeriod": "For Certain Hours",
       "ValidityPeriodMinutes": 480,
-      "IssueTypeId": 2,
-      "IssueType": "To a Company",
+      "IssueTypeId": 1,
+      "IssueType": "To Individuals",
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
   ],
@@ -932,6 +948,24 @@ Notes
       "OrderInSection": 5,
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
+  ],
+  "PermitAssignees": [
+    {
+      "PermitToWorkId": "d2a7b3e9-0c41-4da2-9c23-6a5b3c2d1e0f",
+      "ContactId": "e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b",
+      "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
+    }
+  ],
+  "PermitSignatures": [
+    {
+      "PermitToWorkSignatureId": "a1b2c3d4-e5f6-4789-abcd-ef0123456789",
+      "PermitToWorkId": "d2a7b3e9-0c41-4da2-9c23-6a5b3c2d1e0f",
+      "Name": "Alex Taylor",
+      "ContactId": "f2a3b4c5-d6e7-4f8a-9b0c-1d2e3f4a5b6c",
+      "JobTitle": "Permit Coordinator",
+      "SignedOn": "2025-09-08T09:20:00",
+      "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
+    }
   ]
 }
 ```
@@ -954,6 +988,14 @@ Notes
   - **StatusId**: deprecated, use **StatusId2** instead (supports the `Extended` enum value)
 - PermitCategories
   - **ValidityPeriodMinutes**: `0` indicates no data
+  - **IssueTypeId**: `1` = To Individuals, `2` = To a Company; controls whether `PermitAssignees` is populated
+- PermitAssignees
+  - Only populated for permits with `IssueTypeId = 1` (`IssueType = 'To Individuals'`); empty array for company-issued permits
+  - Resolve contact details via `ContactId` in the `Contacts` array
+- PermitSignatures
+  - **ContactId**: omitted from the object (not set to `null`) for free-text signatories; present when the signatory is a Wallet Contact or Wallet User
+  - **SignedOn**: `null` when not provided by client at time of signing
+  - A permit may have multiple signatures across its workflow sections
 - PermitNumericAnswers
   - **Scale**: decimal places for the numeric value
   - **UnitCode**: `0` indicates no unit specified

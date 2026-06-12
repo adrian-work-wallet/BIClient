@@ -212,12 +212,24 @@ table Permit
 
 	column Signatories =
 			
-			VAR _Signatories = RELATEDTABLE('Signature Fact')
+			VAR _Signatories =
+			    ADDCOLUMNS(
+			        RELATEDTABLE('Signature Fact'),
+			        "@Entry",
+			            VAR _Name = 'Signature Fact'[Signed By]
+			            VAR _Desc = 'Signature Fact'[Signature Description]
+			            RETURN
+			                IF(
+			                    ISBLANK(_Desc),
+			                    _Name,
+			                    _Name & " (" & _Desc & ")"
+			                )
+			    )
 			RETURN
 			    IF(
 			        ISEMPTY(_Signatories),
 			        BLANK(),
-			        CONCATENATEX(_Signatories, 'Signature Fact'[Signed By], ", ", 'Signature Fact'[Signed By], ASC)
+			        CONCATENATEX(_Signatories, [@Entry], ", ", [@Entry], ASC)
 			    )
 		lineageTag: 6a79637b-80b8-48b7-8922-44b17a70d109
 		summarizeBy: none

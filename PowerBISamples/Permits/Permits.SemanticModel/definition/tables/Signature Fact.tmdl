@@ -80,6 +80,14 @@ table 'Signature Fact'
 
 		annotation SummarizationSetBy = User
 
+	column 'Signature Description'
+		dataType: string
+		lineageTag: 55d6af41-49ea-4c31-8a73-41a51693a50c
+		summarizeBy: none
+		sourceColumn: Signature Description
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'Signature Fact' = m
 		mode: import
 		source =
@@ -87,7 +95,7 @@ table 'Signature Fact'
 				  Source = Sql.Database("demo-workwalletbi.database.windows.net", "demo-workwalletbi"),
 				  #"Navigation 1" = Source{[Schema = "mart", Item = "PermitSignatureFact"]}[Data],
 				    #"Removed Columns" = Table.RemoveColumns(#"Navigation 1",{"_created", "_edited"}),
-				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"JobTitle", "Job Title"}, {"SignedOn", "Signed At"}, {"Name", "Signed By"}})
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"JobTitle", "Job Title"}, {"SignedOn", "Signed At"}, {"Name", "Signed By"}, {"Description", "Signature Description"}})
 				in
 				    #"Renamed Columns"
 

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "3e1a55ff2e1baebbcdb9",
   "position": {
     "x": 0,
@@ -118,6 +118,20 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
+                      "Entity": "Permit"
+                    }
+                  },
+                  "Property": "Assignees"
+                }
+              },
+              "queryRef": "Permit.Assignees",
+              "nativeQueryRef": "Assignees"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
                       "Entity": "Location"
                     }
                   },
@@ -197,7 +211,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "171.31581552455438D"
+                  "Value": "136.4402047163798D"
                 }
               }
             }
@@ -211,7 +225,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "344.46153985274134D"
+                  "Value": "192.40179618153948D"
                 }
               }
             }
@@ -267,7 +281,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "128D"
+                  "Value": "146.09359087106412D"
                 }
               }
             }
@@ -288,6 +302,20 @@
           },
           "selector": {
             "metadata": "Permit.Issued Expiry"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "162.6470039690117D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Permit.Assignees"
           }
         }
       ],

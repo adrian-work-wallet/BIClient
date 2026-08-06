@@ -5,15 +5,16 @@ CREATE TYPE mart.ETL_AssetObservationTable AS TABLE
 (
     AssetId uniqueidentifier NOT NULL
     ,ObservationId uniqueidentifier NOT NULL
-    ,Details nvarchar(max) NOT NULL
-    ,ActionTaken nvarchar(max) NOT NULL
-    ,ObservationStatusCode int NOT NULL -- 0 = observation, 1 = defect (open), 32 - defect (closed)
+    ,ObservationStatusCode int NOT NULL -- 0 = observation, 1 = defect (open), 32 = defect (closed)
     ,ObservedOn datetimeoffset(7) NOT NULL
-    ,ObservedBy nvarchar(81) NOT NULL
+    ,ObservedByContactId uniqueidentifier NULL -- allow NULLs
     ,Deleted bit NOT NULL
     ,ClosedOn datetimeoffset(7) NULL -- allow NULLs
-    ,ClosedBy nvarchar(81) NOT NULL
+    ,ClosedByContactId uniqueidentifier NULL -- allow NULLs
     ,ClosureNotes nvarchar(max) NOT NULL
+    ,HasNote bit NOT NULL
+    ,HasImage bit NOT NULL
+    ,HasAction bit NOT NULL
     ,WalletId uniqueidentifier NOT NULL
     ,PRIMARY KEY (ObservedOn, ObservationId) -- putting ObservedOn first to order the data load
 );

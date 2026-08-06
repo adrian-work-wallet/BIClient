@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format loosely follows Keep a Changelog principles (dates in YYYY-MM-DD). Version numbers align with assembly versions unless otherwise noted.
 
+## [5.0.0] - 2026-08-06
+
+### Removed (5.0.0)
+
+- **BREAKING**: `AssetInspections` and `AssetObservations` datasets removed entirely, replaced by `AssetInspections2` and `AssetObservations2` (see Added below). Deploying the updated database removes the old `AssetInspection`, `AssetInspectionChecklistItem`, `AssetInspectionProperty`, `AssetInspectionPropertyFact`, `AssetInspectionChecklistItemFact` and `AssetObservation` tables outright - any existing data in these tables is lost. Back up your database first if you need to retain it. `mart.AssetObservationStatus` is unaffected and retained.
+
+### Added (5.0.0)
+
+- `AssetInspections2` and `AssetObservations2` datasets: the underlying Work Wallet asset inspection model is now equivalent to Audits (full workflow with scoring, grading sets and branch logic). New tables: `AssetInspectionStatus`, `AssetInspectionType`, `AssetInspection`, `AssetInspectionNumericQuestion`, `AssetInspectionDateTimeQuestion`, `AssetInspectionChecklistOption`, `AssetInspectionBranchOption`, `AssetInspectionScoredResponse`, `AssetInspectionScoreSection`, `AssetInspectionScoreTag`, and their corresponding fact tables; redefined `AssetObservation` (contact identity now via `Contact_key`, not denormalised strings); new `AssetObservationNote` (replaces the old `Details`/`ActionTaken` fields, 1:N notes per observation); redefined `AssetInspectionObservationFact` (`WorkflowComponentId` replaces `ChecklistItemId`). Requires DB deploy and full reload for the new datasets.
+- `DataSets.cs` and sample `appsettings.json` now reference `AssetInspections2`/`AssetObservations2` in place of the old dataset names.
+
 ## [4.5.1] - 2026-07-18
 
 ### Changed (4.5.1)

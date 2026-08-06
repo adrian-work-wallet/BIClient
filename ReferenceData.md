@@ -4,8 +4,8 @@ Jump to the relevant section:
 
 - [General](#general)
 - [Actions](#actions)
-- [AssetInspections](#assetinspections)
-- [AssetObservations](#assetobservations)
+- [AssetInspections2](#assetinspections2)
+- [AssetObservations2](#assetobservations2)
 - [Assets](#assets)
 - [Audits](#audits)
 - [Inductions](#inductions)
@@ -94,32 +94,35 @@ Jump to the relevant section:
 | 8 | Asset |
 | 16 | Briefing |
 
-## AssetInspections
+## AssetInspections2
 
-| AssetPropertyType |
-| --- |
-| Number |
-| Select |
-| Text |
-
-Checklist item response codes are specific to each checklist configuration. Common examples include:
-
-| Response | ResponseText (Example) |
+| InspectionStatusCode | InspectionStatus |
 | --- | --- |
-| 0 | N/A |
-| 1 | Major Failure |
-| 2 | Minor Failure |
-| 3 | No Issues |
+| 0 | Complete |
+| 1 | Adjustment (internal placeholder, never returned) |
+| 2 | InProgress |
+| 3 | Deleted |
+| 4 | ReadyForReview |
+| 5 | Archived |
 
-Note: The actual `ResponseText` values are defined per checklist and may vary.
+Note: this is a distinct enum from `AuditStatusCode` - the codes and labels do not correspond between the two datasets.
 
-## AssetObservations
+`Passed` (on `Inspections` and `InspectionScoreSections`): `-1` = not applicable/unknown, `0` = failed, `1` = passed.
+
+`Defect`/`Defects` and score fields (`TotalScore`, `TotalPotentialScore`, `AverageScore`, `AveragePotentialScore`, `PercentageScore`): `-1` = not applicable/not yet calculated.
+
+`GradingSetOptionId`: an all-zero GUID (`00000000-0000-0000-0000-000000000000`) means no grading set is configured.
+
+## AssetObservations2
 
 | AssetObservationStatusCode | AssetObservationStatus |
 | --- | --- |
 | 0 | Observation |
 | 1 | Defect (Open) |
 | 32 | Defect (Closed) |
+
+Unchanged from the previous `AssetObservations` dataset. Contact identity (`ObservedByContactId`, `ClosedByContactId`,
+`CreatedByContactId`) is now a nullable GUID reference into the `Contacts` dataset rather than a denormalised string.
 
 ## Assets
 

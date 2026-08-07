@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format loosely follows Keep a Changelog principles (dates in YYYY-MM-DD). Version numbers align with assembly versions unless otherwise noted.
 
-## [5.0.0] - 2026-08-06
+## [5.0.0] - not yet released
 
 Work Wallet has rewritten Asset Inspections and Asset Observations, bringing them the same rich workflow
 capabilities as Audits (scoring, grading sets, sections/tags, branch logic). This release brings the repo in

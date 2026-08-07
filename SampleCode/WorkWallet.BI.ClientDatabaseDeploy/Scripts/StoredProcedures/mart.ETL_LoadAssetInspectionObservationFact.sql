@@ -1,7 +1,6 @@
 DROP PROCEDURE IF EXISTS mart.ETL_LoadAssetInspectionObservationFact;
 GO
 
--- Populated from both mart.ETL_LoadAssetInspections2 and mart.ETL_LoadAssetObservations2 (each dataset is a complete, self-sufficient sync)
 CREATE PROCEDURE mart.ETL_LoadAssetInspectionObservationFact @inspectionObservationTable mart.ETL_AssetInspectionObservationTable READONLY
 AS
 BEGIN

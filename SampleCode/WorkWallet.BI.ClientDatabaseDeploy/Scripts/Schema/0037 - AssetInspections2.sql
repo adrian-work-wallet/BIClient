@@ -391,8 +391,6 @@ CREATE TABLE mart.AssetInspectionScoreTagFact
     ,CONSTRAINT [FK_mart.AssetInspectionScoreTagFact_mart.Wallet_Wallet_key] FOREIGN KEY(Wallet_key) REFERENCES mart.Wallet
 );
 
--- AssetInspectionObservationFact fact table (links inspections and observations; populated from both
--- AssetInspections2 and AssetObservations2 feeds, since each dataset is a complete, self-sufficient sync)
 CREATE TABLE mart.AssetInspectionObservationFact
 (
     AssetInspectionObservationFact_key int IDENTITY

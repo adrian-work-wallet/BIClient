@@ -124,10 +124,6 @@ BEGIN
 
         EXEC mart.ETL_MaintainAssetObservationDimension @observationTable = @observationTable;
 
-        -- delete existing InspectionObservations links for the observations being loaded (re-inserted below)
-
-        EXEC mart.ETL_DeleteAssetObservationFacts @observationTable = @observationTable;
-
         -- maintain the AssetObservationNote dimension table
 
         DECLARE @observationNoteTable mart.ETL_AssetObservationNoteTable;
@@ -157,31 +153,6 @@ BEGIN
         );
 
         EXEC mart.ETL_MaintainAssetObservationNoteDimension @observationNoteTable = @observationNoteTable;
-
-        -- load the InspectionObservations link data (also populated independently by mart.ETL_LoadAssetInspections2;
-        -- a single observation can link to multiple inspections)
-
-        DECLARE @inspectionObservationTable mart.ETL_AssetInspectionObservationTable;
-
-        INSERT INTO @inspectionObservationTable
-        (
-            InspectionId
-            ,ObservationId
-            ,WorkflowComponentId
-            ,[New]
-            ,WalletId
-        )
-        SELECT * FROM OPENJSON(@json, '$.InspectionObservations')
-        WITH
-        (
-            InspectionId uniqueidentifier
-            ,ObservationId uniqueidentifier
-            ,WorkflowComponentId uniqueidentifier
-            ,[New] bit
-            ,WalletId uniqueidentifier
-        );
-
-        EXEC mart.ETL_LoadAssetInspectionObservationFact @inspectionObservationTable = @inspectionObservationTable;
 
         COMMIT TRANSACTION;
     END TRY

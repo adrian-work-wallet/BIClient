@@ -465,8 +465,7 @@ Notes
       "Deleted": false,
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
-  ],
-  "InspectionObservations": []
+  ]
 }
 ```
 

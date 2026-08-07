@@ -581,7 +581,7 @@ BEGIN
 
         EXEC mart.ETL_MaintainAssetObservationNoteDimension @observationNoteTable = @observationNoteTable;
 
-        -- load the InspectionObservations link data (also populated independently by mart.ETL_LoadAssetObservations2)
+        -- load the InspectionObservations link data
 
         DECLARE @inspectionObservationTable mart.ETL_AssetInspectionObservationTable;
 

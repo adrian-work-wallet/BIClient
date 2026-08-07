@@ -6,13 +6,18 @@ The format loosely follows Keep a Changelog principles (dates in YYYY-MM-DD). Ve
 
 ## [5.0.0] - 2026-08-06
 
+Work Wallet has rewritten Asset Inspections and Asset Observations, bringing them the same rich workflow
+capabilities as Audits (scoring, grading sets, sections/tags, branch logic). This release brings the repo in
+line with that change by replacing the old, simple `AssetInspections`/`AssetObservations` datasets with the
+new `AssetInspections2`/`AssetObservations2` equivalents. **Assets itself is unaffected.**
+
 ### Removed (5.0.0)
 
-- **BREAKING**: `AssetInspections` and `AssetObservations` datasets removed entirely, replaced by `AssetInspections2` and `AssetObservations2` (see Added below). Deploying the updated database removes the old `AssetInspection`, `AssetInspectionChecklistItem`, `AssetInspectionProperty`, `AssetInspectionPropertyFact`, `AssetInspectionChecklistItemFact` and `AssetObservation` tables outright - any existing data in these tables is lost. Back up your database first if you need to retain it. `mart.AssetObservationStatus` is unaffected and retained.
+- **BREAKING**: `AssetInspections` and `AssetObservations` datasets removed entirely - the old v1 API endpoints are dead-ended (always return empty data). Deploying the updated database drops the old asset inspection/observation tables outright; any existing data in them is lost. Back up your database first if you need to retain it.
 
 ### Added (5.0.0)
 
-- `AssetInspections2` and `AssetObservations2` datasets: the underlying Work Wallet asset inspection model is now equivalent to Audits (full workflow with scoring, grading sets and branch logic). New tables: `AssetInspectionStatus`, `AssetInspectionType`, `AssetInspection`, `AssetInspectionNumericQuestion`, `AssetInspectionDateTimeQuestion`, `AssetInspectionChecklistOption`, `AssetInspectionBranchOption`, `AssetInspectionScoredResponse`, `AssetInspectionScoreSection`, `AssetInspectionScoreTag`, and their corresponding fact tables; redefined `AssetObservation` (contact identity now via `Contact_key`, not denormalised strings); new `AssetObservationNote` (replaces the old `Details`/`ActionTaken` fields, 1:N notes per observation); redefined `AssetInspectionObservationFact` (`WorkflowComponentId` replaces `ChecklistItemId`). Requires DB deploy and full reload for the new datasets.
+- `AssetInspections2` and `AssetObservations2` datasets, replacing `AssetInspections`/`AssetObservations` with the new audit-style workflow shape (scoring, grading sets, sections, tags, branch logic). Contact identity (inspectors, observers, closers, note authors) is now resolved via `Contacts`/`Contact_key` rather than denormalised name strings, and observation notes are now a proper 1:N dataset rather than single `Details`/`ActionTaken` fields. Requires DB deploy and full reload for the new datasets.
 - `DataSets.cs` and sample `appsettings.json` now reference `AssetInspections2`/`AssetObservations2` in place of the old dataset names.
 
 ## [4.5.1] - 2026-07-18

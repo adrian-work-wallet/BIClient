@@ -102,9 +102,6 @@ Notes
 
 ## AssetInspections2
 
-The asset inspection model is equivalent to Audits: a full workflow with scoring, grading sets and branch logic, plus
-a `Contacts` dataset covering inspectors, observers, closers and observation-note authors.
-
 ```json
 {
   "Context": {
@@ -376,26 +373,29 @@ Notes
 - `GradingSetOptions` always includes a "null grading set" sentinel row with all-zero GUIDs and empty strings, used by inspections/responses that have no grading set configured.
 - Inspections
   - **Passed**: `-1` = not applicable/unknown, `0` = failed, `1` = passed
-  - **Defects** / score fields (`TotalScore`, `TotalPotentialScore`, `AverageScore`, `AveragePotentialScore`, `PercentageScore`): `-1` = not applicable/not yet calculated
-  - **GradingSetOptionId**: all-zero GUID = no grading set
-  - **InProgressStatusDate**, **ReadyForReviewStatusDate**, **CompleteStatusDate**, **ArchivedStatusDate**: if `null`, no field will be returned
-  - **InspectionStatusCode**: `0` = Complete, `1` = Adjustment (internal placeholder, never returned), `2` = InProgress, `3` = Deleted, `4` = ReadyForReview, `5` = Archived. Deleted/Archived records are included so clients can detect and remove previously-downloaded inspections
-- `InspectionInspectors` has no `Name` field - resolve the inspector's display name via `Contacts` using `ContactId`
+  - **TotalScore**: `-1` indicates no data
+  - **TotalPotentialScore**: `-1` indicates no data
+  - **AverageScore**: `-1` indicates no data
+  - **AveragePotentialScore**: `-1` indicates no data
+  - **PercentageScore**: `-1` indicates no data
+  - **Defects**: `-1` indicates no data
+  - **GradingSetOptionId**: `00000000-0000-0000-0000-000000000000` indicates no data
+  - **InProgressStatusDate**: if `null`, no field will be returned
+  - **ReadyForReviewStatusDate**: if `null`, no field will be returned
+  - **CompleteStatusDate**: if `null`, no field will be returned
+  - **ArchivedStatusDate**: if `null`, no field will be returned
 - Observations
-  - **ObservedByContactId**, **ClosedByContactId**: nullable GUID references into `Contacts`; if `null` no field will be returned
+  - **ObservedByContactId**: if `null` no field will be returned
+  - **ClosedByContactId**: if `null` no field will be returned
   - **ClosedOn**: if `null` no field will be returned
   - **ObservationStatusCode**: `0` = observation, `1` = defect (open), `32` = defect (closed)
 - ObservationNotes
-  - **CreatedByContactId**: nullable GUID reference into `Contacts`; if `null` no field will be returned
+  - **CreatedByContactId**: if `null` no field will be returned
   - **EditedOn**: if `null` no field will be returned
 - InspectionObservations
-  - **WorkflowComponentId**: the workflow component that triggered the observation; if `null` no field will be returned
-  - **New**: `true` if the observation was created during this inspection
+  - **WorkflowComponentId**: if `null` no field will be returned
 
 ## AssetObservations2
-
-Observations can exist independently of inspections (recorded directly against an asset) or be linked to one or more
-inspections. `Contacts` is a new dataset in this endpoint's payload (it did not exist prior to v2).
 
 ```json
 {
@@ -472,16 +472,13 @@ inspections. `Contacts` is a new dataset in this endpoint's payload (it did not 
 
 Notes
 
-- `Contacts` is positioned between `Assets` and `Observations`; same shape as the `Contacts` dataset in `AssetInspections2`
 - Observations
-  - **ObservedByContactId**, **ClosedByContactId**: nullable GUID references into `Contacts`; if `null` no field will be returned
+  - **ObservedByContactId**: if `null` no field will be returned
+  - **ClosedByContactId**: if `null` no field will be returned
   - **ClosedOn**: if `null` no field will be returned
   - **ObservationStatusCode**: `0` = observation, `1` = defect (open), `32` = defect (closed)
 - ObservationNotes
-  - **CreatedByContactId**: nullable GUID reference into `Contacts`; if `null` no field will be returned
-- InspectionObservations
-  - All inspection links for the observations in this page; a single observation can link to multiple inspections
-  - Empty here because this observation has not (yet) been linked to any inspection
+  - **CreatedByContactId**: if `null` no field will be returned
 
 ## Assets
 
@@ -652,6 +649,18 @@ Notes
       "Value": 90,
       "ColourHex": "#4CAF50",
       "GradingSetIsPercentage": true,
+      "GradingSetIsScore": false,
+      "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
+    },
+    {
+      "GradingSetId": "00000000-0000-0000-0000-000000000000",
+      "GradingSetVersion": 0,
+      "GradingSetOptionId": "00000000-0000-0000-0000-000000000000",
+      "GradingSet": "",
+      "GradingSetOption": "",
+      "Value": 0,
+      "ColourHex": "",
+      "GradingSetIsPercentage": false,
       "GradingSetIsScore": false,
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
@@ -845,6 +854,7 @@ Notes:
   - **Department**: Contains the first department name when the location is associated with one or more departments
   - **AllDepartments**: Pipe-separated list of all department names associated with the location
 - GradingSetOptions
+  - Always includes a "null grading set" sentinel row with all-zero GUIDs and empty strings, used by audits/responses that have no grading set configured
   - **GradingSetId** & **GradingSetOptionId**: `00000000-0000-0000-0000-000000000000` indicates 'null' entry (other fields also zeroed/blank)
 - AuditTypes
   - **GradingSetId**: `00000000-0000-0000-0000-000000000000` indicates no data

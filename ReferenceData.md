@@ -105,14 +105,6 @@ Jump to the relevant section:
 | 4 | ReadyForReview |
 | 5 | Archived |
 
-Note: this is a distinct enum from `AuditStatusCode` - the codes and labels do not correspond between the two datasets.
-
-`Passed` (on `Inspections` and `InspectionScoreSections`): `-1` = not applicable/unknown, `0` = failed, `1` = passed.
-
-`Defect`/`Defects` and score fields (`TotalScore`, `TotalPotentialScore`, `AverageScore`, `AveragePotentialScore`, `PercentageScore`): `-1` = not applicable/not yet calculated.
-
-`GradingSetOptionId`: an all-zero GUID (`00000000-0000-0000-0000-000000000000`) means no grading set is configured.
-
 ## AssetObservations2
 
 | AssetObservationStatusCode | AssetObservationStatus |
@@ -120,9 +112,6 @@ Note: this is a distinct enum from `AuditStatusCode` - the codes and labels do n
 | 0 | Observation |
 | 1 | Defect (Open) |
 | 32 | Defect (Closed) |
-
-Unchanged from the previous `AssetObservations` dataset. Contact identity (`ObservedByContactId`, `ClosedByContactId`,
-`CreatedByContactId`) is now a nullable GUID reference into the `Contacts` dataset rather than a denormalised string.
 
 ## Assets
 

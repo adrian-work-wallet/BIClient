@@ -23,6 +23,7 @@ BEGIN
             ,i.Passed
             ,gso.GradingSetOption_key
             ,i.ExternalIdentifier
+            ,i.InspectedByCompany
             ,i.InProgressStatusDate
             ,i.ReadyForReviewStatusDate
             ,i.CompleteStatusDate
@@ -51,6 +52,7 @@ BEGIN
         OR target.Passed <> source.Passed
         OR target.GradingSetOption_key <> source.GradingSetOption_key
         OR target.ExternalIdentifier <> source.ExternalIdentifier
+        OR target.InspectedByCompany <> source.InspectedByCompany
         OR target.InProgressStatusDate IS DISTINCT FROM source.InProgressStatusDate
         OR target.ReadyForReviewStatusDate IS DISTINCT FROM source.ReadyForReviewStatusDate
         OR target.CompleteStatusDate IS DISTINCT FROM source.CompleteStatusDate
@@ -72,6 +74,7 @@ BEGIN
             ,Passed = source.Passed
             ,GradingSetOption_key = source.GradingSetOption_key
             ,ExternalIdentifier = source.ExternalIdentifier
+            ,InspectedByCompany = source.InspectedByCompany
             ,InProgressStatusDate = source.InProgressStatusDate
             ,ReadyForReviewStatusDate = source.ReadyForReviewStatusDate
             ,CompleteStatusDate = source.CompleteStatusDate
@@ -94,6 +97,7 @@ BEGIN
             ,Passed
             ,GradingSetOption_key
             ,ExternalIdentifier
+            ,InspectedByCompany
             ,InProgressStatusDate
             ,ReadyForReviewStatusDate
             ,CompleteStatusDate
@@ -114,6 +118,7 @@ BEGIN
             ,source.Passed
             ,source.GradingSetOption_key
             ,source.ExternalIdentifier
+            ,source.InspectedByCompany
             ,source.InProgressStatusDate
             ,source.ReadyForReviewStatusDate
             ,source.CompleteStatusDate

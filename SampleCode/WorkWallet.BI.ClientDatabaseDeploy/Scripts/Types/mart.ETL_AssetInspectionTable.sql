@@ -18,6 +18,7 @@ CREATE TYPE mart.ETL_AssetInspectionTable AS TABLE
     ,Passed int NOT NULL -- -1 = not applicable/unknown, 0 = failed, 1 = passed
     ,GradingSetOptionId uniqueidentifier NOT NULL
     ,ExternalIdentifier nvarchar(255) NOT NULL
+    ,InspectedByCompany nvarchar(max) NOT NULL
     ,InProgressStatusDate datetimeoffset(7) NULL -- allow NULLs
     ,ReadyForReviewStatusDate datetimeoffset(7) NULL -- allow NULLs
     ,CompleteStatusDate datetimeoffset(7) NULL -- allow NULLs

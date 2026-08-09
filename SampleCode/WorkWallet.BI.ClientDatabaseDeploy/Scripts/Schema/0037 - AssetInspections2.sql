@@ -195,6 +195,7 @@ CREATE TABLE mart.AssetInspection
     ,Passed int NOT NULL -- -1 = not applicable/unknown, 0 = failed, 1 = passed
     ,GradingSetOption_key int NOT NULL
     ,ExternalIdentifier nvarchar(255) NOT NULL
+    ,InspectedByCompany nvarchar(max) NOT NULL -- empty string unless the inspection was externally recorded
     ,InProgressStatusDate datetimeoffset(7) NULL -- allow NULLs
     ,ReadyForReviewStatusDate datetimeoffset(7) NULL -- allow NULLs
     ,CompleteStatusDate datetimeoffset(7) NULL -- allow NULLs

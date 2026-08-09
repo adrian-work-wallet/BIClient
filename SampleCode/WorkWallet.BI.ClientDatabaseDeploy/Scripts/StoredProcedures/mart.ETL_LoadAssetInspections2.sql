@@ -157,6 +157,7 @@ BEGIN
             ,Passed
             ,GradingSetOptionId
             ,ExternalIdentifier
+            ,InspectedByCompany
             ,InProgressStatusDate
             ,ReadyForReviewStatusDate
             ,CompleteStatusDate
@@ -181,6 +182,7 @@ BEGIN
             ,Passed int
             ,GradingSetOptionId uniqueidentifier
             ,ExternalIdentifier nvarchar(255)
+            ,InspectedByCompany nvarchar(max)
             ,InProgressStatusDate datetimeoffset(7)
             ,ReadyForReviewStatusDate datetimeoffset(7)
             ,CompleteStatusDate datetimeoffset(7)

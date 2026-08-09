@@ -159,33 +159,6 @@ table Observation
 
 		annotation SummarizationSetBy = User
 
-	column HasNote
-		dataType: boolean
-		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: a3e6a73c-beb4-494b-92f3-f28b4c222397
-		summarizeBy: none
-		sourceColumn: HasNote
-
-		annotation SummarizationSetBy = Automatic
-
-	column HasImage
-		dataType: boolean
-		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: 0a7d7217-dbf7-4ac9-a576-d504065b1a37
-		summarizeBy: none
-		sourceColumn: HasImage
-
-		annotation SummarizationSetBy = Automatic
-
-	column HasAction
-		dataType: boolean
-		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: efad26fb-07ee-4862-b6ed-a3d65ccff3bc
-		summarizeBy: none
-		sourceColumn: HasAction
-
-		annotation SummarizationSetBy = Automatic
-
 	partition Observation = m
 		mode: import
 		source =

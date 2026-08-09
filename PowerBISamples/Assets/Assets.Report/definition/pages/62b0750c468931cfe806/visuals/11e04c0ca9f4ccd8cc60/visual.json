@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "11e04c0ca9f4ccd8cc60",
   "position": {
     "x": 0,
@@ -47,49 +47,6 @@
             },
             {
               "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Inspection"
-                    }
-                  },
-                  "Property": "Inspection Type"
-                }
-              },
-              "queryRef": "Inspection.Inspection Type",
-              "nativeQueryRef": "Inspection Type"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Inspection"
-                    }
-                  },
-                  "Property": "Inspection Date"
-                }
-              },
-              "queryRef": "Inspection.Inspection Date",
-              "nativeQueryRef": "Date of Inspection",
-              "displayName": "Date of Inspection"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Inspection"
-                    }
-                  },
-                  "Property": "Inspected By"
-                }
-              },
-              "queryRef": "Inspection.Inspected By",
-              "nativeQueryRef": "Inspected By"
-            },
-            {
-              "field": {
                 "Aggregation": {
                   "Expression": {
                     "Column": {
@@ -110,23 +67,6 @@
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Inspection"
-                  }
-                },
-                "Property": "Inspection Date"
-              }
-            },
-            "direction": "Descending"
-          }
-        ]
       }
     },
     "objects": {
@@ -143,20 +83,6 @@
           },
           "selector": {
             "metadata": "Asset.Reference"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "244.42479292980298D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Inspection.Inspection Type"
           }
         },
         {
@@ -213,34 +139,6 @@
           },
           "selector": {
             "metadata": "Inspection.Inspection Date.Variation.Date Hierarchy.Day"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "126D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Inspection.Inspection Date"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "136.0151934521623D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Inspection.Inspected By"
           }
         },
         {

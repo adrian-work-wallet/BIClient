@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "26c839914555745e96e1",
   "position": {
     "x": 0,
@@ -74,21 +74,6 @@
               "queryRef": "Asset.Latest Assigned To",
               "nativeQueryRef": "Assignment",
               "displayName": "Assignment"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Asset"
-                    }
-                  },
-                  "Property": "Last Inspection Date"
-                }
-              },
-              "queryRef": "Asset.Last Inspection Date",
-              "nativeQueryRef": "Previous Inspection",
-              "displayName": "Previous Inspection"
             },
             {
               "field": {
@@ -257,20 +242,6 @@
           },
           "selector": {
             "metadata": "Asset.Last Inspection Date.Variation.Date Hierarchy.Day"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "124D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Asset.Last Inspection Date"
           }
         }
       ],

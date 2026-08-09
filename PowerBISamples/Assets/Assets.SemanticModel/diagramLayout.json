@@ -10,8 +10,8 @@
       "nodes": [
         {
           "location": {
-            "x": 1082.0192338253828,
-            "y": 1096.8644454681857
+            "x": 1223.9598746555221,
+            "y": 601.5168969960489
           },
           "nodeIndex": "Asset",
           "nodeLineageTag": "1fbdd36a-5356-45f3-8c79-63344009ee01",
@@ -23,8 +23,8 @@
         },
         {
           "location": {
-            "x": 502.88014841512222,
-            "y": 1545.1748168168924
+            "x": 50,
+            "y": 739.57952746339538
           },
           "nodeIndex": "Assignment",
           "size": {
@@ -35,8 +35,8 @@
         },
         {
           "location": {
-            "x": 795.67610895991288,
-            "y": 1375.420780010737
+            "x": 393.4540791229258,
+            "y": 739.6696842993772
           },
           "nodeIndex": "Assignment Fact",
           "nodeLineageTag": "548151e7-60a0-4a50-93fc-62cb8c8e3c33",
@@ -48,20 +48,20 @@
         },
         {
           "location": {
-            "x": 329.32502751199377,
-            "y": 861.14243638508333
+            "x": 384.163635144057,
+            "y": 1196.9200329329813
           },
           "nodeIndex": "Property",
           "size": {
-            "height": 176,
+            "height": 200,
             "width": 234
           },
           "zIndex": 3
         },
         {
           "location": {
-            "x": 556.21651425006348,
-            "y": 1094.3369484765662
+            "x": 679.846109703854,
+            "y": 941.598995483527
           },
           "nodeIndex": "Property Fact",
           "size": {
@@ -72,20 +72,20 @@
         },
         {
           "location": {
-            "x": 1340.5166659494068,
-            "y": 1455.4877304718682
+            "x": 1519.3363587454135,
+            "y": 595.53425913541366
           },
           "nodeIndex": "Asset Status",
           "size": {
-            "height": 152,
+            "height": 176,
             "width": 234
           },
           "zIndex": 5
         },
         {
           "location": {
-            "x": 801.797401568552,
-            "y": 886.30325770993318
+            "x": 733.88767369793209,
+            "y": 552.83176646621735
           },
           "nodeIndex": "Wallet",
           "size": {
@@ -96,8 +96,8 @@
         },
         {
           "location": {
-            "x": 793.6956295967484,
-            "y": 1898.2453133947256
+            "x": 935.07058699781464,
+            "y": 759.750161083231
           },
           "nodeIndex": "Assignment Type",
           "size": {
@@ -108,8 +108,8 @@
         },
         {
           "location": {
-            "x": 50,
-            "y": 676.8356374506875
+            "x": 1283.2377954017959,
+            "y": 960.96469937717961
           },
           "nodeIndex": "Property Type",
           "size": {
@@ -120,8 +120,8 @@
         },
         {
           "location": {
-            "x": 267.01193938632923,
-            "y": 1174.3190055092855
+            "x": 215.38072525968914,
+            "y": 452.73322803313079
           },
           "nodeIndex": "Contact",
           "nodeLineageTag": "f174ac29-7e26-412e-a9c8-802a14cf4b62",
@@ -133,8 +133,8 @@
         },
         {
           "location": {
-            "x": 1093.2889347088035,
-            "y": 688.79525741781072
+            "x": 1111.4810924327339,
+            "y": 236.82258534200412
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
@@ -146,34 +146,8 @@
         },
         {
           "location": {
-            "x": 1245.5193581010399,
+            "x": 983.85266608101915,
             "y": -50
-          },
-          "nodeIndex": "Inspection Checklist Item",
-          "nodeLineageTag": "1a36bdc1-949f-403a-af2c-b481806f1fdd",
-          "size": {
-            "height": 248,
-            "width": 234
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {
-            "x": 955.33988581553047,
-            "y": 34.90733678533843
-          },
-          "nodeIndex": "Inspection Checklist Item Fact",
-          "nodeLineageTag": "6f0c1bfc-d51f-4967-b0f7-b10bd8ef1da4",
-          "size": {
-            "height": 224,
-            "width": 234
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {
-            "x": 1289.2458389505875,
-            "y": 406.6230457234542
           },
           "nodeIndex": "Inspection Observation Fact",
           "nodeLineageTag": "92291e38-3eac-433c-9555-da198b332849",
@@ -185,34 +159,8 @@
         },
         {
           "location": {
-            "x": 370.93717123282568,
-            "y": 282.60753184779333
-          },
-          "nodeIndex": "Inspection Property",
-          "nodeLineageTag": "f96ade23-e42e-439a-8aeb-38c5117099f0",
-          "size": {
-            "height": 176,
-            "width": 234
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {
-            "x": 663.20429149199936,
-            "y": 300.03888799446827
-          },
-          "nodeIndex": "Inspection Property Fact",
-          "nodeLineageTag": "0542af76-6f9e-421e-9fe7-83c203bbf6cd",
-          "size": {
-            "height": 200,
-            "width": 234
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {
-            "x": 1564.6787255258948,
-            "y": 690.2468100287756
+            "x": 1406.3220643265502,
+            "y": 236.72924600993144
           },
           "nodeIndex": "Observation",
           "nodeLineageTag": "c44fc457-11f3-4191-870e-f172d6a303f0",
@@ -224,8 +172,8 @@
         },
         {
           "location": {
-            "x": 1537.6594672261567,
-            "y": 198.59408968773232
+            "x": 1702.0773738287423,
+            "y": 32.602876100372441
           },
           "nodeIndex": "Observation Status",
           "nodeLineageTag": "36c35329-c768-49d5-bf0b-de52e01a5296",
@@ -237,7 +185,7 @@
         }
       ],
       "name": "All tables",
-      "zoomValue": 53.348765088847259,
+      "zoomValue": 75.0523605152833,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,
@@ -440,40 +388,14 @@
       "nodes": [
         {
           "location": {
-            "x": 301,
-            "y": 0
-          },
-          "nodeIndex": "Inspection Checklist Item",
-          "nodeLineageTag": "1a36bdc1-949f-403a-af2c-b481806f1fdd",
-          "size": {
-            "height": 277,
-            "width": 289
-          },
-          "zIndex": 2
-        },
-        {
-          "location": {
-            "x": 650.20225510460909,
-            "y": 185.88668757846415
-          },
-          "nodeIndex": "Inspection Checklist Item Fact",
-          "nodeLineageTag": "6f0c1bfc-d51f-4967-b0f7-b10bd8ef1da4",
-          "size": {
-            "height": 243,
-            "width": 305
-          },
-          "zIndex": 3
-        },
-        {
-          "location": {
-            "x": 326.41040181545577,
-            "y": 372.37869776906115
+            "x": 327.41040181545577,
+            "y": 122.37869776906109
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
           "size": {
-            "height": 370,
-            "width": 234
+            "height": 710,
+            "width": 270
           },
           "zIndex": 4
         },
@@ -516,20 +438,20 @@
             "height": 523,
             "width": 234
           },
-          "zIndex": 3
+          "zIndex": 2
         },
         {
           "location": {
             "x": 323.20156119318528,
-            "y": 261
+            "y": 201
           },
           "nodeIndex": "Observation",
           "nodeLineageTag": "c44fc457-11f3-4191-870e-f172d6a303f0",
           "size": {
-            "height": 531,
+            "height": 549,
             "width": 279
           },
-          "zIndex": 1
+          "zIndex": 3
         },
         {
           "location": {
@@ -542,7 +464,7 @@
             "height": 152,
             "width": 269
           },
-          "zIndex": 2
+          "zIndex": 1
         }
       ],
       "name": "Observation",
@@ -561,47 +483,21 @@
       "nodes": [
         {
           "location": {
-            "x": 4,
-            "y": 391.11884566677884
+            "x": 19,
+            "y": 245.11884566677884
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
           "size": {
-            "height": 378,
-            "width": 234
+            "height": 673,
+            "width": 251
           },
           "zIndex": 0
         },
         {
           "location": {
-            "x": 656.41040181545577,
-            "y": 216
-          },
-          "nodeIndex": "Inspection Property",
-          "nodeLineageTag": "f96ade23-e42e-439a-8aeb-38c5117099f0",
-          "size": {
-            "height": 188,
-            "width": 259
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {
-            "x": 332.20225510460909,
-            "y": 361.8866875785302
-          },
-          "nodeIndex": "Inspection Property Fact",
-          "nodeLineageTag": "0542af76-6f9e-421e-9fe7-83c203bbf6cd",
-          "size": {
-            "height": 263,
-            "width": 269
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {
-            "x": 439.62216291713673,
-            "y": 41
+            "x": 409.62216291713673,
+            "y": 66
           },
           "nodeIndex": "Property Type",
           "nodeLineageTag": "c2b7a152-612c-4020-98f8-28f0366e5cba",
@@ -628,8 +524,8 @@
       "nodes": [
         {
           "location": {
-            "x": 515,
-            "y": 407
+            "x": 453,
+            "y": 397
           },
           "nodeIndex": "Inspection Observation Fact",
           "nodeLineageTag": "92291e38-3eac-433c-9555-da198b332849",
@@ -638,19 +534,6 @@
             "width": 313
           },
           "zIndex": 1
-        },
-        {
-          "location": {
-            "x": 586,
-            "y": 0
-          },
-          "nodeIndex": "Inspection Checklist Item",
-          "nodeLineageTag": "1a36bdc1-949f-403a-af2c-b481806f1fdd",
-          "size": {
-            "height": 290,
-            "width": 303
-          },
-          "zIndex": 2
         },
         {
           "location": {
@@ -667,14 +550,14 @@
         },
         {
           "location": {
-            "x": 294,
-            "y": 0
+            "x": 980,
+            "y": 113
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
           "size": {
-            "height": 367,
-            "width": 234
+            "height": 715,
+            "width": 290
           },
           "zIndex": 3
         }

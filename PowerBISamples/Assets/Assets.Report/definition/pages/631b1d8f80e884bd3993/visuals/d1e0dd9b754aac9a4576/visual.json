@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "d1e0dd9b754aac9a4576",
   "position": {
     "x": 0,
@@ -96,27 +96,12 @@
                       "Entity": "Observation"
                     }
                   },
-                  "Property": "ObservedOn"
+                  "Property": "Observed On"
                 }
               },
               "queryRef": "Observation.ObservedOn",
               "nativeQueryRef": "Defect Date",
               "displayName": "Defect Date"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Observation"
-                    }
-                  },
-                  "Property": "Observation"
-                }
-              },
-              "queryRef": "Observation.Observation",
-              "nativeQueryRef": "Details of Defect",
-              "displayName": "Details of Defect"
             }
           ]
         }
@@ -131,7 +116,7 @@
                     "Entity": "Observation"
                   }
                 },
-                "Property": "ObservedOn"
+                "Property": "Observed On"
               }
             },
             "direction": "Descending"

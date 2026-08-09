@@ -37,18 +37,6 @@ table 'Inspection Observation Fact'
 
 		annotation SummarizationSetBy = User
 
-	column AssetInspectionChecklistItem_key
-		dataType: int64
-		isHidden
-		formatString: 0
-		lineageTag: c2827adc-31aa-4ad0-87b5-88ea061496f5
-		summarizeBy: none
-		sourceColumn: AssetInspectionChecklistItem_key
-
-		changedProperty = IsHidden
-
-		annotation SummarizationSetBy = User
-
 	column New
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
@@ -70,11 +58,19 @@ table 'Inspection Observation Fact'
 
 		annotation SummarizationSetBy = User
 
+	column WorkflowComponentId
+		dataType: string
+		lineageTag: 412ad8d6-b559-4976-8a87-663401bd164a
+		summarizeBy: none
+		sourceColumn: WorkflowComponentId
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'Inspection Observation Fact' = m
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("demo-workwalletbi.database.windows.net", "demo-workwalletbi"),
+				    Source = Sql.Database("CAKESOFBREAD", "WorkWalletBIClient_Local"),
 				    mart_AssetInspectionObservationFact = Source{[Schema="mart",Item="AssetInspectionObservationFact"]}[Data],
 				    #"Removed Columns" = Table.RemoveColumns(mart_AssetInspectionObservationFact,{"_created"})
 				in

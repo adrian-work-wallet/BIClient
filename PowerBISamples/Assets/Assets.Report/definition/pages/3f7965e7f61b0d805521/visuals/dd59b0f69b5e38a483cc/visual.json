@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "dd59b0f69b5e38a483cc",
   "position": {
     "x": 0,
@@ -11,47 +11,6 @@
   },
   "visual": {
     "visualType": "slicer",
-    "query": {
-      "queryState": {
-        "Values": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Inspection"
-                    }
-                  },
-                  "Property": "Inspection Date"
-                }
-              },
-              "queryRef": "Inspection.Inspection Date",
-              "nativeQueryRef": "Inspection Date",
-              "active": true
-            }
-          ]
-        }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Inspection"
-                  }
-                },
-                "Property": "Inspection Date"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ],
-        "isDefaultSort": true
-      }
-    },
     "objects": {
       "data": [
         {
@@ -102,66 +61,7 @@
       ],
       "general": [
         {
-          "properties": {
-            "filter": {
-              "filter": {
-                "Version": 2,
-                "From": [
-                  {
-                    "Name": "i",
-                    "Entity": "Inspection",
-                    "Type": 0
-                  }
-                ],
-                "Where": [
-                  {
-                    "Condition": {
-                      "Between": {
-                        "Expression": {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Source": "i"
-                              }
-                            },
-                            "Property": "Inspection Date"
-                          }
-                        },
-                        "LowerBound": {
-                          "DateSpan": {
-                            "Expression": {
-                              "DateAdd": {
-                                "Expression": {
-                                  "DateAdd": {
-                                    "Expression": {
-                                      "Now": {}
-                                    },
-                                    "Amount": 1,
-                                    "TimeUnit": 0
-                                  }
-                                },
-                                "Amount": -1,
-                                "TimeUnit": 3
-                              }
-                            },
-                            "TimeUnit": 0
-                          }
-                        },
-                        "UpperBound": {
-                          "DateSpan": {
-                            "Expression": {
-                              "Now": {}
-                            },
-                            "TimeUnit": 0
-                          }
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
+          "properties": {}
         }
       ]
     },

@@ -197,6 +197,7 @@ Notes
       "Passed": 1,
       "GradingSetOptionId": "c3d4e5f6-a1b2-4c3d-9e8f-001122334455",
       "ExternalIdentifier": "",
+      "InspectedByCompany": "",
       "InProgressStatusDate": "2025-09-05T11:40:00+00:00",
       "CompleteStatusDate": "2025-09-05T11:45:00+00:00",
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
@@ -370,7 +371,12 @@ Notes
 
 Notes
 
-- `GradingSetOptions` always includes a "null grading set" sentinel row with all-zero GUIDs and empty strings, used by inspections/responses that have no grading set configured.
+- GradingSetOptions
+  - Always includes a "null grading set" sentinel row with all-zero GUIDs and empty strings, used by inspections/responses that have no grading set configured
+  - **GradingSetId** & **GradingSetOptionId**: `00000000-0000-0000-0000-000000000000` indicates 'null' entry (other fields also zeroed/blank)
+- InspectionTypes
+  - **GradingSetId**: `00000000-0000-0000-0000-000000000000` indicates no data
+  - **GradingSetVersion**: `0` indicates no data
 - Inspections
   - **Passed**: `-1` = not applicable/unknown, `0` = failed, `1` = passed
   - **TotalScore**: `-1` indicates no data
@@ -380,10 +386,36 @@ Notes
   - **PercentageScore**: `-1` indicates no data
   - **Defects**: `-1` indicates no data
   - **GradingSetOptionId**: `00000000-0000-0000-0000-000000000000` indicates no data
-  - **InProgressStatusDate**: if `null`, no field will be returned
-  - **ReadyForReviewStatusDate**: if `null`, no field will be returned
-  - **CompleteStatusDate**: if `null`, no field will be returned
-  - **ArchivedStatusDate**: if `null`, no field will be returned
+  - **InspectedByCompany**: empty string if the inspection was not performed by an external company
+  - **InProgressStatusDate**: omitted when null (always populated once the inspection first enters InProgress; unaffected by later status changes)
+  - **ReadyForReviewStatusDate**: omitted when null (null if `InspectionStatusCode` is InProgress)
+  - **CompleteStatusDate**: omitted when null (null if `InspectionStatusCode` is InProgress or ReadyForReview)
+  - **ArchivedStatusDate**: omitted when null (only populated when `InspectionStatusCode` is Archived, or Deleted having previously been archived)
+- InspectionNumericAnswers
+  - **Scale**: `0` indicates no data
+  - **UnitCode**: `0` indicates no data
+- InspectionScoredResponses
+  - **TotalScore**: `-1` indicates no data
+  - **TotalPotentialScore**: `-1` indicates no data
+  - **PercentageScore**: `-1` indicates no data
+  - **GradingSetOptionId**: `00000000-0000-0000-0000-000000000000` indicates no data
+- InspectionScoreSections
+  - **TotalScore**: `-1` indicates no data
+  - **TotalPotentialScore**: `-1` indicates no data
+  - **AverageScore**: `-1` indicates no data
+  - **AveragePotentialScore**: `-1` indicates no data
+  - **PercentageScore**: `-1` indicates no data
+  - **Defects**: `-1` indicates no data
+  - **Passed**: `-1` = not applicable/unknown, `0` = failed, `1` = passed
+  - **GradingSetOptionId**: `00000000-0000-0000-0000-000000000000` indicates no data
+- InspectionScoreTags
+  - **TotalScore**: `-1` indicates no data
+  - **TotalPotentialScore**: `-1` indicates no data
+  - **AverageScore**: `-1` indicates no data
+  - **AveragePotentialScore**: `-1` indicates no data
+  - **PercentageScore**: `-1` indicates no data
+  - **Defects**: `-1` indicates no data
+  - **GradingSetOptionId**: `00000000-0000-0000-0000-000000000000` indicates no data
 - Observations
   - **ObservedByContactId**: if `null` no field will be returned
   - **ClosedByContactId**: if `null` no field will be returned
@@ -478,6 +510,7 @@ Notes
   - **ObservationStatusCode**: `0` = observation, `1` = defect (open), `32` = defect (closed)
 - ObservationNotes
   - **CreatedByContactId**: if `null` no field will be returned
+  - **EditedOn**: if `null` no field will be returned
 
 ## Assets
 
@@ -842,7 +875,7 @@ Notes
 }
 ```
 
-Notes:
+Notes
 
 - Locations
   - **CompanyId**: `00000000-0000-0000-0000-000000000000` indicates no data

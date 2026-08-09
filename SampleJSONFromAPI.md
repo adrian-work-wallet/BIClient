@@ -340,9 +340,6 @@ Notes
       "ObservedByContactId": "0aa1bb22-cc33-4dd4-8ee5-ff6677889900",
       "Deleted": false,
       "ClosureNotes": "",
-      "HasNote": true,
-      "HasImage": false,
-      "HasAction": true,
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
   ],
@@ -481,9 +478,6 @@ Notes
       "ObservedByContactId": "1bb22cc3-3dd4-4ee5-8ff6-778899aabbcc",
       "Deleted": false,
       "ClosureNotes": "",
-      "HasNote": true,
-      "HasImage": false,
-      "HasAction": true,
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
   ],

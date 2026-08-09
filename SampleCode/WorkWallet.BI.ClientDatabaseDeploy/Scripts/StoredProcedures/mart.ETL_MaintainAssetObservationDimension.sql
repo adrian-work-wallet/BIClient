@@ -18,9 +18,6 @@ BEGIN
             ,o.ClosedOn
             ,closer.Contact_key AS ClosedByContact_key
             ,o.ClosureNotes
-            ,o.HasNote
-            ,o.HasImage
-            ,o.HasAction
             ,w.Wallet_key
         FROM
             @observationTable AS o
@@ -40,9 +37,6 @@ BEGIN
         OR target.ClosedOn IS DISTINCT FROM source.ClosedOn
         OR target.ClosedByContact_key IS DISTINCT FROM source.ClosedByContact_key
         OR target.ClosureNotes <> source.ClosureNotes
-        OR target.HasNote <> source.HasNote
-        OR target.HasImage <> source.HasImage
-        OR target.HasAction <> source.HasAction
         OR target.Wallet_key <> source.Wallet_key
     )
     THEN
@@ -55,9 +49,6 @@ BEGIN
             ,ClosedOn = source.ClosedOn
             ,ClosedByContact_key = source.ClosedByContact_key
             ,ClosureNotes = source.ClosureNotes
-            ,HasNote = source.HasNote
-            ,HasImage = source.HasImage
-            ,HasAction = source.HasAction
             ,Wallet_key = source.Wallet_key
             ,_edited = SYSUTCDATETIME()
     WHEN NOT MATCHED BY TARGET THEN
@@ -71,9 +62,6 @@ BEGIN
             ,ClosedOn
             ,ClosedByContact_key
             ,ClosureNotes
-            ,HasNote
-            ,HasImage
-            ,HasAction
             ,Wallet_key
         ) VALUES (
             source.ObservationId
@@ -85,9 +73,6 @@ BEGIN
             ,source.ClosedOn
             ,source.ClosedByContact_key
             ,source.ClosureNotes
-            ,source.HasNote
-            ,source.HasImage
-            ,source.HasAction
             ,source.Wallet_key
         );
 

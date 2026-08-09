@@ -225,9 +225,6 @@ CREATE TABLE mart.AssetObservation
     ,ClosedOn datetimeoffset(7) NULL -- allow NULLs
     ,ClosedByContact_key int NULL -- allow NULLs
     ,ClosureNotes nvarchar(max) NOT NULL
-    ,HasNote bit NOT NULL
-    ,HasImage bit NOT NULL
-    ,HasAction bit NOT NULL
     ,Wallet_key int NOT NULL
     ,_created datetime2(7) NOT NULL CONSTRAINT [DF_mart.AssetObservation__created] DEFAULT SYSUTCDATETIME()
     ,_edited datetime2(7) NULL

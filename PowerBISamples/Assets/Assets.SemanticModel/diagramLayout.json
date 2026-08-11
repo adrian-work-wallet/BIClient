@@ -10,8 +10,8 @@
       "nodes": [
         {
           "location": {
-            "x": 1223.9598746555221,
-            "y": 601.5168969960489
+            "x": 1008.082414829344,
+            "y": 683.68631101614778
           },
           "nodeIndex": "Asset",
           "nodeLineageTag": "1fbdd36a-5356-45f3-8c79-63344009ee01",
@@ -23,8 +23,8 @@
         },
         {
           "location": {
-            "x": 50,
-            "y": 739.57952746339538
+            "x": 1927.0788149027285,
+            "y": 202.41089317383557
           },
           "nodeIndex": "Assignment",
           "size": {
@@ -35,8 +35,8 @@
         },
         {
           "location": {
-            "x": 393.4540791229258,
-            "y": 739.6696842993772
+            "x": 1646.8955555909911,
+            "y": 559.61441797940734
           },
           "nodeIndex": "Assignment Fact",
           "nodeLineageTag": "548151e7-60a0-4a50-93fc-62cb8c8e3c33",
@@ -48,8 +48,8 @@
         },
         {
           "location": {
-            "x": 384.163635144057,
-            "y": 1196.9200329329813
+            "x": 1028.1163750692972,
+            "y": 173.27364820470939
           },
           "nodeIndex": "Property",
           "size": {
@@ -60,8 +60,8 @@
         },
         {
           "location": {
-            "x": 679.846109703854,
-            "y": 941.598995483527
+            "x": 1198.4900344925882,
+            "y": 428.18970242782689
           },
           "nodeIndex": "Property Fact",
           "size": {
@@ -72,8 +72,8 @@
         },
         {
           "location": {
-            "x": 1519.3363587454135,
-            "y": 595.53425913541366
+            "x": 331.85477962518451,
+            "y": 469.38726758854818
           },
           "nodeIndex": "Asset Status",
           "size": {
@@ -84,8 +84,8 @@
         },
         {
           "location": {
-            "x": 733.88767369793209,
-            "y": 552.83176646621735
+            "x": 1629.0834135213404,
+            "y": 1144.6966752951846
           },
           "nodeIndex": "Wallet",
           "size": {
@@ -96,8 +96,8 @@
         },
         {
           "location": {
-            "x": 935.07058699781464,
-            "y": 759.750161083231
+            "x": 1318.2946136084606,
+            "y": 48.811245964276168
           },
           "nodeIndex": "Assignment Type",
           "size": {
@@ -108,8 +108,8 @@
         },
         {
           "location": {
-            "x": 1283.2377954017959,
-            "y": 960.96469937717961
+            "x": 1028.1059253306271,
+            "y": -50
           },
           "nodeIndex": "Property Type",
           "size": {
@@ -120,8 +120,8 @@
         },
         {
           "location": {
-            "x": 215.38072525968914,
-            "y": 452.73322803313079
+            "x": 1486.6430580715028,
+            "y": 279.4034861506002
           },
           "nodeIndex": "Contact",
           "nodeLineageTag": "f174ac29-7e26-412e-a9c8-802a14cf4b62",
@@ -133,8 +133,8 @@
         },
         {
           "location": {
-            "x": 1111.4810924327339,
-            "y": 236.82258534200412
+            "x": 1225.9440855232133,
+            "y": 1517.4169882204592
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
@@ -146,8 +146,8 @@
         },
         {
           "location": {
-            "x": 983.85266608101915,
-            "y": -50
+            "x": 620.94405381714307,
+            "y": 1189.291177604644
           },
           "nodeIndex": "Inspection Observation Fact",
           "nodeLineageTag": "92291e38-3eac-433c-9555-da198b332849",
@@ -159,8 +159,8 @@
         },
         {
           "location": {
-            "x": 1406.3220643265502,
-            "y": 236.72924600993144
+            "x": 431.66445790172008,
+            "y": 700.75084125185936
           },
           "nodeIndex": "Observation",
           "nodeLineageTag": "c44fc457-11f3-4191-870e-f172d6a303f0",
@@ -172,8 +172,8 @@
         },
         {
           "location": {
-            "x": 1702.0773738287423,
-            "y": 32.602876100372441
+            "x": 50,
+            "y": 699.94288729845266
           },
           "nodeIndex": "Observation Status",
           "nodeLineageTag": "36c35329-c768-49d5-bf0b-de52e01a5296",
@@ -182,10 +182,302 @@
             "width": 234
           },
           "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2188.9837341391826,
+            "y": 2590.8325079374354
+          },
+          "nodeIndex": "Inspection Status",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1574.3521857373339,
+            "y": 1976.0793464796507
+          },
+          "nodeIndex": "Inspection Type",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1612.8881602948568,
+            "y": 2332.9652784184982
+          },
+          "nodeIndex": "Grading Set Option",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 154.01860432839067,
+            "y": 2124.5018495198847
+          },
+          "nodeIndex": "Unit",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2147.3994705874707,
+            "y": 1994.0519975473007
+          },
+          "nodeIndex": "Inspection Grading Set",
+          "nodeLineageTag": "3e671f4c-0844-4cf7-97aa-1f09202624f8",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1448.3028711011989,
+            "y": 914.68062879172021
+          },
+          "nodeIndex": "Inspected By Fact",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 721.4699340094021,
+            "y": 407.43784947928725
+          },
+          "nodeIndex": "Observation Note",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 309.04069583775811,
+            "y": 1056.4653567103696
+          },
+          "nodeIndex": "Branch Option",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 331.07089538951482,
+            "y": 1413.6447438231251
+          },
+          "nodeIndex": "Checklist Option",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2083.2205068773237,
+            "y": 1269.5843678352203
+          },
+          "nodeIndex": "Date Time Answer Fact",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2683.711557173996,
+            "y": 1270.1082464458859
+          },
+          "nodeIndex": "Date Time Question",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 936.02633123939916,
+            "y": 1832.2928601553308
+          },
+          "nodeIndex": "Numeric Answer Fact",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 444.02776452658873,
+            "y": 1790.8708116987268
+          },
+          "nodeIndex": "Numeric Question",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2147.4524697154661,
+            "y": 559.63332368276087
+          },
+          "nodeIndex": "Scored Response",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1918.9999941852661,
+            "y": 916.35208163688185
+          },
+          "nodeIndex": "Scored Response Fact",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1900.0646913661903,
+            "y": 2350.969262228874
+          },
+          "nodeIndex": "Score Section",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1571.5107769114929,
+            "y": 1622.4287908612578
+          },
+          "nodeIndex": "Score Section Fact",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2396.5405930440265,
+            "y": 1318.0731667074169
+          },
+          "nodeIndex": "Score Tag",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2122.5625590410923,
+            "y": 1574.2527160010266
+          },
+          "nodeIndex": "Score Tag Fact",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 620.08707155846764,
+            "y": 1558.8813455171585
+          },
+          "nodeIndex": "Branch Option Fact",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1339.1736683869672,
+            "y": 1289.9580839139464
+          },
+          "nodeIndex": "Checklist Answer Fact",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1284.428730957133,
+            "y": 2272.557636928927
+          },
+          "nodeIndex": "Score Section Grading Set Option",
+          "nodeLineageTag": "d27b6efb-5485-4e97-9896-e7301be37580",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2411.6214821605113,
+            "y": 1637.5016553837881
+          },
+          "nodeIndex": "Score Tag Grading Set Option",
+          "nodeLineageTag": "082b2e0d-bba2-44b2-8f99-ef189d681286",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2313.9963719064658,
+            "y": 916.35081998681017
+          },
+          "nodeIndex": "Scored Response Grading Set Option",
+          "nodeLineageTag": "b311e01f-6a21-4fc4-a4a4-ded19da78708",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "All tables",
-      "zoomValue": 75.0523605152833,
+      "zoomValue": 40.133675102668946,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,
@@ -241,8 +533,8 @@
       "nodes": [
         {
           "location": {
-            "x": 0,
-            "y": 372.33340650819162
+            "x": 2.040816326530603,
+            "y": 86.619120793905878
           },
           "nodeIndex": "Asset",
           "nodeLineageTag": "1fbdd36a-5356-45f3-8c79-63344009ee01",
@@ -254,8 +546,8 @@
         },
         {
           "location": {
-            "x": 333.05246771070551,
-            "y": 120.48353309931383
+            "x": 347.33818199641979,
+            "y": 173.54475758910971
           },
           "nodeIndex": "Assignment Fact",
           "nodeLineageTag": "548151e7-60a0-4a50-93fc-62cb8c8e3c33",
@@ -267,8 +559,8 @@
         },
         {
           "location": {
-            "x": 786.4722500099889,
-            "y": 162.24489795918367
+            "x": 980.349801030397,
+            "y": 52.0408163265306
           },
           "nodeIndex": "Assignment Type",
           "nodeLineageTag": "961c8f59-215c-463f-a8b0-6f40aa3a0a22",
@@ -280,8 +572,8 @@
         },
         {
           "location": {
-            "x": 615.88475011374135,
-            "y": 393.87755102040819
+            "x": 688.333729705578,
+            "y": 153.12244897959184
           },
           "nodeIndex": "Assignment",
           "nodeLineageTag": "d946195a-3aed-4bc3-871a-c4015c4a28c6",
@@ -293,8 +585,8 @@
         },
         {
           "location": {
-            "x": 944.49002762814848,
-            "y": 355.75510204081627
+            "x": 1007.7553337505974,
+            "y": 231.32653061224471
           },
           "nodeIndex": "Contact",
           "nodeLineageTag": "f174ac29-7e26-412e-a9c8-802a14cf4b62",
@@ -353,7 +645,7 @@
           "nodeIndex": "Property",
           "nodeLineageTag": "dcb8f146-d342-4136-9533-da977752de34",
           "size": {
-            "height": 202,
+            "height": 214,
             "width": 234
           },
           "zIndex": 0
@@ -397,7 +689,7 @@
             "height": 710,
             "width": 270
           },
-          "zIndex": 4
+          "zIndex": 3
         },
         {
           "location": {
@@ -410,7 +702,46 @@
             "height": 521,
             "width": 234
           },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 867,
+            "y": 0
+          },
+          "nodeIndex": "Inspection Type",
+          "nodeLineageTag": "64368020-40f9-4b66-a078-cd9047e7bb11",
+          "size": {
+            "height": 477,
+            "width": 238
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 858,
+            "y": 669
+          },
+          "nodeIndex": "Inspection Status",
+          "nodeLineageTag": "e152c48b-5883-4ad6-a815-bbc2e7824bd9",
+          "size": {
+            "height": 157,
+            "width": 234
+          },
           "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1174,
+            "y": 324
+          },
+          "nodeIndex": "Inspection Grading Set",
+          "nodeLineageTag": "3e671f4c-0844-4cf7-97aa-1f09202624f8",
+          "size": {
+            "height": 374,
+            "width": 279
+          },
+          "zIndex": 0
         }
       ],
       "name": "Inspection",
@@ -448,7 +779,7 @@
           "nodeIndex": "Observation",
           "nodeLineageTag": "c44fc457-11f3-4191-870e-f172d6a303f0",
           "size": {
-            "height": 549,
+            "height": 501,
             "width": 279
           },
           "zIndex": 3
@@ -465,6 +796,19 @@
             "width": 269
           },
           "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1003,
+            "y": 334
+          },
+          "nodeIndex": "Observation Note",
+          "nodeLineageTag": "7063d69b-1639-48bc-a4f9-1f7f8049f1c3",
+          "size": {
+            "height": 336,
+            "width": 257
+          },
+          "zIndex": 0
         }
       ],
       "name": "Observation",
@@ -483,49 +827,8 @@
       "nodes": [
         {
           "location": {
-            "x": 19,
-            "y": 245.11884566677884
-          },
-          "nodeIndex": "Inspection",
-          "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
-          "size": {
-            "height": 673,
-            "width": 251
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {
-            "x": 409.62216291713673,
-            "y": 66
-          },
-          "nodeIndex": "Property Type",
-          "nodeLineageTag": "c2b7a152-612c-4020-98f8-28f0366e5cba",
-          "size": {
-            "height": 128,
-            "width": 234
-          },
-          "zIndex": 0
-        }
-      ],
-      "name": "Inspection Property",
-      "zoomValue": 100,
-      "pinKeyFieldsToTop": false,
-      "showExtraHeaderInfo": false,
-      "hideKeyFieldsWhenCollapsed": false,
-      "tablesLocked": false
-    },
-    {
-      "ordinal": 7,
-      "scrollPosition": {
-        "x": 0,
-        "y": 0
-      },
-      "nodes": [
-        {
-          "location": {
-            "x": 453,
-            "y": 397
+            "x": 379,
+            "y": 381
           },
           "nodeIndex": "Inspection Observation Fact",
           "nodeLineageTag": "92291e38-3eac-433c-9555-da198b332849",
@@ -550,8 +853,8 @@
         },
         {
           "location": {
-            "x": 980,
-            "y": 113
+            "x": 823,
+            "y": 81
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
@@ -563,6 +866,490 @@
         }
       ],
       "name": "Inspection Observation",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 7,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 244,
+            "y": 167
+          },
+          "nodeIndex": "Inspection",
+          "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
+          "size": {
+            "height": 684,
+            "width": 246
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 606,
+            "y": 228
+          },
+          "nodeIndex": "Inspected By Fact",
+          "nodeLineageTag": "fed990d0-25cd-482b-a7ad-8782496fdc85",
+          "size": {
+            "height": 211,
+            "width": 255
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 925,
+            "y": 9
+          },
+          "nodeIndex": "Contact",
+          "nodeLineageTag": "f174ac29-7e26-412e-a9c8-802a14cf4b62",
+          "size": {
+            "height": 259,
+            "width": 234
+          },
+          "zIndex": 3
+        }
+      ],
+      "name": "Inspected By",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 8,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 117,
+            "y": 222
+          },
+          "nodeIndex": "Inspection",
+          "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
+          "size": {
+            "height": 681,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 538,
+            "y": 334
+          },
+          "nodeIndex": "Scored Response Fact",
+          "nodeLineageTag": "4861131b-fd90-4598-8a10-df51089f3380",
+          "size": {
+            "height": 351,
+            "width": 297
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1038,
+            "y": 58
+          },
+          "nodeIndex": "Scored Response",
+          "nodeLineageTag": "d15a6c05-e72c-4300-9f4e-9c2e16532f55",
+          "size": {
+            "height": 374,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1002,
+            "y": 613
+          },
+          "nodeIndex": "Scored Response Grading Set Option",
+          "nodeLineageTag": "b311e01f-6a21-4fc4-a4a4-ded19da78708",
+          "size": {
+            "height": 394,
+            "width": 347
+          },
+          "zIndex": 4
+        }
+      ],
+      "name": "Scored Response",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 9,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 93,
+            "y": 212
+          },
+          "nodeIndex": "Inspection",
+          "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
+          "size": {
+            "height": 701,
+            "width": 273
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 658,
+            "y": 293
+          },
+          "nodeIndex": "Score Section Fact",
+          "nodeLineageTag": "2b33c01c-931b-4e27-bf37-34c8cadb2ef6",
+          "size": {
+            "height": 410,
+            "width": 282
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1142,
+            "y": 133
+          },
+          "nodeIndex": "Score Section",
+          "nodeLineageTag": "de37126a-94e6-42d4-a3bc-14df97aa4373",
+          "size": {
+            "height": 316,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1153,
+            "y": 621
+          },
+          "nodeIndex": "Score Section Grading Set Option",
+          "nodeLineageTag": "d27b6efb-5485-4e97-9896-e7301be37580",
+          "size": {
+            "height": 380,
+            "width": 317
+          },
+          "zIndex": 3
+        }
+      ],
+      "name": "Score Section",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 10,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 40,
+            "y": 240
+          },
+          "nodeIndex": "Inspection",
+          "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
+          "size": {
+            "height": 704,
+            "width": 265
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 458,
+            "y": 294
+          },
+          "nodeIndex": "Score Tag Fact",
+          "nodeLineageTag": "a8a748bb-f5c4-4a00-a189-549b29f1b776",
+          "size": {
+            "height": 397,
+            "width": 263
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 835,
+            "y": 123
+          },
+          "nodeIndex": "Score Tag",
+          "nodeLineageTag": "f061b916-c1b9-4296-965c-26e8d4fbb1d1",
+          "size": {
+            "height": 204,
+            "width": 284
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 826,
+            "y": 582
+          },
+          "nodeIndex": "Score Tag Grading Set Option",
+          "nodeLineageTag": "082b2e0d-bba2-44b2-8f99-ef189d681286",
+          "size": {
+            "height": 407,
+            "width": 302
+          },
+          "zIndex": 3
+        }
+      ],
+      "name": "Score Tag",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 11,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 20,
+            "y": 285
+          },
+          "nodeIndex": "Inspection",
+          "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
+          "size": {
+            "height": 707,
+            "width": 272
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 406,
+            "y": 330
+          },
+          "nodeIndex": "Numeric Answer Fact",
+          "nodeLineageTag": "09559d4b-3170-4f95-a697-1caae9a1cae4",
+          "size": {
+            "height": 229,
+            "width": 309
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 796,
+            "y": 73
+          },
+          "nodeIndex": "Numeric Question",
+          "nodeLineageTag": "13aca2de-bfc1-4381-990f-642b54a6ea98",
+          "size": {
+            "height": 389,
+            "width": 325
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 767,
+            "y": 593
+          },
+          "nodeIndex": "Unit",
+          "nodeLineageTag": "346e92c1-b251-4488-8605-b254d7776b87",
+          "size": {
+            "height": 206,
+            "width": 234
+          },
+          "zIndex": 4
+        }
+      ],
+      "name": "Numeric Answer",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 12,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 93,
+            "y": 200
+          },
+          "nodeIndex": "Inspection",
+          "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
+          "size": {
+            "height": 706,
+            "width": 259
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 556,
+            "y": 303
+          },
+          "nodeIndex": "Date Time Answer Fact",
+          "nodeLineageTag": "cc215e58-3d57-475b-b3f6-f923afd72111",
+          "size": {
+            "height": 323,
+            "width": 322
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1001,
+            "y": 97
+          },
+          "nodeIndex": "Date Time Question",
+          "nodeLineageTag": "ddd548db-ed5c-438b-ae2f-a01e3adcd506",
+          "size": {
+            "height": 354,
+            "width": 315
+          },
+          "zIndex": 3
+        }
+      ],
+      "name": "Date Time Answer",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 13,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 102,
+            "y": 225
+          },
+          "nodeIndex": "Inspection",
+          "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
+          "size": {
+            "height": 688,
+            "width": 265
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 467,
+            "y": 249
+          },
+          "nodeIndex": "Checklist Answer Fact",
+          "nodeLineageTag": "a8d27f46-5ec5-414e-af85-8c682c35bffc",
+          "size": {
+            "height": 230,
+            "width": 314
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 895,
+            "y": 0
+          },
+          "nodeIndex": "Checklist Option",
+          "nodeLineageTag": "a3d807e9-4d9b-4781-9fbc-cc808100bdd7",
+          "size": {
+            "height": 406,
+            "width": 308
+          },
+          "zIndex": 2
+        }
+      ],
+      "name": "Checklist Answer",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 14,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 149,
+            "y": 220
+          },
+          "nodeIndex": "Inspection",
+          "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
+          "size": {
+            "height": 684,
+            "width": 287
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 536,
+            "y": 215
+          },
+          "nodeIndex": "Branch Option Fact",
+          "nodeLineageTag": "68f628c0-b241-4cef-81a1-c385dbdf836c",
+          "size": {
+            "height": 195,
+            "width": 308
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1056,
+            "y": 39
+          },
+          "nodeIndex": "Branch Option",
+          "nodeLineageTag": "8f67d2d3-3609-4553-adc7-570fe37a0c43",
+          "size": {
+            "height": 391,
+            "width": 324
+          },
+          "zIndex": 3
+        }
+      ],
+      "name": "Branch Option",
       "zoomValue": 100,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,

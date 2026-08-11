@@ -6,11 +6,13 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation PBI_QueryOrder = ["Asset","Assignment","Assignment Fact","Assignment Type","Property","Property Fact","Property Type","Asset Status","Wallet","Contact","Inspection Observation Fact","Observation","Observation Status","Inspection"]
+annotation PBI_QueryOrder = ["Asset","Assignment","Assignment Fact","Assignment Type","Property","Property Fact","Property Type","Asset Status","Wallet","Contact","Inspection Observation Fact","Observation","Observation Status","Inspection","Branch Option","Branch Option Fact","Checklist Answer Fact","Checklist Option","Date Time Answer Fact","Date Time Question","Inspected By Fact","Numeric Answer Fact","Numeric Question","Scored Response","Scored Response Fact","Score Section","Score Section Fact","Score Tag","Score Tag Fact","Inspection Status","Inspection Type","Observation Note","Grading Set Option","Unit","Inspection Grading Set","Score Tag Grading Set Option","Score Section Grading Set Option","Scored Response Grading Set Option"]
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_RemovedChildren = [{"remoteItemId":{"foreignKeyRelationship":{"fromTableLocalLineageTag":"de37126a-94e6-42d4-a3bc-14df97aa4373","fromColumnLocalLineageTag":"f222b5d3-866f-4ba8-bf9d-fa8bb947579e","toTableLocalLineageTag":"64368020-40f9-4b66-a078-cd9047e7bb11","toColumnLocalLineageTag":"f3a85025-c971-4f27-ae5f-32324a7a7a92"}},"objectType":"Relationship"}]
 
 ref table Asset
 ref table DateTableTemplate_0c6d385d-5454-474d-88d8-d563a721fbcf
@@ -38,6 +40,34 @@ ref table LocalDateTable_667c89c4-6ac5-42c7-ae87-415e9f161b4a
 ref table LocalDateTable_724f1fd4-ed70-495c-9bec-2ae3a2ca53fa
 ref table LocalDateTable_cbf297e1-76d7-4564-a3c8-52c69430838f
 ref table LocalDateTable_a50c46dd-af9d-44c6-ab1d-e8e6381159df
+ref table 'Branch Option'
+ref table 'Branch Option Fact'
+ref table 'Checklist Answer Fact'
+ref table 'Checklist Option'
+ref table 'Date Time Answer Fact'
+ref table LocalDateTable_4a2d7749-8217-4e21-bc03-8e4adafc252b
+ref table LocalDateTable_6be0e690-bde4-4587-9c54-7d753e50fe6b
+ref table 'Date Time Question'
+ref table 'Inspected By Fact'
+ref table 'Numeric Answer Fact'
+ref table 'Numeric Question'
+ref table 'Scored Response'
+ref table 'Scored Response Fact'
+ref table 'Score Section'
+ref table 'Score Section Fact'
+ref table 'Score Tag'
+ref table 'Score Tag Fact'
+ref table 'Inspection Status'
+ref table 'Inspection Type'
+ref table 'Observation Note'
+ref table LocalDateTable_340854e5-c2b0-43a0-aeb0-db77543a8c8a
+ref table LocalDateTable_768cd4ff-e152-468f-86fc-7173ebb8fe3a
+ref table 'Grading Set Option'
+ref table Unit
+ref table 'Inspection Grading Set'
+ref table 'Score Tag Grading Set Option'
+ref table 'Score Section Grading Set Option'
+ref table 'Scored Response Grading Set Option'
 
 ref cultureInfo en-GB
 

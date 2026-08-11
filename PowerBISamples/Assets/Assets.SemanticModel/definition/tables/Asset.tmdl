@@ -140,7 +140,7 @@ table Asset
 			COALESCE(
 			    MAXX(
 			        RELATEDTABLE(Inspection),
-			        Inspection[Inspection Date]
+			        Inspection[Inspected On]
 			    ),
 			    BLANK()
 			)

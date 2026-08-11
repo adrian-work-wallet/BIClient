@@ -77,6 +77,21 @@
             },
             {
               "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Asset"
+                    }
+                  },
+                  "Property": "Last Inspection Date"
+                }
+              },
+              "queryRef": "Asset.Last Inspection Date",
+              "nativeQueryRef": "Previous Inspection",
+              "displayName": "Previous Inspection"
+            },
+            {
+              "field": {
                 "Aggregation": {
                   "Expression": {
                     "Column": {
@@ -242,6 +257,20 @@
           },
           "selector": {
             "metadata": "Asset.Last Inspection Date.Variation.Date Hierarchy.Day"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "123.55267245648815D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Asset.Last Inspection Date"
           }
         }
       ],

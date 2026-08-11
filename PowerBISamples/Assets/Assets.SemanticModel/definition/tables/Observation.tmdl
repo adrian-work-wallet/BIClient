@@ -159,6 +159,12 @@ table Observation
 
 		annotation SummarizationSetBy = User
 
+	column 'Observation Notes' = CONCATENATEX (RELATEDTABLE('Observation Note'), 'Observation Note'[Notes], ", ", 'Observation Note'[Notes], ASC)
+		lineageTag: bd9692ca-cf5f-4922-8dc9-251aa9447b61
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition Observation = m
 		mode: import
 		source =

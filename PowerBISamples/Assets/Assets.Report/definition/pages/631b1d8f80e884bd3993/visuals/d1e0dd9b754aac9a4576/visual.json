@@ -102,6 +102,21 @@
               "queryRef": "Observation.ObservedOn",
               "nativeQueryRef": "Defect Date",
               "displayName": "Defect Date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Observation"
+                    }
+                  },
+                  "Property": "Observation Notes"
+                }
+              },
+              "queryRef": "Observation.Observation Notes",
+              "nativeQueryRef": "Details of Defect",
+              "displayName": "Details of Defect"
             }
           ]
         }

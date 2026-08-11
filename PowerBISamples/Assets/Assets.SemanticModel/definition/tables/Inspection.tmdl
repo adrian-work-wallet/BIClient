@@ -304,6 +304,12 @@ table Inspection
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Inspected By' = CONCATENATEX (RELATEDTABLE(Contact), Contact[Contact Name], ", ", Contact[Contact Name], ASC)
+		lineageTag: 648411c9-6a78-4366-b241-528532136a49
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition Inspection = m
 		mode: import
 		source =

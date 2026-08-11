@@ -13,6 +13,106 @@
     "visualType": "columnChart",
     "query": {
       "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "PropertyVariationSource": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Inspection"
+                            }
+                          },
+                          "Name": "Variation",
+                          "Property": "Inspected On"
+                        }
+                      },
+                      "Hierarchy": "Date Hierarchy"
+                    }
+                  },
+                  "Level": "Year"
+                }
+              },
+              "queryRef": "Inspection.Inspected On.Variation.Date Hierarchy.Year",
+              "nativeQueryRef": "Inspected On Year",
+              "active": true
+            },
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "PropertyVariationSource": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Inspection"
+                            }
+                          },
+                          "Name": "Variation",
+                          "Property": "Inspected On"
+                        }
+                      },
+                      "Hierarchy": "Date Hierarchy"
+                    }
+                  },
+                  "Level": "Month"
+                }
+              },
+              "queryRef": "Inspection.Inspected On.Variation.Date Hierarchy.Month",
+              "nativeQueryRef": "Inspected On Month",
+              "active": true
+            },
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "PropertyVariationSource": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Inspection"
+                            }
+                          },
+                          "Name": "Variation",
+                          "Property": "Inspected On"
+                        }
+                      },
+                      "Hierarchy": "Date Hierarchy"
+                    }
+                  },
+                  "Level": "Day"
+                }
+              },
+              "queryRef": "Inspection.Inspected On.Variation.Date Hierarchy.Day",
+              "nativeQueryRef": "Inspected On Day",
+              "active": false
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Inspection Type"
+                    }
+                  },
+                  "Property": "Inspection Type"
+                }
+              },
+              "queryRef": "Inspection Type.Inspection Type",
+              "nativeQueryRef": "Inspection Type"
+            }
+          ]
+        },
         "Y": {
           "projections": [
             {
@@ -37,29 +137,6 @@
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Aggregation": {
-                "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "Inspection"
-                      }
-                    },
-                    "Property": "Inspection Count"
-                  }
-                },
-                "Function": 0
-              }
-            },
-            "direction": "Descending"
-          }
-        ],
-        "isDefaultSort": true
       }
     },
     "objects": {

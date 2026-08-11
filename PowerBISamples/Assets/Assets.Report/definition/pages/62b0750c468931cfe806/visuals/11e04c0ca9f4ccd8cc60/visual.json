@@ -47,6 +47,49 @@
             },
             {
               "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Inspection Type"
+                    }
+                  },
+                  "Property": "Inspection Type"
+                }
+              },
+              "queryRef": "Inspection Type.Inspection Type",
+              "nativeQueryRef": "Inspection Type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Inspection"
+                    }
+                  },
+                  "Property": "Inspected On"
+                }
+              },
+              "queryRef": "Inspection.Inspected On",
+              "nativeQueryRef": "Date of Inspection",
+              "displayName": "Date of Inspection"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Inspection"
+                    }
+                  },
+                  "Property": "Inspected By"
+                }
+              },
+              "queryRef": "Inspection.Inspected By",
+              "nativeQueryRef": "Inspected By"
+            },
+            {
+              "field": {
                 "Aggregation": {
                   "Expression": {
                     "Column": {
@@ -146,7 +189,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "273.83870967741933D"
+                  "Value": "310.0485996158426D"
                 }
               }
             }
@@ -167,6 +210,48 @@
           },
           "selector": {
             "metadata": "Sum(Inspection.Defects Raised)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "266.4401897957055D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Inspection Type.Inspection Type"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "312.3067576366768D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Inspection.Inspected On"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "136.889083349266D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Inspection.Inspected By"
           }
         }
       ],

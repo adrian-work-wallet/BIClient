@@ -46,7 +46,7 @@ table 'Observation Note'
 
 	column 'Created On'
 		dataType: dateTime
-		formatString: General Date
+		formatString: dd/mm/yyyy hh:nn
 		lineageTag: dc165147-1c10-4cf0-926d-120efd6ab8ef
 		summarizeBy: none
 		sourceColumn: Created On
@@ -57,6 +57,8 @@ table 'Observation Note'
 			defaultHierarchy: LocalDateTable_340854e5-c2b0-43a0-aeb0-db77543a8c8a.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
 
 	column CreatedByContact_key
 		dataType: int64
@@ -72,7 +74,7 @@ table 'Observation Note'
 
 	column 'Edited On'
 		dataType: dateTime
-		formatString: General Date
+		formatString: dd/mm/yyyy hh:nn
 		lineageTag: ffaf0fe5-8df6-4147-a1eb-675e6dc9f7f3
 		summarizeBy: none
 		sourceColumn: Edited On
@@ -83,6 +85,8 @@ table 'Observation Note'
 			defaultHierarchy: LocalDateTable_768cd4ff-e152-468f-86fc-7173ebb8fe3a.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
 
 	column Deleted
 		dataType: boolean

@@ -40164,7 +40164,7 @@ cultureInfo en-GB
 			    "inspection_grading_set": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Inspection Grading Set"
+			          "ConceptualEntity": "Inspection Grading Set Option"
 			        }
 			      },
 			      "State": "Generated",
@@ -40226,7 +40226,7 @@ cultureInfo en-GB
 			    "inspection_grading_set.grading_set_option_key": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Inspection Grading Set",
+			          "ConceptualEntity": "Inspection Grading Set Option",
 			          "ConceptualProperty": "GradingSetOption_key"
 			        }
 			      },
@@ -40370,7 +40370,7 @@ cultureInfo en-GB
 			    "inspection_grading_set.grading_set_id": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Inspection Grading Set",
+			          "ConceptualEntity": "Inspection Grading Set Option",
 			          "ConceptualProperty": "GradingSetId"
 			        }
 			      },
@@ -40508,7 +40508,7 @@ cultureInfo en-GB
 			    "inspection_grading_set.grading_set_version": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Inspection Grading Set",
+			          "ConceptualEntity": "Inspection Grading Set Option",
 			          "ConceptualProperty": "GradingSetVersion"
 			        }
 			      },
@@ -40646,7 +40646,7 @@ cultureInfo en-GB
 			    "inspection_grading_set.grading_set_option_id": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Inspection Grading Set",
+			          "ConceptualEntity": "Inspection Grading Set Option",
 			          "ConceptualProperty": "GradingSetOptionId"
 			        }
 			      },
@@ -40796,7 +40796,7 @@ cultureInfo en-GB
 			    "inspection_grading_set.inspection_grading_set": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Inspection Grading Set",
+			          "ConceptualEntity": "Inspection Grading Set Option",
 			          "ConceptualProperty": "Inspection Grading Set"
 			        }
 			      },
@@ -40858,7 +40858,7 @@ cultureInfo en-GB
 			    "inspection_grading_set.inspection_grading": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Inspection Grading Set",
+			          "ConceptualEntity": "Inspection Grading Set Option",
 			          "ConceptualProperty": "Inspection Grading"
 			        }
 			      },
@@ -40880,7 +40880,7 @@ cultureInfo en-GB
 			    "inspection_grading_set.inspection_grading_value": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Inspection Grading Set",
+			          "ConceptualEntity": "Inspection Grading Set Option",
 			          "ConceptualProperty": "Inspection Grading Value"
 			        }
 			      },
@@ -41008,7 +41008,7 @@ cultureInfo en-GB
 			    "inspection_grading_set.inspection_grading_colour": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Inspection Grading Set",
+			          "ConceptualEntity": "Inspection Grading Set Option",
 			          "ConceptualProperty": "Inspection Grading Colour"
 			        }
 			      },
@@ -41036,7 +41036,7 @@ cultureInfo en-GB
 			    "inspection_grading_set.inspection_grading_set_is_percentage": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Inspection Grading Set",
+			          "ConceptualEntity": "Inspection Grading Set Option",
 			          "ConceptualProperty": "Inspection Grading Set Is Percentage"
 			        }
 			      },
@@ -41164,7 +41164,7 @@ cultureInfo en-GB
 			    "inspection_grading_set.inspection_grading_set_is_score": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Inspection Grading Set",
+			          "ConceptualEntity": "Inspection Grading Set Option",
 			          "ConceptualProperty": "Inspection Grading Set Is Score"
 			        }
 			      },
@@ -41292,7 +41292,7 @@ cultureInfo en-GB
 			    "inspection_grading_set.wallet_key": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Inspection Grading Set",
+			          "ConceptualEntity": "Inspection Grading Set Option",
 			          "ConceptualProperty": "Wallet_key"
 			        }
 			      },
@@ -49930,7 +49930,7 @@ cultureInfo en-GB
 			    },
 			    "inspection_grading_set_has_inspection_grading_set_is_score": {
 			      "Binding": {
-			        "ConceptualEntity": "Inspection Grading Set"
+			        "ConceptualEntity": "Inspection Grading Set Option"
 			      },
 			      "State": "Generated",
 			      "Roles": {
@@ -49963,7 +49963,7 @@ cultureInfo en-GB
 			    },
 			    "inspection_grading_set_has_inspection_grading_set_is_percentage": {
 			      "Binding": {
-			        "ConceptualEntity": "Inspection Grading Set"
+			        "ConceptualEntity": "Inspection Grading Set Option"
 			      },
 			      "State": "Generated",
 			      "Roles": {
@@ -49996,7 +49996,7 @@ cultureInfo en-GB
 			    },
 			    "inspection_grading_set_has_inspection_grading_colour": {
 			      "Binding": {
-			        "ConceptualEntity": "Inspection Grading Set"
+			        "ConceptualEntity": "Inspection Grading Set Option"
 			      },
 			      "State": "Generated",
 			      "Roles": {
@@ -50029,7 +50029,7 @@ cultureInfo en-GB
 			    },
 			    "inspection_grading_set_has_inspection_grading_value": {
 			      "Binding": {
-			        "ConceptualEntity": "Inspection Grading Set"
+			        "ConceptualEntity": "Inspection Grading Set Option"
 			      },
 			      "State": "Generated",
 			      "Roles": {
@@ -50062,7 +50062,7 @@ cultureInfo en-GB
 			    },
 			    "inspection_grading_set_has_inspection_grading": {
 			      "Binding": {
-			        "ConceptualEntity": "Inspection Grading Set"
+			        "ConceptualEntity": "Inspection Grading Set Option"
 			      },
 			      "State": "Generated",
 			      "Roles": {
@@ -50095,7 +50095,7 @@ cultureInfo en-GB
 			    },
 			    "inspection_grading_set_has_inspection_grading_set": {
 			      "Binding": {
-			        "ConceptualEntity": "Inspection Grading Set"
+			        "ConceptualEntity": "Inspection Grading Set Option"
 			      },
 			      "State": "Generated",
 			      "Roles": {

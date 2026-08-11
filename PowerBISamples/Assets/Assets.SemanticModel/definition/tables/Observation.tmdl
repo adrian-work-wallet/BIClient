@@ -66,7 +66,7 @@ table Observation
 
 	column 'Closed On'
 		dataType: dateTime
-		formatString: General Date
+		formatString: dd/mm/yyyy hh:nn
 		lineageTag: 97f8b651-8fd3-4b84-beb4-a41645c721a4
 		summarizeBy: none
 		sourceColumn: Closed On
@@ -77,6 +77,8 @@ table Observation
 			defaultHierarchy: LocalDateTable_dd78a9fb-3b9f-416c-b429-1578f95c2eb0.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
 
 	column 'Closure Notes'
 		dataType: string

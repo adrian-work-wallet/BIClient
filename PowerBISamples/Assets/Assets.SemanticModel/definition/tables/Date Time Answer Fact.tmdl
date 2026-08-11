@@ -27,7 +27,7 @@ table 'Date Time Answer Fact'
 
 	column 'Date and Time Answer'
 		dataType: dateTime
-		formatString: General Date
+		formatString: dd/mm/yyyy h:nn
 		lineageTag: e9f25945-c601-474f-9356-24b7c5e436bc
 		summarizeBy: none
 		sourceColumn: Date and Time Answer
@@ -39,9 +39,11 @@ table 'Date Time Answer Fact'
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
 	column 'Date Answer'
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 0bdaee86-9944-4d74-9e29-8e6a1342111f
 		summarizeBy: none
 		sourceColumn: Date Answer
@@ -57,7 +59,7 @@ table 'Date Time Answer Fact'
 
 	column 'Time Answer'
 		dataType: dateTime
-		formatString: Long Time
+		formatString: Short Time
 		lineageTag: 22d55151-a6e6-4dbd-b8e9-41ddd3c01987
 		summarizeBy: none
 		sourceColumn: Time Answer

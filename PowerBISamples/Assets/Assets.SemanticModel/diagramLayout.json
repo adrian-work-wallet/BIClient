@@ -233,19 +233,6 @@
         },
         {
           "location": {
-            "x": 212.85511747350779,
-            "y": 1523.4305790223459
-          },
-          "nodeIndex": "Inspection Grading Set",
-          "nodeLineageTag": "3e671f4c-0844-4cf7-97aa-1f09202624f8",
-          "size": {
-            "height": 300,
-            "width": 234
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {
             "x": 1401.1453554129785,
             "y": 1216.8764894901715
           },
@@ -469,6 +456,18 @@
           },
           "nodeIndex": "Scored Response Grading Set Option",
           "nodeLineageTag": "b311e01f-6a21-4fc4-a4a4-ded19da78708",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 212.85511747350779,
+            "y": 1523.4305790223459
+          },
+          "nodeIndex": "Inspection Grading Set Option",
           "size": {
             "height": 300,
             "width": 234
@@ -735,8 +734,7 @@
             "x": 692,
             "y": 502
           },
-          "nodeIndex": "Inspection Grading Set",
-          "nodeLineageTag": "3e671f4c-0844-4cf7-97aa-1f09202624f8",
+          "nodeIndex": "Inspection Grading Set Option",
           "size": {
             "height": 374,
             "width": 279

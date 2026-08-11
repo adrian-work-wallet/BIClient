@@ -468,7 +468,7 @@ relationship 7696d835-a926-46c8-a357-a7d020980ce9
 
 relationship 37b472d2-48da-e2ed-45f8-5cac4af8127f
 	fromColumn: Inspection.GradingSetOption_key
-	toColumn: 'Inspection Grading Set'.GradingSetOption_key
+	toColumn: 'Inspection Grading Set Option'.GradingSetOption_key
 
 relationship e1109d88-4d67-b83f-0904-9988c3be884c
 	isActive: false
@@ -477,7 +477,7 @@ relationship e1109d88-4d67-b83f-0904-9988c3be884c
 
 relationship 6900c582-9377-eeb7-4043-ea739997eb74
 	isActive: false
-	fromColumn: 'Inspection Grading Set'.Wallet_key
+	fromColumn: 'Inspection Grading Set Option'.Wallet_key
 	toColumn: Wallet.Wallet_key
 
 relationship 67dd3fa4-de33-be12-24f1-ed06c284e7c1

@@ -109,7 +109,7 @@ table Inspection
 
 	column 'Inspected On'
 		dataType: dateTime
-		formatString: General Date
+		formatString: dd/mm/yyyy hh:nn
 		lineageTag: 4258a6af-d4e6-466c-ad18-bf936f0d6679
 		summarizeBy: none
 		sourceColumn: Inspected On
@@ -120,6 +120,8 @@ table Inspection
 			defaultHierarchy: LocalDateTable_6f97f8c7-3065-4a3a-a9af-6233a93072c8.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
 
 	column Score
 		dataType: int64
@@ -217,7 +219,7 @@ table Inspection
 
 	column 'In Progress Status Date'
 		dataType: dateTime
-		formatString: General Date
+		formatString: dd/mm/yyyy hh:nn
 		lineageTag: 016b44ba-8938-4788-8b6c-b874dde3fa1a
 		summarizeBy: none
 		sourceColumn: In Progress Status Date
@@ -229,9 +231,11 @@ table Inspection
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
 	column 'Ready For Review Status Date'
 		dataType: dateTime
-		formatString: General Date
+		formatString: dd/mm/yyyy hh:nn
 		lineageTag: 1d2e3187-cec8-49b2-a549-cc4ce8558f61
 		summarizeBy: none
 		sourceColumn: Ready For Review Status Date
@@ -243,9 +247,11 @@ table Inspection
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
 	column 'Complete Status Date'
 		dataType: dateTime
-		formatString: General Date
+		formatString: dd/mm/yyyy hh:nn
 		lineageTag: 5856d7ef-ae00-4e49-8cac-7dc103fb2839
 		summarizeBy: none
 		sourceColumn: Complete Status Date
@@ -257,9 +263,11 @@ table Inspection
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
 	column 'Archived Status Date'
 		dataType: dateTime
-		formatString: General Date
+		formatString: dd/mm/yyyy hh:nn
 		lineageTag: 0a2b1a1a-a374-4401-97ea-e19f8112cdf3
 		summarizeBy: none
 		sourceColumn: Archived Status Date
@@ -270,6 +278,8 @@ table Inspection
 			defaultHierarchy: LocalDateTable_a50c46dd-af9d-44c6-ab1d-e8e6381159df.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
 
 	column 'Score Display' =
 			

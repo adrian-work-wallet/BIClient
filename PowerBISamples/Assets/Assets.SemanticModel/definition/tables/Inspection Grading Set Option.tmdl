@@ -1,4 +1,4 @@
-table 'Inspection Grading Set'
+table 'Inspection Grading Set Option'
 	lineageTag: 3e671f4c-0844-4cf7-97aa-1f09202624f8
 
 	column GradingSetOption_key
@@ -110,7 +110,7 @@ table 'Inspection Grading Set'
 
 		annotation SummarizationSetBy = User
 
-	partition 'Inspection Grading Set' = m
+	partition 'Inspection Grading Set Option' = m
 		mode: import
 		source =
 				let

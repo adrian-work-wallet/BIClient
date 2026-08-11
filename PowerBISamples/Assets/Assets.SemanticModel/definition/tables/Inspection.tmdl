@@ -271,6 +271,39 @@ table Inspection
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Score Display' =
+			
+			VAR DisplayScore =
+			    AND(RELATED('Inspection Type'[Display Total Score]), Inspection[Score] <> -1)
+			VAR DisplayPercentage =
+			    AND(RELATED('Inspection Type'[Display Percentage]), Inspection[Percentage Score] <> -1)
+			VAR ScoreText =
+			    IF(DisplayScore, Inspection[Score] & "/" & Inspection[Potential Score], "")
+			VAR PercentageText =
+			    IF(DisplayPercentage, FORMAT(Inspection[Percentage Score], "#%"), "")
+			RETURN
+			    IF(
+			        RELATED('Inspection Type'[Scoring Enabled]),
+			        IF(
+			            AND(DisplayScore, DisplayPercentage),
+			            ScoreText & " (" & PercentageText & ")",
+			            IF(
+			                DisplayScore,
+			                ScoreText,
+			                IF(
+			                    DisplayPercentage,
+			                    PercentageText,
+			                    ""
+			                )
+			            )
+			        ),
+			        "scoring not enabled"
+			    )
+		lineageTag: 3a7dfec0-38e6-4f62-8a34-5b3c0e83b454
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition Inspection = m
 		mode: import
 		source =

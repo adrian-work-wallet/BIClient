@@ -15,9 +15,12 @@ table 'Checklist Option'
 
 	column ChecklistId
 		dataType: string
+		isHidden
 		lineageTag: aaa03c89-1f77-43c7-8e7f-247cf0de46f9
 		summarizeBy: none
 		sourceColumn: ChecklistId
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

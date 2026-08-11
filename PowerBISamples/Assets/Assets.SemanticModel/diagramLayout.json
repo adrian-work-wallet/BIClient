@@ -10,8 +10,8 @@
       "nodes": [
         {
           "location": {
-            "x": 1008.082414829344,
-            "y": 683.68631101614778
+            "x": 1255.7723122790796,
+            "y": 572.81495500396431
           },
           "nodeIndex": "Asset",
           "nodeLineageTag": "1fbdd36a-5356-45f3-8c79-63344009ee01",
@@ -23,8 +23,8 @@
         },
         {
           "location": {
-            "x": 1927.0788149027285,
-            "y": 202.41089317383557
+            "x": 2110.0860895253254,
+            "y": 764.79633864116067
           },
           "nodeIndex": "Assignment",
           "size": {
@@ -35,8 +35,8 @@
         },
         {
           "location": {
-            "x": 1646.8955555909911,
-            "y": 559.61441797940734
+            "x": 1787.9547338102313,
+            "y": 836.35051053106463
           },
           "nodeIndex": "Assignment Fact",
           "nodeLineageTag": "548151e7-60a0-4a50-93fc-62cb8c8e3c33",
@@ -48,8 +48,8 @@
         },
         {
           "location": {
-            "x": 1028.1163750692972,
-            "y": 173.27364820470939
+            "x": 1128.2322114664589,
+            "y": 312.08302684269847
           },
           "nodeIndex": "Property",
           "size": {
@@ -60,8 +60,8 @@
         },
         {
           "location": {
-            "x": 1198.4900344925882,
-            "y": 428.18970242782689
+            "x": 1188.7073612785257,
+            "y": 53.043609576275685
           },
           "nodeIndex": "Property Fact",
           "size": {
@@ -72,8 +72,8 @@
         },
         {
           "location": {
-            "x": 331.85477962518451,
-            "y": 469.38726758854818
+            "x": 1817.6425516136514,
+            "y": 602.46315434091048
           },
           "nodeIndex": "Asset Status",
           "size": {
@@ -84,8 +84,8 @@
         },
         {
           "location": {
-            "x": 1629.0834135213404,
-            "y": 1144.6966752951846
+            "x": 1216.2011820151251,
+            "y": 1580.4405046967304
           },
           "nodeIndex": "Wallet",
           "size": {
@@ -96,8 +96,8 @@
         },
         {
           "location": {
-            "x": 1318.2946136084606,
-            "y": 48.811245964276168
+            "x": 2408.9572194931256,
+            "y": 719.94487077311578
           },
           "nodeIndex": "Assignment Type",
           "size": {
@@ -108,7 +108,7 @@
         },
         {
           "location": {
-            "x": 1028.1059253306271,
+            "x": 893.64955668876962,
             "y": -50
           },
           "nodeIndex": "Property Type",
@@ -120,8 +120,8 @@
         },
         {
           "location": {
-            "x": 1486.6430580715028,
-            "y": 279.4034861506002
+            "x": 1495.8870422750069,
+            "y": 936.23282477053272
           },
           "nodeIndex": "Contact",
           "nodeLineageTag": "f174ac29-7e26-412e-a9c8-802a14cf4b62",
@@ -133,8 +133,8 @@
         },
         {
           "location": {
-            "x": 1225.9440855232133,
-            "y": 1517.4169882204592
+            "x": 820.06065619929836,
+            "y": 1555.8242714088383
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
@@ -146,8 +146,8 @@
         },
         {
           "location": {
-            "x": 620.94405381714307,
-            "y": 1189.291177604644
+            "x": 1109.0776705902424,
+            "y": 1301.8744540428672
           },
           "nodeIndex": "Inspection Observation Fact",
           "nodeLineageTag": "92291e38-3eac-433c-9555-da198b332849",
@@ -159,8 +159,8 @@
         },
         {
           "location": {
-            "x": 431.66445790172008,
-            "y": 700.75084125185936
+            "x": 829.52499915485112,
+            "y": 430.64960239048924
           },
           "nodeIndex": "Observation",
           "nodeLineageTag": "c44fc457-11f3-4191-870e-f172d6a303f0",
@@ -172,8 +172,8 @@
         },
         {
           "location": {
-            "x": 50,
-            "y": 699.94288729845266
+            "x": 616.10332465439012,
+            "y": 214.21261164880752
           },
           "nodeIndex": "Observation Status",
           "nodeLineageTag": "36c35329-c768-49d5-bf0b-de52e01a5296",
@@ -185,8 +185,8 @@
         },
         {
           "location": {
-            "x": 2188.9837341391826,
-            "y": 2590.8325079374354
+            "x": 184.95083149165919,
+            "y": 1004.7061475994803
           },
           "nodeIndex": "Inspection Status",
           "size": {
@@ -197,8 +197,8 @@
         },
         {
           "location": {
-            "x": 1574.3521857373339,
-            "y": 1976.0793464796507
+            "x": 510.29968741043706,
+            "y": 1523.440986598576
           },
           "nodeIndex": "Inspection Type",
           "size": {
@@ -209,8 +209,8 @@
         },
         {
           "location": {
-            "x": 1612.8881602948568,
-            "y": 2332.9652784184982
+            "x": 914.231825308625,
+            "y": 2763.2134915356855
           },
           "nodeIndex": "Grading Set Option",
           "size": {
@@ -221,8 +221,8 @@
         },
         {
           "location": {
-            "x": 154.01860432839067,
-            "y": 2124.5018495198847
+            "x": 50,
+            "y": 2847.430612627034
           },
           "nodeIndex": "Unit",
           "size": {
@@ -233,8 +233,8 @@
         },
         {
           "location": {
-            "x": 2147.3994705874707,
-            "y": 1994.0519975473007
+            "x": 212.85511747350779,
+            "y": 1523.4305790223459
           },
           "nodeIndex": "Inspection Grading Set",
           "nodeLineageTag": "3e671f4c-0844-4cf7-97aa-1f09202624f8",
@@ -246,8 +246,8 @@
         },
         {
           "location": {
-            "x": 1448.3028711011989,
-            "y": 914.68062879172021
+            "x": 1401.1453554129785,
+            "y": 1216.8764894901715
           },
           "nodeIndex": "Inspected By Fact",
           "size": {
@@ -258,8 +258,8 @@
         },
         {
           "location": {
-            "x": 721.4699340094021,
-            "y": 407.43784947928725
+            "x": 628.78733408801213,
+            "y": 846.153635354822
           },
           "nodeIndex": "Observation Note",
           "size": {
@@ -270,8 +270,8 @@
         },
         {
           "location": {
-            "x": 309.04069583775811,
-            "y": 1056.4653567103696
+            "x": 1212.7107927058642,
+            "y": 2641.9820873287204
           },
           "nodeIndex": "Branch Option",
           "size": {
@@ -282,8 +282,8 @@
         },
         {
           "location": {
-            "x": 331.07089538951482,
-            "y": 1413.6447438231251
+            "x": 176.21486428034154,
+            "y": 2128.6385817675264
           },
           "nodeIndex": "Checklist Option",
           "size": {
@@ -294,8 +294,8 @@
         },
         {
           "location": {
-            "x": 2083.2205068773237,
-            "y": 1269.5843678352203
+            "x": 449.67923160100634,
+            "y": 1208.7291754477117
           },
           "nodeIndex": "Date Time Answer Fact",
           "size": {
@@ -306,20 +306,20 @@
         },
         {
           "location": {
-            "x": 2683.711557173996,
-            "y": 1270.1082464458859
+            "x": 342.671706786639,
+            "y": 580.9305049077434
           },
           "nodeIndex": "Date Time Question",
           "size": {
-            "height": 296,
+            "height": 300,
             "width": 234
           },
           "zIndex": 0
         },
         {
           "location": {
-            "x": 936.02633123939916,
-            "y": 1832.2928601553308
+            "x": 597.43821354413387,
+            "y": 2216.3408364376269
           },
           "nodeIndex": "Numeric Answer Fact",
           "size": {
@@ -330,8 +330,8 @@
         },
         {
           "location": {
-            "x": 444.02776452658873,
-            "y": 1790.8708116987268
+            "x": 346.9191345826348,
+            "y": 2481.8120434943758
           },
           "nodeIndex": "Numeric Question",
           "size": {
@@ -342,8 +342,8 @@
         },
         {
           "location": {
-            "x": 2147.4524697154661,
-            "y": 559.63332368276087
+            "x": 2269.3193891500864,
+            "y": 1133.0618843086422
           },
           "nodeIndex": "Scored Response",
           "size": {
@@ -354,20 +354,20 @@
         },
         {
           "location": {
-            "x": 1918.9999941852661,
-            "y": 916.35208163688185
+            "x": 1635.0824803592645,
+            "y": 1448.191472901713
           },
           "nodeIndex": "Scored Response Fact",
           "size": {
-            "height": 296,
+            "height": 300,
             "width": 234
           },
           "zIndex": 0
         },
         {
           "location": {
-            "x": 1900.0646913661903,
-            "y": 2350.969262228874
+            "x": 1511.274978339974,
+            "y": 2389.4705945941059
           },
           "nodeIndex": "Score Section",
           "size": {
@@ -378,8 +378,8 @@
         },
         {
           "location": {
-            "x": 1571.5107769114929,
-            "y": 1622.4287908612578
+            "x": 1194.353903804129,
+            "y": 2007.5625398234063
           },
           "nodeIndex": "Score Section Fact",
           "size": {
@@ -390,8 +390,8 @@
         },
         {
           "location": {
-            "x": 2396.5405930440265,
-            "y": 1318.0731667074169
+            "x": 1919.4679116533523,
+            "y": 1802.2377503429605
           },
           "nodeIndex": "Score Tag",
           "size": {
@@ -402,8 +402,8 @@
         },
         {
           "location": {
-            "x": 2122.5625590410923,
-            "y": 1574.2527160010266
+            "x": 1492.9742103921008,
+            "y": 1801.5816401087998
           },
           "nodeIndex": "Score Tag Fact",
           "size": {
@@ -414,8 +414,8 @@
         },
         {
           "location": {
-            "x": 620.08707155846764,
-            "y": 1558.8813455171585
+            "x": 895.7441269595904,
+            "y": 2138.3119647226581
           },
           "nodeIndex": "Branch Option Fact",
           "size": {
@@ -426,8 +426,8 @@
         },
         {
           "location": {
-            "x": 1339.1736683869672,
-            "y": 1289.9580839139464
+            "x": 468.99398834046156,
+            "y": 1887.8538827403959
           },
           "nodeIndex": "Checklist Answer Fact",
           "size": {
@@ -438,8 +438,8 @@
         },
         {
           "location": {
-            "x": 1284.428730957133,
-            "y": 2272.557636928927
+            "x": 914.40488767154147,
+            "y": 2378.9688962060804
           },
           "nodeIndex": "Score Section Grading Set Option",
           "nodeLineageTag": "d27b6efb-5485-4e97-9896-e7301be37580",
@@ -451,8 +451,8 @@
         },
         {
           "location": {
-            "x": 2411.6214821605113,
-            "y": 1637.5016553837881
+            "x": 1809.9166923558414,
+            "y": 2125.9237037965477
           },
           "nodeIndex": "Score Tag Grading Set Option",
           "nodeLineageTag": "082b2e0d-bba2-44b2-8f99-ef189d681286",
@@ -464,8 +464,8 @@
         },
         {
           "location": {
-            "x": 2313.9963719064658,
-            "y": 916.35081998681017
+            "x": 1932.2008889780179,
+            "y": 1263.2658952501965
           },
           "nodeIndex": "Scored Response Grading Set Option",
           "nodeLineageTag": "b311e01f-6a21-4fc4-a4a4-ded19da78708",
@@ -477,7 +477,7 @@
         }
       ],
       "name": "All tables",
-      "zoomValue": 40.133675102668946,
+      "zoomValue": 36.132052945076033,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,
@@ -686,15 +686,15 @@
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
           "size": {
-            "height": 710,
-            "width": 270
+            "height": 733,
+            "width": 275
           },
           "zIndex": 3
         },
         {
           "location": {
             "x": 0,
-            "y": 378
+            "y": 317
           },
           "nodeIndex": "Asset",
           "nodeLineageTag": "1fbdd36a-5356-45f3-8c79-63344009ee01",
@@ -706,8 +706,8 @@
         },
         {
           "location": {
-            "x": 867,
-            "y": 0
+            "x": 1009,
+            "y": 100
           },
           "nodeIndex": "Inspection Type",
           "nodeLineageTag": "64368020-40f9-4b66-a078-cd9047e7bb11",
@@ -719,8 +719,8 @@
         },
         {
           "location": {
-            "x": 858,
-            "y": 669
+            "x": 672,
+            "y": 114
           },
           "nodeIndex": "Inspection Status",
           "nodeLineageTag": "e152c48b-5883-4ad6-a815-bbc2e7824bd9",
@@ -732,8 +732,8 @@
         },
         {
           "location": {
-            "x": 1174,
-            "y": 324
+            "x": 692,
+            "y": 502
           },
           "nodeIndex": "Inspection Grading Set",
           "nodeLineageTag": "3e671f4c-0844-4cf7-97aa-1f09202624f8",
@@ -761,7 +761,7 @@
         {
           "location": {
             "x": 0,
-            "y": 329
+            "y": 188
           },
           "nodeIndex": "Asset",
           "nodeLineageTag": "1fbdd36a-5356-45f3-8c79-63344009ee01",
@@ -786,7 +786,7 @@
         },
         {
           "location": {
-            "x": 635,
+            "x": 674,
             "y": 162.98511077959995
           },
           "nodeIndex": "Observation Status",
@@ -799,8 +799,8 @@
         },
         {
           "location": {
-            "x": 1003,
-            "y": 334
+            "x": 677,
+            "y": 404
           },
           "nodeIndex": "Observation Note",
           "nodeLineageTag": "7063d69b-1639-48bc-a4f9-1f7f8049f1c3",
@@ -827,8 +827,8 @@
       "nodes": [
         {
           "location": {
-            "x": 379,
-            "y": 381
+            "x": 376,
+            "y": 324
           },
           "nodeIndex": "Inspection Observation Fact",
           "nodeLineageTag": "92291e38-3eac-433c-9555-da198b332849",
@@ -841,7 +841,7 @@
         {
           "location": {
             "x": 0,
-            "y": 330
+            "y": 179
           },
           "nodeIndex": "Observation",
           "nodeLineageTag": "c44fc457-11f3-4191-870e-f172d6a303f0",
@@ -849,12 +849,12 @@
             "height": 543,
             "width": 271
           },
-          "zIndex": 4
+          "zIndex": 2
         },
         {
           "location": {
             "x": 823,
-            "y": 81
+            "y": 94
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
@@ -887,15 +887,15 @@
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
           "size": {
-            "height": 684,
-            "width": 246
+            "height": 721,
+            "width": 269
           },
           "zIndex": 1
         },
         {
           "location": {
-            "x": 606,
-            "y": 228
+            "x": 617,
+            "y": 423
           },
           "nodeIndex": "Inspected By Fact",
           "nodeLineageTag": "fed990d0-25cd-482b-a7ad-8782496fdc85",
@@ -907,8 +907,8 @@
         },
         {
           "location": {
-            "x": 925,
-            "y": 9
+            "x": 968,
+            "y": 399
           },
           "nodeIndex": "Contact",
           "nodeLineageTag": "f174ac29-7e26-412e-a9c8-802a14cf4b62",
@@ -935,14 +935,14 @@
       "nodes": [
         {
           "location": {
-            "x": 117,
-            "y": 222
+            "x": 151,
+            "y": 148
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
           "size": {
-            "height": 681,
-            "width": 234
+            "height": 722,
+            "width": 260
           },
           "zIndex": 1
         },
@@ -957,33 +957,33 @@
             "height": 351,
             "width": 297
           },
-          "zIndex": 2
+          "zIndex": 3
         },
         {
           "location": {
-            "x": 1038,
-            "y": 58
+            "x": 944,
+            "y": 72
           },
           "nodeIndex": "Scored Response",
           "nodeLineageTag": "d15a6c05-e72c-4300-9f4e-9c2e16532f55",
           "size": {
             "height": 374,
-            "width": 234
+            "width": 291
           },
-          "zIndex": 3
+          "zIndex": 4
         },
         {
           "location": {
-            "x": 1002,
-            "y": 613
+            "x": 916,
+            "y": 542
           },
           "nodeIndex": "Scored Response Grading Set Option",
           "nodeLineageTag": "b311e01f-6a21-4fc4-a4a4-ded19da78708",
           "size": {
-            "height": 394,
+            "height": 372,
             "width": 347
           },
-          "zIndex": 4
+          "zIndex": 2
         }
       ],
       "name": "Scored Response",
@@ -1015,42 +1015,42 @@
         },
         {
           "location": {
-            "x": 658,
-            "y": 293
+            "x": 479,
+            "y": 340
           },
           "nodeIndex": "Score Section Fact",
           "nodeLineageTag": "2b33c01c-931b-4e27-bf37-34c8cadb2ef6",
           "size": {
-            "height": 410,
+            "height": 447,
             "width": 282
           },
-          "zIndex": 2
+          "zIndex": 3
         },
         {
           "location": {
-            "x": 1142,
-            "y": 133
+            "x": 850,
+            "y": 166
           },
           "nodeIndex": "Score Section",
           "nodeLineageTag": "de37126a-94e6-42d4-a3bc-14df97aa4373",
           "size": {
             "height": 316,
-            "width": 234
+            "width": 294
           },
-          "zIndex": 4
+          "zIndex": 2
         },
         {
           "location": {
-            "x": 1153,
-            "y": 621
+            "x": 838,
+            "y": 612
           },
           "nodeIndex": "Score Section Grading Set Option",
           "nodeLineageTag": "d27b6efb-5485-4e97-9896-e7301be37580",
           "size": {
-            "height": 380,
+            "height": 364,
             "width": 317
           },
-          "zIndex": 3
+          "zIndex": 4
         }
       ],
       "name": "Score Section",
@@ -1069,8 +1069,8 @@
       "nodes": [
         {
           "location": {
-            "x": 40,
-            "y": 240
+            "x": 0,
+            "y": 135
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
@@ -1082,8 +1082,8 @@
         },
         {
           "location": {
-            "x": 458,
-            "y": 294
+            "x": 358,
+            "y": 289
           },
           "nodeIndex": "Score Tag Fact",
           "nodeLineageTag": "a8a748bb-f5c4-4a00-a189-549b29f1b776",
@@ -1091,12 +1091,12 @@
             "height": 397,
             "width": 263
           },
-          "zIndex": 4
+          "zIndex": 3
         },
         {
           "location": {
-            "x": 835,
-            "y": 123
+            "x": 688,
+            "y": 185
           },
           "nodeIndex": "Score Tag",
           "nodeLineageTag": "f061b916-c1b9-4296-965c-26e8d4fbb1d1",
@@ -1108,16 +1108,16 @@
         },
         {
           "location": {
-            "x": 826,
-            "y": 582
+            "x": 679,
+            "y": 532
           },
           "nodeIndex": "Score Tag Grading Set Option",
           "nodeLineageTag": "082b2e0d-bba2-44b2-8f99-ef189d681286",
           "size": {
-            "height": 407,
+            "height": 371,
             "width": 302
           },
-          "zIndex": 3
+          "zIndex": 4
         }
       ],
       "name": "Score Tag",
@@ -1136,8 +1136,8 @@
       "nodes": [
         {
           "location": {
-            "x": 20,
-            "y": 285
+            "x": 0,
+            "y": 183
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
@@ -1149,8 +1149,8 @@
         },
         {
           "location": {
-            "x": 406,
-            "y": 330
+            "x": 380,
+            "y": 423
           },
           "nodeIndex": "Numeric Answer Fact",
           "nodeLineageTag": "09559d4b-3170-4f95-a697-1caae9a1cae4",
@@ -1158,12 +1158,12 @@
             "height": 229,
             "width": 309
           },
-          "zIndex": 2
+          "zIndex": 4
         },
         {
           "location": {
-            "x": 796,
-            "y": 73
+            "x": 779,
+            "y": 345
           },
           "nodeIndex": "Numeric Question",
           "nodeLineageTag": "13aca2de-bfc1-4381-990f-642b54a6ea98",
@@ -1171,12 +1171,12 @@
             "height": 389,
             "width": 325
           },
-          "zIndex": 3
+          "zIndex": 2
         },
         {
           "location": {
-            "x": 767,
-            "y": 593
+            "x": 502,
+            "y": 162
           },
           "nodeIndex": "Unit",
           "nodeLineageTag": "346e92c1-b251-4488-8605-b254d7776b87",
@@ -1184,7 +1184,7 @@
             "height": 206,
             "width": 234
           },
-          "zIndex": 4
+          "zIndex": 3
         }
       ],
       "name": "Numeric Answer",
@@ -1203,8 +1203,8 @@
       "nodes": [
         {
           "location": {
-            "x": 93,
-            "y": 200
+            "x": 0,
+            "y": 146
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
@@ -1216,29 +1216,29 @@
         },
         {
           "location": {
-            "x": 556,
-            "y": 303
+            "x": 369,
+            "y": 369
           },
           "nodeIndex": "Date Time Answer Fact",
           "nodeLineageTag": "cc215e58-3d57-475b-b3f6-f923afd72111",
           "size": {
-            "height": 323,
+            "height": 263,
             "width": 322
           },
-          "zIndex": 2
+          "zIndex": 3
         },
         {
           "location": {
-            "x": 1001,
-            "y": 97
+            "x": 786,
+            "y": 335
           },
           "nodeIndex": "Date Time Question",
           "nodeLineageTag": "ddd548db-ed5c-438b-ae2f-a01e3adcd506",
           "size": {
-            "height": 354,
+            "height": 335,
             "width": 315
           },
-          "zIndex": 3
+          "zIndex": 2
         }
       ],
       "name": "Date Time Answer",
@@ -1257,34 +1257,34 @@
       "nodes": [
         {
           "location": {
-            "x": 102,
-            "y": 225
+            "x": 0,
+            "y": 138
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
           "size": {
-            "height": 688,
-            "width": 265
-          },
-          "zIndex": 1
-        },
-        {
-          "location": {
-            "x": 467,
-            "y": 249
-          },
-          "nodeIndex": "Checklist Answer Fact",
-          "nodeLineageTag": "a8d27f46-5ec5-414e-af85-8c682c35bffc",
-          "size": {
-            "height": 230,
-            "width": 314
+            "height": 715,
+            "width": 277
           },
           "zIndex": 3
         },
         {
           "location": {
-            "x": 895,
-            "y": 0
+            "x": 401,
+            "y": 403
+          },
+          "nodeIndex": "Checklist Answer Fact",
+          "nodeLineageTag": "a8d27f46-5ec5-414e-af85-8c682c35bffc",
+          "size": {
+            "height": 186,
+            "width": 314
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 813,
+            "y": 293
           },
           "nodeIndex": "Checklist Option",
           "nodeLineageTag": "a3d807e9-4d9b-4781-9fbc-cc808100bdd7",
@@ -1292,7 +1292,7 @@
             "height": 406,
             "width": 308
           },
-          "zIndex": 2
+          "zIndex": 1
         }
       ],
       "name": "Checklist Answer",
@@ -1311,21 +1311,21 @@
       "nodes": [
         {
           "location": {
-            "x": 149,
-            "y": 220
+            "x": 0,
+            "y": 137
           },
           "nodeIndex": "Inspection",
           "nodeLineageTag": "9cb6e7f8-8551-4efe-946a-8bf11e22d406",
           "size": {
-            "height": 684,
-            "width": 287
+            "height": 721,
+            "width": 296
           },
           "zIndex": 1
         },
         {
           "location": {
-            "x": 536,
-            "y": 215
+            "x": 397,
+            "y": 400
           },
           "nodeIndex": "Branch Option Fact",
           "nodeLineageTag": "68f628c0-b241-4cef-81a1-c385dbdf836c",
@@ -1337,14 +1337,14 @@
         },
         {
           "location": {
-            "x": 1056,
-            "y": 39
+            "x": 794,
+            "y": 317
           },
           "nodeIndex": "Branch Option",
           "nodeLineageTag": "8f67d2d3-3609-4553-adc7-570fe37a0c43",
           "size": {
-            "height": 391,
-            "width": 324
+            "height": 362,
+            "width": 294
           },
           "zIndex": 3
         }

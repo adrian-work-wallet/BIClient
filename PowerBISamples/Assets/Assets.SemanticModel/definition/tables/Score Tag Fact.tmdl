@@ -113,6 +113,39 @@ table 'Score Tag Fact'
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Score Display' =
+			
+			VAR DisplayScore =
+			    AND(RELATED('Inspection Type'[Display Total Score]), 'Score Tag Fact'[Score] <> -1)
+			VAR DisplayPercentage =
+			    AND(RELATED('Inspection Type'[Display Percentage]), 'Score Tag Fact'[Percentage Score] <> -1)
+			VAR ScoreText =
+			    IF(DisplayScore, 'Score Tag Fact'[Score] & "/" & 'Score Tag Fact'[Potential Score], "")
+			VAR PercentageText =
+			    IF(DisplayPercentage, FORMAT('Score Tag Fact'[Percentage Score], "#%"), "")
+			RETURN
+			    IF(
+			        RELATED('Inspection Type'[Scoring Enabled]),
+			        IF(
+			            AND(DisplayScore, DisplayPercentage),
+			            ScoreText & " (" & PercentageText & ")",
+			            IF(
+			                DisplayScore,
+			                ScoreText,
+			                IF(
+			                    DisplayPercentage,
+			                    PercentageText,
+			                    ""
+			                )
+			            )
+			        ),
+			        "scoring not enabled"
+			    )
+		lineageTag: 7e0a3c48-5f47-4821-bee7-53561437cadd
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'Score Tag Fact' = m
 		mode: import
 		source =

@@ -91,6 +91,12 @@ table 'Date Time Question'
 
 		annotation SummarizationSetBy = User
 
+	column Question = Format('Date Time Question'[Order In Section], "00") & " - " & 'Date Time Question'[Date Time Question]
+		lineageTag: 74d12a70-3d5e-408f-ba1c-a253fb1afc9d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'Date Time Question' = m
 		mode: import
 		source =

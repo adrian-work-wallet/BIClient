@@ -71,12 +71,12 @@ table 'Date Time Answer Fact'
 		isHidden
 		formatString: 0
 		lineageTag: 2221eaaf-8fee-49f7-bcfc-bf023d466cb8
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Wallet_key
 
 		changedProperty = IsHidden
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Date Time Answer Count' = 1
 		formatString: 0

@@ -767,7 +767,7 @@
             "height": 523,
             "width": 234
           },
-          "zIndex": 2
+          "zIndex": 3
         },
         {
           "location": {
@@ -780,7 +780,7 @@
             "height": 501,
             "width": 279
           },
-          "zIndex": 3
+          "zIndex": 4
         },
         {
           "location": {
@@ -793,7 +793,7 @@
             "height": 152,
             "width": 269
           },
-          "zIndex": 1
+          "zIndex": 2
         },
         {
           "location": {
@@ -806,7 +806,20 @@
             "height": 336,
             "width": 257
           },
-          "zIndex": 0
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 976,
+            "y": 661
+          },
+          "nodeIndex": "Contact",
+          "nodeLineageTag": "f174ac29-7e26-412e-a9c8-802a14cf4b62",
+          "size": {
+            "height": 251,
+            "width": 234
+          },
+          "zIndex": 5
         }
       ],
       "name": "Observation",

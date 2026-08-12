@@ -60,9 +60,31 @@ table 'Inspection Observation Fact'
 
 	column WorkflowComponentId
 		dataType: string
+		isHidden
 		lineageTag: 412ad8d6-b559-4976-8a87-663401bd164a
 		summarizeBy: none
 		sourceColumn: WorkflowComponentId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column InspectionWorkflowComponentType_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 89c1bcd6-a981-43bd-9ab3-8c2a878ebfaa
+		summarizeBy: sum
+		sourceColumn: InspectionWorkflowComponentType_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Workflow Component'
+		dataType: string
+		lineageTag: 799f7b10-a02c-45c0-99df-804b4636c0ce
+		summarizeBy: none
+		sourceColumn: Workflow Component
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -72,9 +94,10 @@ table 'Inspection Observation Fact'
 				let
 				    Source = Sql.Database("CAKESOFBREAD", "WorkWalletBIClient_Local"),
 				    mart_AssetInspectionObservationFact = Source{[Schema="mart",Item="AssetInspectionObservationFact"]}[Data],
-				    #"Removed Columns" = Table.RemoveColumns(mart_AssetInspectionObservationFact,{"_created"})
+				    #"Removed Columns" = Table.RemoveColumns(mart_AssetInspectionObservationFact,{"_created"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"WorkflowComponentDescription", "Workflow Component"}})
 				in
-				    #"Removed Columns"
+				    #"Renamed Columns"
 
 	annotation PBI_NavigationStepName = Navigation
 

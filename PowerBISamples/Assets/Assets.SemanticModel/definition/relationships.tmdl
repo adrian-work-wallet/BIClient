@@ -256,15 +256,13 @@ relationship 985a6326-9644-4824-9b88-13c3c58fea07
 	annotation PBI_IsFromSource = FS
 
 relationship 78477d75-4c76-4e93-81c9-92b1a3dbf763
+	isActive: false
 	fromColumn: Observation.ClosedByContact_key
 	toColumn: Contact.Contact_key
 
 	annotation PBI_IsFromSource = FS
 
 relationship 7663b2ac-4c64-4d44-8d2e-a849beedf77d
-	isActive: false
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
 	fromColumn: Observation.ObservedByContact_key
 	toColumn: Contact.Contact_key
 
@@ -361,7 +359,6 @@ relationship daabc41a-e5f8-4b2e-af3e-255a8108ca1b
 
 relationship a84a4368-5937-401f-a1bc-5c308ef5f44e
 	crossFilteringBehavior: bothDirections
-	fromCardinality: one
 	fromColumn: 'Inspected By Fact'.AssetInspection_key
 	toColumn: Inspection.AssetInspection_key
 
@@ -453,8 +450,6 @@ relationship ecffaa77-8453-4e0b-b634-ddcb70f1ad87
 
 relationship ff00ad48-aacb-4cfc-9324-c7c7012216ee
 	isActive: false
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
 	fromColumn: 'Observation Note'.CreatedByContact_key
 	toColumn: Contact.Contact_key
 

@@ -352,6 +352,7 @@ relationship 7f9c2890-54dc-41c4-96ac-80791445f005
 	annotation PBI_IsFromSource = FS
 
 relationship daabc41a-e5f8-4b2e-af3e-255a8108ca1b
+	crossFilteringBehavior: bothDirections
 	fromColumn: 'Inspected By Fact'.Contact_key
 	toColumn: Contact.Contact_key
 

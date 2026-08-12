@@ -771,7 +771,7 @@
         {
           "location": {
             "x": 0,
-            "y": 188
+            "y": 178
           },
           "nodeIndex": "Asset",
           "nodeLineageTag": "1fbdd36a-5356-45f3-8c79-63344009ee01",
@@ -779,17 +779,17 @@
             "height": 523,
             "width": 234
           },
-          "zIndex": 3
+          "zIndex": 5
         },
         {
           "location": {
             "x": 323.20156119318528,
-            "y": 201
+            "y": 177
           },
           "nodeIndex": "Observation",
           "nodeLineageTag": "c44fc457-11f3-4191-870e-f172d6a303f0",
           "size": {
-            "height": 501,
+            "height": 525,
             "width": 279
           },
           "zIndex": 4
@@ -831,7 +831,7 @@
             "height": 251,
             "width": 234
           },
-          "zIndex": 5
+          "zIndex": 3
         }
       ],
       "name": "Observation",
@@ -1393,6 +1393,6 @@
       "tablesLocked": false
     }
   ],
-  "selectedDiagram": "Main",
+  "selectedDiagram": "Observation",
   "defaultDiagram": "All tables"
 }

@@ -528,6 +528,7 @@ BEGIN
             ,ClosedOn
             ,ClosedByContactId
             ,ClosureNotes
+            ,IsFinalised
             ,WalletId
         )
         SELECT * FROM OPENJSON(@json, '$.Observations')
@@ -542,6 +543,7 @@ BEGIN
             ,ClosedOn datetimeoffset(7)
             ,ClosedByContactId uniqueidentifier
             ,ClosureNotes nvarchar(max)
+            ,IsFinalised bit
             ,WalletId uniqueidentifier
         );
 
@@ -586,6 +588,8 @@ BEGIN
             InspectionId
             ,ObservationId
             ,WorkflowComponentId
+            ,WorkflowComponentTypeCode
+            ,WorkflowComponentDescription
             ,[New]
             ,WalletId
         )
@@ -595,6 +599,8 @@ BEGIN
             InspectionId uniqueidentifier
             ,ObservationId uniqueidentifier
             ,WorkflowComponentId uniqueidentifier
+            ,WorkflowComponentTypeCode int
+            ,WorkflowComponentDescription nvarchar(max)
             ,[New] bit
             ,WalletId uniqueidentifier
         );

@@ -99,6 +99,7 @@ BEGIN
             ,ClosedOn
             ,ClosedByContactId
             ,ClosureNotes
+            ,IsFinalised
             ,WalletId
         )
         SELECT * FROM OPENJSON(@json, '$.Observations')
@@ -113,6 +114,7 @@ BEGIN
             ,ClosedOn datetimeoffset(7)
             ,ClosedByContactId uniqueidentifier
             ,ClosureNotes nvarchar(max)
+            ,IsFinalised bit
             ,WalletId uniqueidentifier
         );
 

@@ -31,6 +31,28 @@ INSERT INTO mart.AssetInspectionStatus (InspectionStatusCode, InspectionStatus) 
 INSERT INTO mart.AssetInspectionStatus (InspectionStatusCode, InspectionStatus) VALUES (4, N'ReadyForReview');
 INSERT INTO mart.AssetInspectionStatus (InspectionStatusCode, InspectionStatus) VALUES (5, N'Archived');
 
+-- InspectionWorkflowComponentType lookup table (generic across the solution, not just Asset Inspections;
+-- filtered to the codes that can appear as AssetInspectionObservationFact.WorkflowComponentTypeCode)
+CREATE TABLE mart.InspectionWorkflowComponentType
+(
+    InspectionWorkflowComponentType_key int IDENTITY
+    ,WorkflowComponentTypeCode int NOT NULL /* business key */
+    ,WorkflowComponentType nvarchar(50) NOT NULL
+    ,_created datetime2(7) NOT NULL CONSTRAINT [DF_mart.InspectionWorkflowComponentType__created] DEFAULT SYSUTCDATETIME()
+    ,_edited datetime2(7) NULL
+    ,CONSTRAINT [PK_mart.InspectionWorkflowComponentType] PRIMARY KEY (InspectionWorkflowComponentType_key)
+    ,CONSTRAINT [UQ_mart.InspectionWorkflowComponentType_WorkflowComponentTypeCode] UNIQUE (WorkflowComponentTypeCode)
+);
+
+INSERT INTO mart.InspectionWorkflowComponentType (WorkflowComponentTypeCode, WorkflowComponentType) VALUES (5, N'ChecklistOption');
+INSERT INTO mart.InspectionWorkflowComponentType (WorkflowComponentTypeCode, WorkflowComponentType) VALUES (6, N'TextQuestion');
+INSERT INTO mart.InspectionWorkflowComponentType (WorkflowComponentTypeCode, WorkflowComponentType) VALUES (7, N'Signature');
+INSERT INTO mart.InspectionWorkflowComponentType (WorkflowComponentTypeCode, WorkflowComponentType) VALUES (8, N'Image');
+INSERT INTO mart.InspectionWorkflowComponentType (WorkflowComponentTypeCode, WorkflowComponentType) VALUES (11, N'BranchOption');
+INSERT INTO mart.InspectionWorkflowComponentType (WorkflowComponentTypeCode, WorkflowComponentType) VALUES (15, N'NumericQuestion');
+INSERT INTO mart.InspectionWorkflowComponentType (WorkflowComponentTypeCode, WorkflowComponentType) VALUES (17, N'DateTimeQuestion');
+INSERT INTO mart.InspectionWorkflowComponentType (WorkflowComponentTypeCode, WorkflowComponentType) VALUES (18, N'ScoredResponse');
+
 CREATE TABLE mart.AssetInspectionType
 (
     AssetInspectionType_key int IDENTITY
@@ -225,6 +247,7 @@ CREATE TABLE mart.AssetObservation
     ,ClosedOn datetimeoffset(7) NULL -- allow NULLs
     ,ClosedByContact_key int NULL -- allow NULLs
     ,ClosureNotes nvarchar(max) NOT NULL
+    ,IsFinalised bit NOT NULL -- false while attached to an InProgress/ReadyForReview inspection, true once that inspection is Complete
     ,Wallet_key int NOT NULL
     ,_created datetime2(7) NOT NULL CONSTRAINT [DF_mart.AssetObservation__created] DEFAULT SYSUTCDATETIME()
     ,_edited datetime2(7) NULL
@@ -395,6 +418,8 @@ CREATE TABLE mart.AssetInspectionObservationFact
     ,AssetInspection_key int NOT NULL
     ,AssetObservation_key int NOT NULL
     ,WorkflowComponentId uniqueidentifier NULL -- allow NULLs (observation not linked to a specific workflow component)
+    ,InspectionWorkflowComponentType_key int NULL -- allow NULLs (null whenever WorkflowComponentId is null)
+    ,WorkflowComponentDescription nvarchar(max) NOT NULL -- empty string when WorkflowComponentId is null
     ,[New] bit NOT NULL
     ,Wallet_key int NOT NULL
     ,_created datetime2(7) NOT NULL CONSTRAINT [DF_mart.AssetInspectionObservationFact__created] DEFAULT SYSUTCDATETIME()
@@ -402,6 +427,7 @@ CREATE TABLE mart.AssetInspectionObservationFact
     ,CONSTRAINT [UQ_mart.AssetInspectionObservationFact_AssetInspection_key_AssetObservation_key] UNIQUE(AssetInspection_key, AssetObservation_key)
     ,CONSTRAINT [FK_mart.AssetInspectionObservationFact_mart.AssetInspection_AssetInspection_key] FOREIGN KEY(AssetInspection_key) REFERENCES mart.AssetInspection
     ,CONSTRAINT [FK_mart.AssetInspectionObservationFact_mart.AssetObservation_AssetObservation_key] FOREIGN KEY(AssetObservation_key) REFERENCES mart.AssetObservation
+    ,CONSTRAINT [FK_mart.AssetInspectionObservationFact_mart.InspectionWorkflowComponentType_InspectionWorkflowComponentType_key] FOREIGN KEY(InspectionWorkflowComponentType_key) REFERENCES mart.InspectionWorkflowComponentType
     ,CONSTRAINT [FK_mart.AssetInspectionObservationFact_mart.Wallet_Wallet_key] FOREIGN KEY(Wallet_key) REFERENCES mart.Wallet
 );
 

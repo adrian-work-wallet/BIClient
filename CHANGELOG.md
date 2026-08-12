@@ -19,6 +19,7 @@ new `AssetInspections2`/`AssetObservations2` equivalents. **Assets itself is una
 
 - `AssetInspections2` and `AssetObservations2` datasets, replacing `AssetInspections`/`AssetObservations` with the new audit-style workflow shape (scoring, grading sets, sections, tags, branch logic). Contact identity (inspectors, observers, closers, note authors) is now resolved via `Contacts`/`Contact_key` rather than denormalised name strings, and observation notes are now a proper 1:N dataset rather than single `Details`/`ActionTaken` fields. Requires DB deploy and full reload for the new datasets.
 - `DataSets.cs` and sample `appsettings.json` now reference `AssetInspections2`/`AssetObservations2` in place of the old dataset names.
+- Actions: add `IsDeleted` and `IsOrphaned` columns to `mart.[Action]`, splitting the previously conflated `Deleted` flag into the real delete flag (`IsDeleted`) and an orphan/deactivation flag (`IsOrphaned`). `Deleted` is kept for backward compatibility but is now deprecated.
 
 ## [4.5.1] - 2026-07-18
 

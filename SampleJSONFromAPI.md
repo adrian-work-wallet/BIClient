@@ -76,6 +76,8 @@ Some datasets are hybrid, using placeholders in original fields and omitted fiel
       "OriginalDueOn": "2025-09-20",
       "ActionStatusCode": 2,
       "Deleted": false,
+      "IsDeleted": false,
+      "IsOrphaned": false,
       "CreatedOn": "2025-09-01T08:30:15.1234567+00:00",
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
@@ -99,6 +101,7 @@ Notes
 - Actions
   - **DueOn**: `1900-01-01` indicates no data
   - **OriginalDueOn**: `1900-01-01` indicates no data
+  - **Deleted**: DEPRECATED, use `IsDeleted` and `IsOrphaned` instead.
 
 ## AssetInspections2
 
@@ -340,6 +343,7 @@ Notes
       "ObservedByContactId": "0aa1bb22-cc33-4dd4-8ee5-ff6677889900",
       "Deleted": false,
       "ClosureNotes": "",
+      "IsFinalised": true,
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
   ],
@@ -359,6 +363,8 @@ Notes
       "InspectionId": "45bc057d-2bae-4d05-a842-037d054fe60a",
       "ObservationId": "a21b224a-df1c-4a89-a4b7-bf9291d18555",
       "WorkflowComponentId": "11aa22bb-33cc-44dd-85ee-66778899aabb",
+      "WorkflowComponentTypeCode": 5,
+      "WorkflowComponentDescription": "Are the brake pads within acceptable wear limits?",
       "New": true,
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
@@ -423,6 +429,7 @@ Notes
   - **EditedOn**: if `null` no field will be returned
 - InspectionObservations
   - **WorkflowComponentId**: if `null` no field will be returned
+  - **WorkflowComponentTypeCode**: if `null` no field will be returned
 
 ## AssetObservations2
 
@@ -478,6 +485,7 @@ Notes
       "ObservedByContactId": "1bb22cc3-3dd4-4ee5-8ff6-778899aabbcc",
       "Deleted": false,
       "ClosureNotes": "",
+      "IsFinalised": false,
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
   ],

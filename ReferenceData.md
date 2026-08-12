@@ -70,6 +70,19 @@ Jump to the relevant section:
 | 40 | Currency | Euro | € |
 | 41 | Currency | Yen | ¥ |
 
+| WorkflowComponentTypeCode | Name |
+| --- | --- |
+| 5 | AskChecklistQuestion |
+| 6 | AskTextQuestion |
+| 7 | RequestSignature |
+| 8 | RequestImage |
+| 11 | Branch |
+| 12 | RequestBodyPart |
+| 13 | RequestPerson |
+| 15 | AskNumericQuestion |
+| 17 | AskDateTimeQuestion |
+| 18 | ScoredBranch |
+
 ## Actions
 
 | ActionPriorityCode | ActionPriority |

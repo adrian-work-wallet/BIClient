@@ -133,7 +133,7 @@ table 'Grading Set Option'
 		isHidden
 		formatString: 0
 		lineageTag: 0d2b2387-2f67-485d-8124-5965ff138e00
-		summarizeBy: sum
+		summarizeBy: none
 
 		changedProperty = IsHidden
 

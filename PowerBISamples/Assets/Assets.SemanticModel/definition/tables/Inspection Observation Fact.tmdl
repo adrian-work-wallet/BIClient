@@ -71,12 +71,15 @@ table 'Inspection Observation Fact'
 
 	column InspectionWorkflowComponentType_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 89c1bcd6-a981-43bd-9ab3-8c2a878ebfaa
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: InspectionWorkflowComponentType_key
 
-		annotation SummarizationSetBy = Automatic
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
 
 	column 'Workflow Component'
 		dataType: string

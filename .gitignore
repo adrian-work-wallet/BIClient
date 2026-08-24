@@ -3,6 +3,9 @@
 [Oo]bj/
 *.user
 
+# Build-ReleaseAssets.ps1 output
+/release/
+
 # Azurite local storage emulator
 __azurite_db_*.json
 __blobstorage__/

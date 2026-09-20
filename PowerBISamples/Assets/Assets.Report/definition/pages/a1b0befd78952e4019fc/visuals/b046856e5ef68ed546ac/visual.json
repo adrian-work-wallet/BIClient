@@ -215,25 +215,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "fde913ea666de0d41ddc",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Inspection Observation Fact"
-                  }
-                },
-                "Property": "Recorded Defect Count"
-              }
-            },
-            "Function": 0
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

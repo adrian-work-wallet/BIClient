@@ -485,6 +485,15 @@
             "width": 234
           },
           "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "Inspected By Contact",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "All tables",
@@ -926,7 +935,7 @@
             "height": 763,
             "width": 269
           },
-          "zIndex": 3
+          "zIndex": 2
         },
         {
           "location": {
@@ -943,16 +952,16 @@
         },
         {
           "location": {
-            "x": 968,
-            "y": 399
+            "x": 1009,
+            "y": 409
           },
-          "nodeIndex": "Contact",
-          "nodeLineageTag": "f174ac29-7e26-412e-a9c8-802a14cf4b62",
+          "nodeIndex": "Inspected By Contact",
+          "nodeLineageTag": "e9c48842-0282-4e1d-9504-9935f57eff06",
           "size": {
-            "height": 259,
-            "width": 234
+            "height": 239,
+            "width": 242
           },
-          "zIndex": 2
+          "zIndex": 3
         }
       ],
       "name": "Inspected By",

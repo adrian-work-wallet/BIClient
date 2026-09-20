@@ -4,10 +4,10 @@
   "position": {
     "x": 1080.8888888888889,
     "y": 0,
-    "z": 1001,
+    "z": 2000,
     "height": 78.367346938775512,
     "width": 199.60230245944533,
-    "tabOrder": 1001
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "slicer",
@@ -97,23 +97,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "301e2b8e65d05611cc1d",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Inspection Status"
-              }
-            },
-            "Property": "Inspection Status"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

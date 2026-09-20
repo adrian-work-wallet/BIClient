@@ -138,6 +138,7 @@ relationship 438ad523-c8e8-9b08-e108-6c9e28befe71
 	toColumn: Wallet.Wallet_key
 
 relationship cf578a42-0456-40f4-9a12-7f52bdf1aee2
+	crossFilteringBehavior: bothDirections
 	fromColumn: Inspection.Asset_key
 	toColumn: Asset.Asset_key
 
@@ -272,10 +273,12 @@ relationship f49c7b37-4925-71aa-5130-37e5f1cacc6d
 	toColumn: Wallet.Wallet_key
 
 relationship 2a4a867f-bd68-6e84-a84b-ff5b29faa8b0
+	crossFilteringBehavior: bothDirections
 	fromColumn: Inspection.AssetInspectionStatus_key
 	toColumn: 'Inspection Status'.AssetInspectionStatus_key
 
 relationship ffcd9d17-bb47-14b8-ef7b-44854737343e
+	crossFilteringBehavior: bothDirections
 	fromColumn: Inspection.AssetInspectionType_key
 	toColumn: 'Inspection Type'.AssetInspectionType_key
 
@@ -346,13 +349,6 @@ relationship 7f9c2890-54dc-41c4-96ac-80791445f005
 	isActive: false
 	fromColumn: 'Inspected By Fact'.Wallet_key
 	toColumn: Wallet.Wallet_key
-
-	annotation PBI_IsFromSource = FS
-
-relationship daabc41a-e5f8-4b2e-af3e-255a8108ca1b
-	crossFilteringBehavior: bothDirections
-	fromColumn: 'Inspected By Fact'.Contact_key
-	toColumn: Contact.Contact_key
 
 	annotation PBI_IsFromSource = FS
 
@@ -524,4 +520,14 @@ relationship 42cc1dc0-87fa-46b1-a6b6-ba43d82b365a
 relationship 1a2cd48e-2f49-c7c5-a11b-81d0b5639198
 	fromColumn: 'Inspection Observation Fact'.InspectionWorkflowComponentType_key
 	toColumn: 'Inspection Workflow Component Type'.InspectionWorkflowComponentType_key
+
+relationship c36ebbe3-3f21-e3ee-0074-8162247eb1a4
+	isActive: false
+	fromColumn: 'Inspected By Contact'.Wallet_key
+	toColumn: Wallet.Wallet_key
+
+relationship 2ec48584-f8f0-3326-07c1-0997e75e61f5
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'Inspected By Fact'.Contact_key
+	toColumn: 'Inspected By Contact'.Contact_key
 

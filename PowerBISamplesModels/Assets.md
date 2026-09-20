@@ -340,13 +340,13 @@ erDiagram
     "Inspected By Fact" {
         calc InspectedByCount
     }
-    "Contact" {
+    "Inspected By Contact" {
         attr ContactName
         attr Email
         attr Company
     }
-    "Inspected By Fact" }o--|| "Contact" : "Contact_key"
     "Inspected By Fact" }o--|| "Inspection" : "AssetInspection_key"
+    "Inspected By Fact" }o--|| "Inspected By Contact" : "Contact_key"
 ```
 
 ## Assets - Scored Response

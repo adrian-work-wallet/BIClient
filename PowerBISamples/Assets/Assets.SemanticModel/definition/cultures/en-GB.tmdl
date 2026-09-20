@@ -20379,6 +20379,16 @@ cultureInfo en-GB
 			            },
 			            "Weight": 0.461
 			          }
+			        },
+			        {
+			          "Question": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -20494,6 +20504,16 @@ cultureInfo en-GB
 			              "Agent": "Thesaurus"
 			            },
 			            "Weight": 0.461
+			          }
+			        },
+			        {
+			          "Answer": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
 			          }
 			        }
 			      ]
@@ -22566,6 +22586,16 @@ cultureInfo en-GB
 			            },
 			            "Weight": 0.475
 			          }
+			        },
+			        {
+			          "Answer": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ],
 			      "SemanticType": "Time"
@@ -23263,6 +23293,16 @@ cultureInfo en-GB
 			              "Agent": "Thesaurus"
 			            },
 			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "Answer": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
 			          }
 			        }
 			      ],
@@ -23994,6 +24034,16 @@ cultureInfo en-GB
 			              "Agent": "Thesaurus"
 			            },
 			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "Question": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
 			          }
 			        }
 			      ],
@@ -27835,6 +27885,16 @@ cultureInfo en-GB
 			              "Agent": "Thesaurus"
 			            },
 			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "Answer": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
 			          }
 			        }
 			      ]
@@ -32306,6 +32366,16 @@ cultureInfo en-GB
 			            },
 			            "Weight": 0.485
 			          }
+			        },
+			        {
+			          "Score": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -34474,6 +34544,16 @@ cultureInfo en-GB
 			              "Agent": "Thesaurus"
 			            },
 			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "Score": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
 			          }
 			        }
 			      ]
@@ -47599,6 +47679,39 @@ cultureInfo en-GB
 			    }
 			  },
 			  "Relationships": {
+			    "inspection_archived_status_date_date_hierarchy_has_inspection_archived_status_date_month": {
+			      "Binding": {
+			        "ConceptualEntity": "Inspection"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "inspection.archived_status_date.date_hierarchy": {
+			          "Target": {
+			            "Entity": "inspection.archived_status_date.date_hierarchy"
+			          }
+			        },
+			        "inspection.archived_status_date.month": {
+			          "Target": {
+			            "Entity": "inspection.archived_status_date.month"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "inspection.archived_status_date.date_hierarchy"
+			            },
+			            "Object": {
+			              "Role": "inspection.archived_status_date.month"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "archived_status_date_hierarchies_have_archived_status_months"
+			        }
+			      ]
+			    },
 			    "inspection_archived_status_date_date_hierarchy_has_inspection_archived_status_date_quarter": {
 			      "Binding": {
 			        "ConceptualEntity": "Inspection"
@@ -57986,39 +58099,6 @@ cultureInfo en-GB
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "some_assignment_facts_are_late_assignment_facts"
-			        }
-			      ]
-			    },
-			    "inspection_archived_status_date_date_hierarchy_has_inspection_archived_status_date_month": {
-			      "Binding": {
-			        "ConceptualEntity": "Inspection"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "inspection.archived_status_date.date_hierarchy": {
-			          "Target": {
-			            "Entity": "inspection.archived_status_date.date_hierarchy"
-			          }
-			        },
-			        "inspection.archived_status_date.month": {
-			          "Target": {
-			            "Entity": "inspection.archived_status_date.month"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "inspection.archived_status_date.date_hierarchy"
-			            },
-			            "Object": {
-			              "Role": "inspection.archived_status_date.month"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "archived_status_date_hierarchies_have_archived_status_months"
 			        }
 			      ]
 			    },

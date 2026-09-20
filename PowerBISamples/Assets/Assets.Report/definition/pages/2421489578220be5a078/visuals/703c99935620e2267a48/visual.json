@@ -3,10 +3,10 @@
   "name": "703c99935620e2267a48",
   "position": {
     "x": 0,
-    "y": 140.64372918978913,
+    "y": 140.34517766497461,
     "z": 7001,
-    "height": 196.75915649278582,
-    "width": 399.20088790233075,
+    "height": 150.74111675126903,
+    "width": 387.24873096446703,
     "tabOrder": 7001
   },
   "visual": {
@@ -33,6 +33,21 @@
           ]
         }
       }
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   },

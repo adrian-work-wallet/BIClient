@@ -331,6 +331,21 @@
         }
       ]
     },
+    "visualContainerObjects": {
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
   },
   "filterConfig": {
@@ -366,7 +381,7 @@
         }
       },
       {
-        "name": "21d77701e30194152fde",
+        "name": "57799a28a29987961e36",
         "field": {
           "Column": {
             "Expression": {
@@ -380,7 +395,7 @@
         "type": "Categorical"
       },
       {
-        "name": "18a011fb648e66a86066",
+        "name": "80831c7d09a7d48ee260",
         "field": {
           "Column": {
             "Expression": {
@@ -394,7 +409,7 @@
         "type": "Categorical"
       },
       {
-        "name": "dfd9128988c3da388520",
+        "name": "f5a7d64046672e1508a2",
         "field": {
           "Column": {
             "Expression": {
@@ -408,7 +423,7 @@
         "type": "Categorical"
       },
       {
-        "name": "6a33d445921e3bdfdd17",
+        "name": "6d4477594354dbb2641d",
         "field": {
           "Column": {
             "Expression": {
@@ -422,7 +437,7 @@
         "type": "Categorical"
       },
       {
-        "name": "643a2f87990bd083cad3",
+        "name": "6793bcc540650bcc55b0",
         "field": {
           "Column": {
             "Expression": {
@@ -436,7 +451,7 @@
         "type": "Categorical"
       },
       {
-        "name": "527fb313a9ccb59bb702",
+        "name": "a50301b78d2b230ad602",
         "field": {
           "Aggregation": {
             "Expression": {
@@ -455,7 +470,7 @@
         "type": "Advanced"
       },
       {
-        "name": "47103c2dd91dc9646dd5",
+        "name": "5afb26d135b16101634e",
         "field": {
           "Column": {
             "Expression": {

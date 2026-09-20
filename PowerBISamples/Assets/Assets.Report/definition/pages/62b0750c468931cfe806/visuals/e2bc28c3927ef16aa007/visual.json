@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "e2bc28c3927ef16aa007",
   "position": {
-    "x": 450.25474254742545,
+    "x": 450.25125628140705,
     "y": 0,
-    "z": 1002,
-    "height": 78.395663956639567,
-    "width": 455.11111111111109,
-    "tabOrder": 1002
+    "z": 3000,
+    "height": 78.472361809045225,
+    "width": 342.19095477386935,
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "slicer",
@@ -166,23 +166,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "5967665fe65e10870b6f",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Inspection"
-              }
-            },
-            "Property": "Inspected On"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

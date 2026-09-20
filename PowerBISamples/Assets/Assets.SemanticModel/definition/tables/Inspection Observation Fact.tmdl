@@ -107,6 +107,17 @@ table 'Inspection Observation Fact'
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Observation Notes' =
+			
+			LOOKUPVALUE (
+			    Observation[Observation Notes],
+			    Observation[AssetObservation_key], 'Inspection Observation Fact'[AssetObservation_key]
+			)
+		lineageTag: af14567e-0d9d-4985-a4d7-5b8d1a9b9add
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'Inspection Observation Fact' = m
 		mode: import
 		source =

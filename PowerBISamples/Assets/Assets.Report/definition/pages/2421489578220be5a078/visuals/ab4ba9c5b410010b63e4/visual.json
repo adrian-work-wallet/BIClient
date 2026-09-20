@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "ab4ba9c5b410010b63e4",
   "position": {
-    "x": 99.698492462311563,
+    "x": 99.8266897746967,
     "y": 0,
     "z": 2000,
-    "height": 39.879396984924625,
-    "width": 384,
+    "height": 39.93067590987868,
+    "width": 408.04159445407277,
     "tabOrder": 2000
   },
   "visual": {
@@ -22,7 +22,7 @@
                     "value": "To use this report, drill from the "
                   },
                   {
-                    "value": "Asset Inspection Details",
+                    "value": "Asset Inspection Overview",
                     "textStyle": {
                       "fontWeight": "bold"
                     }

@@ -25866,8 +25866,7 @@ cultureInfo en-GB
 			      "Terms": [
 			        {
 			          "numeric question": {
-			            "State": "Generated",
-			            "Weight": 0.87
+			            "State": "Generated"
 			          }
 			        },
 			        {
@@ -26179,6 +26178,11 @@ cultureInfo en-GB
 			          }
 			        },
 			        {
+			          "numeric question name": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
 			          "numeric enquiry": {
 			            "Type": "Noun",
 			            "State": "Suggested",
@@ -26278,7 +26282,8 @@ cultureInfo en-GB
 			            "Weight": 0.461
 			          }
 			        }
-			      ]
+			      ],
+			      "NameType": "Name"
 			    },
 			    "numeric_question.mandatory": {
 			      "Definition": {
@@ -35008,14 +35013,13 @@ cultureInfo en-GB
 			      "Terms": [
 			        {
 			          "inspection type": {
-			            "State": "Generated",
-			            "Weight": 0.87
+			            "State": "Generated"
 			          }
 			        },
 			        {
 			          "type": {
 			            "State": "Generated",
-			            "Weight": 0.8439
+			            "Weight": 0.97
 			          }
 			        },
 			        {
@@ -35548,6 +35552,11 @@ cultureInfo en-GB
 			          }
 			        },
 			        {
+			          "inspection type name": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
 			          "type": {
 			            "State": "Generated",
 			            "Weight": 0.97
@@ -35653,7 +35662,8 @@ cultureInfo en-GB
 			            "Weight": 0.727
 			          }
 			        }
-			      ]
+			      ],
+			      "NameType": "Name"
 			    },
 			    "inspection_type.inspection_type_description": {
 			      "Definition": {
@@ -47460,6 +47470,132 @@ cultureInfo en-GB
 			          }
 			        }
 			      ]
+			    },
+			    "inspection_observation_fact.observation_note": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Inspection Observation Fact",
+			          "ConceptualProperty": "Observation Notes"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "observation note": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "observation memo": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "observation memorandum": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "observation reminder": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "observation letter": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "observation message": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "observation communication": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "observation annotation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.475
+			          }
+			        },
+			        {
+			          "observation addendum": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.475
+			          }
+			        },
+			        {
+			          "observation commentary": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.475
+			          }
+			        },
+			        {
+			          "observation footnote": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.461
+			          }
+			        },
+			        {
+			          "Defects": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    }
 			  },
 			  "Relationships": {
@@ -51148,6 +51284,39 @@ cultureInfo en-GB
 			        }
 			      ]
 			    },
+			    "inspection_observation_fact_has_observation_note": {
+			      "Binding": {
+			        "ConceptualEntity": "Inspection Observation Fact"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "inspection_observation_fact": {
+			          "Target": {
+			            "Entity": "inspection_observation_fact"
+			          }
+			        },
+			        "inspection_observation_fact.observation_note": {
+			          "Target": {
+			            "Entity": "inspection_observation_fact.observation_note"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "inspection_observation_fact"
+			            },
+			            "Object": {
+			              "Role": "inspection_observation_fact.observation_note"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "inspection_observation_facts_have_observation_notes"
+			        }
+			      ]
+			    },
 			    "inspected_by_contact_has_company": {
 			      "Binding": {
 			        "ConceptualEntity": "Inspected By Contact"
@@ -52782,6 +52951,19 @@ cultureInfo en-GB
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "inspection_types_have_inspection_types"
+			        },
+			        {
+			          "Name": {
+			            "Subject": {
+			              "Role": "inspection_type"
+			            },
+			            "Name": {
+			              "Role": "inspection_type.inspection_type"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "inspection_types_are_names_IDs_of_inspection_types"
 			        }
 			      ]
 			    },
@@ -54135,6 +54317,19 @@ cultureInfo en-GB
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "numeric_questions_have_numeric_questions"
+			        },
+			        {
+			          "Name": {
+			            "Subject": {
+			              "Role": "numeric_question"
+			            },
+			            "Name": {
+			              "Role": "numeric_question.numeric_question"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "numeric_questions_are_names_IDs_of_numeric_questions"
 			        }
 			      ]
 			    },

@@ -265,6 +265,7 @@ erDiagram
         attr New
         attr WorkflowComponent
         calc RecordedDefectCount
+        calc ObservationNotes
     }
     "Observation" {
         attr ObservedOn

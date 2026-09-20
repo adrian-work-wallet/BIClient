@@ -20,34 +20,6 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Inspection"
-                    }
-                  },
-                  "Property": "AssetInspection_key"
-                }
-              },
-              "queryRef": "Inspection.AssetInspection_key",
-              "nativeQueryRef": "AssetInspection_key"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Asset"
-                    }
-                  },
-                  "Property": "Asset_key"
-                }
-              },
-              "queryRef": "Asset.Asset_key",
-              "nativeQueryRef": "Asset_key"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
                       "Entity": "Asset"
                     }
                   },
@@ -312,34 +284,6 @@
           "selector": {
             "metadata": "Inspection.Inspected By"
           }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "83.47931007192794D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Asset.Asset_key"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "150.44162436548223D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Inspection.AssetInspection_key"
-          }
         }
       ],
       "total": [
@@ -383,22 +327,6 @@
                 }
               }
             }
-          }
-        }
-      ],
-      "columnFormatting": [
-        {
-          "properties": {
-            "styleHeader": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Asset.Asset_key"
           }
         }
       ]
@@ -451,6 +379,109 @@
             }
           ]
         }
+      },
+      {
+        "name": "57799a28a29987961e36",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Asset"
+              }
+            },
+            "Property": "Asset"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "80831c7d09a7d48ee260",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Asset"
+              }
+            },
+            "Property": "Reference"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "f5a7d64046672e1508a2",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Inspection Type"
+              }
+            },
+            "Property": "Inspection Type"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "6d4477594354dbb2641d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Inspection"
+              }
+            },
+            "Property": "Inspected On"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "6793bcc540650bcc55b0",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Inspection"
+              }
+            },
+            "Property": "Inspected By"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a50301b78d2b230ad602",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Inspection"
+                  }
+                },
+                "Property": "Defects Raised"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5afb26d135b16101634e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Inspection"
+              }
+            },
+            "Property": "Url"
+          }
+        },
+        "type": "Categorical"
       }
     ]
   }

@@ -860,12 +860,12 @@
         {
           "location": {
             "x": 376,
-            "y": 279
+            "y": 248
           },
           "nodeIndex": "Inspection Observation Fact",
           "nodeLineageTag": "92291e38-3eac-433c-9555-da198b332849",
           "size": {
-            "height": 319,
+            "height": 350,
             "width": 313
           },
           "zIndex": 3
@@ -873,7 +873,7 @@
         {
           "location": {
             "x": 0,
-            "y": 167
+            "y": 150
           },
           "nodeIndex": "Observation",
           "nodeLineageTag": "c44fc457-11f3-4191-870e-f172d6a303f0",

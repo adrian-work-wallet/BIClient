@@ -198,12 +198,15 @@ Executable: `WorkWallet.BI.ClientDatabaseDeploy`.
 1. Edit `appsettings.json` → set: `AppSettings:DatabaseConnectionString`.
 2. Run `WorkWallet.BI.ClientDatabaseDeploy.exe` – creates the database if absent and applies migrations (drops & recreates stored procedures in `mart` schema intentionally).
 
+Each schema/type/stored-procedure script runs with a command timeout controlled by `AppSettings:SchemaDeploymentTimeoutSeconds` (defaults to `600` if omitted). Most deployments finish in seconds; increase this if a migration rebuilds a large existing table (e.g. an index change) and times out.
+
 Example `appsettings.json` placed alongside the executable:
 
 ```json
 {
   "AppSettings": {
-    "DatabaseConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=WorkWalletBIClient;Integrated Security=true"
+    "DatabaseConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=WorkWalletBIClient;Integrated Security=true",
+    "SchemaDeploymentTimeoutSeconds": 600
   },
   "Logging": {
     "LogLevel": {

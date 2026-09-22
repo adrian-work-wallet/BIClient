@@ -115,8 +115,32 @@ table 'Person Fact'
 
 		annotation SummarizationSetBy = Automatic
 
-	column Name = 'Person Fact'[Entered First Name] & " " & 'Person Fact'[Entered Last Name]
+	column Name =
+			
+			VAR PersonOptionTypeCode = RELATED('Person Option Type'[PersonOptionTypeCode])
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        PersonOptionTypeCode = -1, BLANK(),
+			        PersonOptionTypeCode IN { 2, 3 }, RELATED('Person Contact'[Contact Name]),
+			        'Person Fact'[Entered First Name] & " " & 'Person Fact'[Entered Last Name]
+			    )
 		lineageTag: 0cec5b19-ad90-45ca-81d7-c8fcc4bfec95
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Email =
+			
+			VAR PersonOptionTypeCode = RELATED('Person Option Type'[PersonOptionTypeCode])
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        PersonOptionTypeCode = -1, BLANK(),
+			        PersonOptionTypeCode IN { 2, 3 }, RELATED('Person Contact'[Email]),
+			        'Person Fact'[Entered Email]
+			    )
+		lineageTag: 94a0bf11-dde2-4f43-a41b-63c77fa492b0
 		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic

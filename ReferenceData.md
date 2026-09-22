@@ -297,6 +297,7 @@ The API sends this as a bitmask, allowing efficient storage and transmission of 
 
 | PersonOptionTypeCode | PersonOptionType |
 | --- | --- |
+| -1 | N/A |
 | 1 | Other |
 | 2 | Contact |
 | 3 | User |

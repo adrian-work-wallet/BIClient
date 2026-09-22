@@ -14,6 +14,7 @@ CREATE TABLE mart.ReportedIssuePersonOptionType
     ,CONSTRAINT [UQ_mart.ReportedIssuePersonOptionType_Code] UNIQUE(PersonOptionTypeCode)
 );
 
+INSERT INTO mart.ReportedIssuePersonOptionType (PersonOptionTypeCode, PersonOptionType) VALUES (-1, N'N/A');
 INSERT INTO mart.ReportedIssuePersonOptionType (PersonOptionTypeCode, PersonOptionType) VALUES (1, N'Other');
 INSERT INTO mart.ReportedIssuePersonOptionType (PersonOptionTypeCode, PersonOptionType) VALUES (2, N'Contact');
 INSERT INTO mart.ReportedIssuePersonOptionType (PersonOptionTypeCode, PersonOptionType) VALUES (3, N'User');

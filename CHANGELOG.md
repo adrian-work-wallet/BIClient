@@ -13,7 +13,7 @@ The format loosely follows Keep a Changelog principles (dates in YYYY-MM-DD). Ve
 
 ### Changed (5.1.0)
 
-- ReportedIssues: we now capture much richer detail about the people selected when someone fills in a reported issue form (e.g. who was involved, who was interviewed) - including how each person was selected (an existing contact, a Work Wallet user, or typed in by hand) and their name/email/contact link. The original person data is unchanged and still populated as before, so existing reports/queries keep working. Requires a DB deploy; run a full ReportedIssues reload afterwards to backfill this new detail for existing issues.
+- ReportedIssues: we now capture much richer detail about the people selected when someone fills in a reported issue form (e.g. who was involved, who was interviewed) - including how each person was selected (an existing contact, a Work Wallet user, typed in by hand, or answered "N/A") and their name/email/contact link. The original person data is unchanged and still populated as before, so existing reports/queries keep working. Requires a DB deploy; run a full ReportedIssues reload afterwards to backfill this new detail for existing issues.
 - `PowerBISamplesModels.md` restructured into a lightweight index linking to one generated Mermaid-diagram file per module under `PowerBISamplesModels/`; the `Images/PowerBIModelDiagrams/` screenshots have been removed.
 - `Build-ReleaseAssets.ps1` moved to `Tools/`.
 

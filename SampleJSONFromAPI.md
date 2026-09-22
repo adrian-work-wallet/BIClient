@@ -1801,6 +1801,16 @@ Notes
       "PersonOptionTypeCode": 2,
       "ContactId": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
+    },
+    {
+      "ReportedIssuePersonId": "4d5e6f7a-8b9c-4d0e-9f1a-2b3c4d5e6f7a",
+      "ReportedIssueId": "7b2d1c9e-8356-4a9e-b5c1-0e2f4a6b9d31",
+      "PersonId": "5e6f7a8b-9c0d-4e1f-8a2b-3c4d5e6f7a8b",
+      "OptionId": "00000000-0000-0000-0000-000000000000",
+      "Question": "Who observed the incident?",
+      "Option": "N/A",
+      "PersonOptionTypeCode": -1,
+      "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
   ],
   "ReportedIssueInvestigationBranchOptions": [
@@ -1881,11 +1891,13 @@ Notes
   - **CloseDate**: `0001-01-01T00:00:00+00:00` indicates no data
   - **LeadInvestigatorContactId**: if `null` no field will be returned
 - ReportedIssuePeople2
-  - **ContactId**: if `null` no field will be returned (not applicable for free-text responses)
+  - **ContactId**: if `null` no field will be returned (not applicable for free-text or N/A responses)
   - **FirstName**, **LastName**, **Email**: if `null` no field will be returned (only applicable for free-text responses)
+  - **PersonOptionTypeCode**: `-1` indicates the question was answered "N/A"; `OptionId` is `00000000-0000-0000-0000-000000000000` and `Option` is `"N/A"` for these rows.
 - ReportedIssueInvestigationPeople2
-  - **ContactId**: if `null` no field will be returned (not applicable for free-text responses)
+  - **ContactId**: if `null` no field will be returned (not applicable for free-text or N/A responses)
   - **FirstName**, **LastName**, **Email**: if `null` no field will be returned (only applicable for free-text responses)
+  - **PersonOptionTypeCode**: `-1` indicates the question was answered "N/A"; `OptionId` is `00000000-0000-0000-0000-000000000000` and `Option` is `"N/A"` for these rows.
 - ReportedIssuePeople / ReportedIssueInvestigationPeople
   - DEPRECATED, superseded by `ReportedIssuePeople2` / `ReportedIssueInvestigationPeople2`
   

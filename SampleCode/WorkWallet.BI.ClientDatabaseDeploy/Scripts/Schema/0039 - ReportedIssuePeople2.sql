@@ -21,6 +21,9 @@ INSERT INTO mart.ReportedIssuePersonOptionType (PersonOptionTypeCode, PersonOpti
 
 -- Keyed on the source response row id (ReportedIssuePersonId/ReportedIssueInvestigationPersonId)
 -- rather than Question/Option, since a question/option can have multiple people selected.
+-- Clustered on ReportedIssue_key (not the PK) so the per-issue deletes in
+-- mart.ETL_DeleteReportedIssueFacts have a seek path, and to avoid fragmentation from
+-- clustering on a random GUID.
 CREATE TABLE mart.ReportedIssuePersonFact2
 (
     ReportedIssuePersonId uniqueidentifier NOT NULL /* business key */
@@ -35,12 +38,14 @@ CREATE TABLE mart.ReportedIssuePersonFact2
     ,Wallet_key int NOT NULL
     ,_created datetime2(7) NOT NULL CONSTRAINT [DF_mart.ReportedIssuePersonFact2__created] DEFAULT SYSUTCDATETIME()
     ,_edited datetime2(7) NULL
-    ,CONSTRAINT [PK_mart.ReportedIssuePersonFact2] PRIMARY KEY (ReportedIssuePersonId, Investigation)
+    ,CONSTRAINT [PK_mart.ReportedIssuePersonFact2] PRIMARY KEY NONCLUSTERED (ReportedIssuePersonId, Investigation)
     ,CONSTRAINT [FK_mart.ReportedIssuePersonFact2_mart.ReportedIssue_ReportedIssue_key] FOREIGN KEY(ReportedIssue_key) REFERENCES mart.ReportedIssue
     ,CONSTRAINT [FK_mart.ReportedIssuePersonFact2_mart.ReportedIssuePerson_ReportedIssuePerson_key] FOREIGN KEY(ReportedIssuePerson_key) REFERENCES mart.ReportedIssuePerson
     ,CONSTRAINT [FK_mart.ReportedIssuePersonFact2_mart.ReportedIssuePersonOptionType_ReportedIssuePersonOptionType_key] FOREIGN KEY(ReportedIssuePersonOptionType_key) REFERENCES mart.ReportedIssuePersonOptionType
     ,CONSTRAINT [FK_mart.ReportedIssuePersonFact2_mart.Contact_Contact_key] FOREIGN KEY(Contact_key) REFERENCES mart.Contact
     ,CONSTRAINT [FK_mart.ReportedIssuePersonFact2_mart.Wallet_Wallet_key] FOREIGN KEY(Wallet_key) REFERENCES mart.Wallet
 );
+
+CREATE CLUSTERED INDEX [IX_mart.ReportedIssuePersonFact2_ReportedIssue_key] ON mart.ReportedIssuePersonFact2 (ReportedIssue_key);
 
 GO

@@ -81,6 +81,7 @@ When adding a new dataset or extending existing datasets with additional JSON fi
 - Empty `ETL_PostProcess*` stored procedures are deliberate extension points for repository users to implement custom post-processing logic.
 - Leading comma convention used throughout SQL code (comma at start of line, not end).
 - MERGE statements use simple `<>` comparisons for NOT NULL columns, `IS DISTINCT FROM` for nullable columns.
+- **New fact table primary key / clustering**: a `PRIMARY KEY` constraint is `CLUSTERED` by default in SQL Server — deliberately choose the clustered index rather than accepting the default. Most fact tables are keyed/clustered on the parent `*_key` surrogate (e.g. `PK_mart.ReportedIssuePersonFact PRIMARY KEY (ReportedIssue_key, ...)`) because that's what the corresponding `ETL_Delete[Dataset]Facts.sql` proc filters by when replacing a page's worth of facts — clustering on anything else leaves that delete with no seek path and gets worse as the table grows. If a fact table's natural business key is instead a GUID (e.g. the source row's own id, as in `mart.ReportedIssuePersonFact2`), make the `PRIMARY KEY` `NONCLUSTERED` and add a separate `CREATE CLUSTERED INDEX` led by the parent `*_key` column — this also avoids page-split fragmentation from clustering on a random GUID. Match this design to existing patterns in the same schema file before introducing a new one.
 
 ## 7. Documentation Structure & Rules
 - Single canonical guide: `README.md` with numbered section hierarchy (1-9).

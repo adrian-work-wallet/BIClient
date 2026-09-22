@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format loosely follows Keep a Changelog principles (dates in YYYY-MM-DD). Version numbers align with assembly versions unless otherwise noted.
 
-## [5.1.0] - Unreleased
+## [5.1.0] - 2026-09-22
 
 ### Added (5.1.0)
 

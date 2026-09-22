@@ -54,6 +54,7 @@ erDiagram
     "Issue" }o--|| "Severity" : "ReportedIssueSeverity_key"
     "Issue" }o--|| "Status" : "ReportedIssueStatus_key"
     "Issue" }o--|| "Contact" : "ReportedByContact_key"
+    "Issue" }o..|| "Contact" : "LeadInvestigatorContact_key"
 ```
 
 ## Reported Issues - Body Part
@@ -173,13 +174,29 @@ erDiagram
         calc PersonCount
         attr Investigation
         calc WorkflowStage_Person_
+        attr Contact_key
+        attr EnteredFirstName
+        attr EnteredLastName
+        attr EnteredEmail
+        calc Name
+        calc Email
     }
     "Person" {
         attr PersonQuestion
         attr Person
     }
+    "Person Option Type" {
+        attr PersonOptionType
+    }
+    "Person Contact" {
+        attr ContactName
+        attr Email
+        attr Company
+    }
     "Person Fact" }o--|| "Issue" : "ReportedIssue_key"
     "Person Fact" }o--|| "Person" : "ReportedIssuePerson_key"
+    "Person Fact" }o--|| "Person Option Type" : "ReportedIssuePersonOptionType_key"
+    "Person Fact" }o--|| "Person Contact" : "Contact_key"
 ```
 
 ## Reported Issues - Root Cause Analysis

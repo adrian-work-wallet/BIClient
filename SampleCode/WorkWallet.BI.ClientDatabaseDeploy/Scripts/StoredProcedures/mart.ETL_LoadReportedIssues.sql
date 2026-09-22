@@ -319,6 +319,44 @@ BEGIN
 
         EXEC mart.ETL_LoadReportedIssuePersonFact @reportedIssuePersonTable = @reportedIssuePersonTable, @investigation = 0;
 
+        -- load the ReportedIssuePerson2 data (enriched detail: PersonOptionTypeCode, ContactId, FirstName, LastName, Email)
+
+        DECLARE @reportedIssuePersonTable2 mart.ETL_ReportedIssuePersonTable2;
+
+        INSERT INTO @reportedIssuePersonTable2
+        (
+            ReportedIssuePersonId
+            ,ReportedIssueId
+            ,PersonId
+            ,OptionId
+            ,Question
+            ,[Option]
+            ,PersonOptionTypeCode
+            ,ContactId
+            ,FirstName
+            ,LastName
+            ,Email
+            ,WalletId
+        )
+        SELECT * FROM OPENJSON(@json, '$.ReportedIssuePeople2')
+        WITH
+        (
+            ReportedIssuePersonId uniqueidentifier
+            ,ReportedIssueId uniqueidentifier
+            ,PersonId uniqueidentifier
+            ,OptionId uniqueidentifier
+            ,Question nvarchar(500)
+            ,[Option] nvarchar(50)
+            ,PersonOptionTypeCode int
+            ,ContactId uniqueidentifier
+            ,FirstName nvarchar(max)
+            ,LastName nvarchar(max)
+            ,Email nvarchar(max)
+            ,WalletId uniqueidentifier
+        );
+
+        EXEC mart.ETL_LoadReportedIssuePersonFact2 @reportedIssuePersonTable2 = @reportedIssuePersonTable2, @investigation = 0;
+
         -- load the ReportedIssueInvestigationBranchOption data
 
         DECLARE @reportedIssueInvestigationBranchOptionTable mart.ETL_ReportedIssueBranchOptionTable;
@@ -428,6 +466,44 @@ BEGIN
         EXEC mart.ETL_MaintainReportedIssuePersonDimension @reportedIssuePersonTable = @reportedIssueInvestigationPersonTable;
 
         EXEC mart.ETL_LoadReportedIssuePersonFact @reportedIssuePersonTable = @reportedIssueInvestigationPersonTable, @investigation = 1;
+
+        -- load the ReportedIssueInvestigationPerson2 data (enriched detail: PersonOptionTypeCode, ContactId, FirstName, LastName, Email)
+
+        DECLARE @reportedIssueInvestigationPersonTable2 mart.ETL_ReportedIssuePersonTable2;
+
+        INSERT INTO @reportedIssueInvestigationPersonTable2
+        (
+            ReportedIssuePersonId
+            ,ReportedIssueId
+            ,PersonId
+            ,OptionId
+            ,Question
+            ,[Option]
+            ,PersonOptionTypeCode
+            ,ContactId
+            ,FirstName
+            ,LastName
+            ,Email
+            ,WalletId
+        )
+        SELECT * FROM OPENJSON(@json, '$.ReportedIssueInvestigationPeople2')
+        WITH
+        (
+            ReportedIssuePersonId uniqueidentifier '$.ReportedIssueInvestigationPersonId'
+            ,ReportedIssueId uniqueidentifier
+            ,PersonId uniqueidentifier
+            ,OptionId uniqueidentifier
+            ,Question nvarchar(500)
+            ,[Option] nvarchar(50)
+            ,PersonOptionTypeCode int
+            ,ContactId uniqueidentifier
+            ,FirstName nvarchar(max)
+            ,LastName nvarchar(max)
+            ,Email nvarchar(max)
+            ,WalletId uniqueidentifier
+        );
+
+        EXEC mart.ETL_LoadReportedIssuePersonFact2 @reportedIssuePersonTable2 = @reportedIssueInvestigationPersonTable2, @investigation = 1;
 
         -- load the ReportedIssueInvestigationTeam data
 

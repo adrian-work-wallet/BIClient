@@ -1777,6 +1777,32 @@ Notes
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
   ],
+  "ReportedIssuePeople2": [
+    {
+      "ReportedIssuePersonId": "1b2c3d4e-5f6a-4b7c-8d9e-0f1a2b3c4d5e",
+      "ReportedIssueId": "7b2d1c9e-8356-4a9e-b5c1-0e2f4a6b9d31",
+      "PersonId": "0c1d2e3f-4a5b-4c6d-8e9f-0a1b2c3d4e5f",
+      "OptionId": "1a2b3c4d-5e6f-47a8-9b0c-1d2e3f4a5b6c",
+      "Question": "Who was involved?",
+      "Option": "Site Visitor",
+      "PersonOptionTypeCode": 1,
+      "FirstName": "Jordan",
+      "LastName": "Visitor",
+      "Email": "jordan.visitor@example.invalid",
+      "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
+    },
+    {
+      "ReportedIssuePersonId": "2c3d4e5f-6a7b-4c8d-9e0f-1a2b3c4d5e6f",
+      "ReportedIssueId": "7b2d1c9e-8356-4a9e-b5c1-0e2f4a6b9d31",
+      "PersonId": "0c1d2e3f-4a5b-4c6d-8e9f-0a1b2c3d4e5f",
+      "OptionId": "1a2b3c4d-5e6f-47a8-9b0c-1d2e3f4a5b6c",
+      "Question": "Who was involved?",
+      "Option": "Site Visitor",
+      "PersonOptionTypeCode": 2,
+      "ContactId": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+      "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
+    }
+  ],
   "ReportedIssueInvestigationBranchOptions": [
     {
       "ReportedIssueId": "7b2d1c9e-8356-4a9e-b5c1-0e2f4a6b9d31",
@@ -1816,6 +1842,19 @@ Notes
       "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
     }
   ],
+  "ReportedIssueInvestigationPeople2": [
+    {
+      "ReportedIssueInvestigationPersonId": "3d4e5f6a-7b8c-4d9e-8f0a-1b2c3d4e5f6a",
+      "ReportedIssueId": "7b2d1c9e-8356-4a9e-b5c1-0e2f4a6b9d31",
+      "PersonId": "6b7c8d9e-0f1a-42b3-9c4d-5e6f7a8b9c0d",
+      "OptionId": "7c8d9e0f-1a2b-43c4-8d9e-0f1a2b3c4d5e",
+      "Question": "Interviewed",
+      "Option": "Supervisor",
+      "PersonOptionTypeCode": 3,
+      "ContactId": "c3d4e5f6-a7b8-4c9d-8e0f-2a3b4c5d6e7f",
+      "WalletId": "a3e1c9f2-5d4b-4330-9c2f-1c2b8f0d9a77"
+    }
+  ],
   "ReportedIssueInvestigationTeam": [
     {
       "ReportedIssueId": "7b2d1c9e-8356-4a9e-b5c1-0e2f4a6b9d31",
@@ -1841,6 +1880,14 @@ Notes
   - **UnderInvestigationDate**: `0001-01-01T00:00:00+00:00` indicates no data
   - **CloseDate**: `0001-01-01T00:00:00+00:00` indicates no data
   - **LeadInvestigatorContactId**: if `null` no field will be returned
+- ReportedIssuePeople2
+  - **ContactId**: if `null` no field will be returned (not applicable for free-text responses)
+  - **FirstName**, **LastName**, **Email**: if `null` no field will be returned (only applicable for free-text responses)
+- ReportedIssueInvestigationPeople2
+  - **ContactId**: if `null` no field will be returned (not applicable for free-text responses)
+  - **FirstName**, **LastName**, **Email**: if `null` no field will be returned (only applicable for free-text responses)
+- ReportedIssuePeople / ReportedIssueInvestigationPeople
+  - DEPRECATED, superseded by `ReportedIssuePeople2` / `ReportedIssueInvestigationPeople2`
   
 ## SafetyCards
 

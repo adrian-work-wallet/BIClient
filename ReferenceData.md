@@ -295,6 +295,12 @@ The API sends this as a bitmask, allowing efficient storage and transmission of 
 | 1 | Root Cause |
 | 2 | Immediate Cause |
 
+| PersonOptionTypeCode | PersonOptionType |
+| --- | --- |
+| 1 | Other |
+| 2 | Contact |
+| 3 | User |
+
 ## SafetyCards
 
 | OccupationRoleCode | OccupationRole |

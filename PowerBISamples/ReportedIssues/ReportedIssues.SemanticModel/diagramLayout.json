@@ -10,8 +10,8 @@
       "nodes": [
         {
           "location": {
-            "x": 1453.4518936068771,
-            "y": 292.50068996811638
+            "x": 340.21371655237476,
+            "y": 286.34125090655448
           },
           "nodeIndex": "Location",
           "size": {
@@ -22,8 +22,8 @@
         },
         {
           "location": {
-            "x": 1114.5504189133094,
-            "y": 652.07883968011822
+            "x": 787.3649122189529,
+            "y": 997.65350848460253
           },
           "nodeIndex": "Wallet",
           "size": {
@@ -34,8 +34,8 @@
         },
         {
           "location": {
-            "x": 951.68828028868847,
-            "y": 145.63750566829572
+            "x": 1472.5476490420169,
+            "y": 226.72554790139702
           },
           "nodeIndex": "Body Part",
           "size": {
@@ -46,7 +46,7 @@
         },
         {
           "location": {
-            "x": 1239.5937319419404,
+            "x": 1762.5435628842606,
             "y": -50
           },
           "nodeIndex": "Body Part Enum",
@@ -58,8 +58,8 @@
         },
         {
           "location": {
-            "x": 626.94684636150055,
-            "y": 225.17411627121714
+            "x": 1182.6194791675869,
+            "y": 344.28524133865085
           },
           "nodeIndex": "Body Part Fact",
           "size": {
@@ -70,8 +70,8 @@
         },
         {
           "location": {
-            "x": 807.81268092955224,
-            "y": 1426.2458170023529
+            "x": 1540.4013026014341,
+            "y": 901.0459627438604
           },
           "nodeIndex": "Branch Option",
           "size": {
@@ -82,8 +82,8 @@
         },
         {
           "location": {
-            "x": 1097.6660959339242,
-            "y": 1214.5923970454949
+            "x": 942.27565975857488,
+            "y": 1554.8123844958416
           },
           "nodeIndex": "Branch Option Fact",
           "size": {
@@ -94,8 +94,8 @@
         },
         {
           "location": {
-            "x": 730.82800772942,
-            "y": 782.72513771045408
+            "x": 1075.7144094499727,
+            "y": 904.14410187834983
           },
           "nodeIndex": "Category",
           "size": {
@@ -106,8 +106,8 @@
         },
         {
           "location": {
-            "x": 1307.3073529212152,
-            "y": 858.05774992839054
+            "x": 501.492667407881,
+            "y": 643.59470445073248
           },
           "nodeIndex": "Issue",
           "size": {
@@ -118,8 +118,8 @@
         },
         {
           "location": {
-            "x": 1885.3267057984608,
-            "y": 996.66750559728575
+            "x": 1609.2399209971209,
+            "y": 596.83969130519745
           },
           "nodeIndex": "Option Select",
           "size": {
@@ -130,8 +130,8 @@
         },
         {
           "location": {
-            "x": 1596.2673767785463,
-            "y": 869.28842346185115
+            "x": 1320.0934236591,
+            "y": 624.02033835962607
           },
           "nodeIndex": "Option Select Fact",
           "size": {
@@ -142,8 +142,8 @@
         },
         {
           "location": {
-            "x": 1096.9177807681442,
-            "y": 1512.4915839609575
+            "x": 1230.0162464576106,
+            "y": 1259.6510851816274
           },
           "nodeIndex": "Person",
           "size": {
@@ -154,20 +154,20 @@
         },
         {
           "location": {
-            "x": 1386.12570567751,
-            "y": 1214.5883083651554
+            "x": 496.39523742011107,
+            "y": 1809.0846902297726
           },
           "nodeIndex": "Person Fact",
           "size": {
-            "height": 224,
+            "height": 300,
             "width": 234
           },
           "zIndex": 11
         },
         {
           "location": {
-            "x": 1951.0499343068445,
-            "y": 716.805946392042
+            "x": 593.51986288785611,
+            "y": 5.8962868392773089
           },
           "nodeIndex": "Root Cause Analysis Fact",
           "size": {
@@ -178,8 +178,8 @@
         },
         {
           "location": {
-            "x": 2240.1115045220863,
-            "y": 942.47264170448386
+            "x": 1231.8983167367455,
+            "y": 20.006015172116804
           },
           "nodeIndex": "Root Cause Analysis Type",
           "size": {
@@ -190,8 +190,8 @@
         },
         {
           "location": {
-            "x": 358.77576766121967,
-            "y": 18.769100939656255
+            "x": 50,
+            "y": 428.03404731239652
           },
           "nodeIndex": "Severity",
           "size": {
@@ -202,8 +202,8 @@
         },
         {
           "location": {
-            "x": 1483.00757288162,
-            "y": 1492.586194223516
+            "x": 180.14049453528929,
+            "y": 1987.8579410300965
           },
           "nodeIndex": "Status",
           "size": {
@@ -214,8 +214,8 @@
         },
         {
           "location": {
-            "x": 1164.0484329120093,
-            "y": 373.76375191275042
+            "x": 220.66307517413307,
+            "y": 1191.9038295798621
           },
           "nodeIndex": "Contact",
           "nodeLineageTag": "f5afb02f-10a5-4b61-a7b2-ff1ecb864cf4",
@@ -227,8 +227,8 @@
         },
         {
           "location": {
-            "x": 338.38566540898762,
-            "y": 385.8978011003735
+            "x": 213.05547159325553,
+            "y": 985.85670373790367
           },
           "nodeIndex": "Investigation Team Fact",
           "size": {
@@ -239,8 +239,8 @@
         },
         {
           "location": {
-            "x": 50,
-            "y": 527.1034282784176
+            "x": 50.365900619135573,
+            "y": 633.8156534061211
           },
           "nodeIndex": "Investigation Team Contact",
           "size": {
@@ -251,8 +251,8 @@
         },
         {
           "location": {
-            "x": 793.98521467736339,
-            "y": 502.29455193489366
+            "x": 633.3767415440434,
+            "y": 366.575064212077
           },
           "nodeIndex": "Lead Investigator Contact",
           "size": {
@@ -262,17 +262,32 @@
           "zIndex": 0
         },
         {
-          "location": {},
+          "location": {
+            "x": 785.03917335768188,
+            "y": 1832.8342597536839
+          },
           "nodeIndex": "Person Option Type",
           "size": {
-            "height": 200,
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 470.26326368717514,
+            "y": 2165.4455676407915
+          },
+          "nodeIndex": "Person Contact",
+          "size": {
+            "height": 224,
             "width": 234
           },
           "zIndex": 0
         }
       ],
       "name": "All tables",
-      "zoomValue": 60.769699785483375,
+      "zoomValue": 45.7186409031243,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,
@@ -555,8 +570,8 @@
       "nodes": [
         {
           "location": {
-            "x": 0,
-            "y": 276
+            "x": 68,
+            "y": 342
           },
           "nodeIndex": "Issue",
           "nodeLineageTag": "ab79b25f-fd82-4d1a-a3dc-b16162ac25df",
@@ -564,12 +579,12 @@
             "height": 570,
             "width": 256
           },
-          "zIndex": 0
+          "zIndex": 1
         },
         {
           "location": {
-            "x": 347,
-            "y": 258
+            "x": 430,
+            "y": 298
           },
           "nodeIndex": "Person Fact",
           "nodeLineageTag": "042b4ea7-046e-406d-9ab1-8f9a4c9168a2",
@@ -577,12 +592,12 @@
             "height": 431,
             "width": 335
           },
-          "zIndex": 0
+          "zIndex": 2
         },
         {
           "location": {
-            "x": 790,
-            "y": 43
+            "x": 848,
+            "y": 116
           },
           "nodeIndex": "Person",
           "nodeLineageTag": "44afeb98-ad25-4a5f-a84e-2954545f3ee4",
@@ -590,12 +605,12 @@
             "height": 269,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 5
         },
         {
           "location": {
-            "x": 782,
-            "y": 568
+            "x": 103,
+            "y": 56
           },
           "nodeIndex": "Person Option Type",
           "nodeLineageTag": "4f68ff31-3e22-4869-a4d7-e8493262f2bc",
@@ -603,7 +618,20 @@
             "height": 160,
             "width": 318
           },
-          "zIndex": 0
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 848,
+            "y": 612
+          },
+          "nodeIndex": "Person Contact",
+          "nodeLineageTag": "cc467b16-6c02-4ffb-9fba-4e63dabef978",
+          "size": {
+            "height": 275,
+            "width": 234
+          },
+          "zIndex": 4
         }
       ],
       "name": "Person",

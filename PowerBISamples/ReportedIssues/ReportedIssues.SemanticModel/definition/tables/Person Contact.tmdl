@@ -1,0 +1,62 @@
+table 'Person Contact'
+	lineageTag: cc467b16-6c02-4ffb-9fba-4e63dabef978
+
+	column Contact_key
+		isHidden
+		formatString: 0
+		lineageTag: 2657298d-aced-478d-aa21-16dc31b9c1c6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Contact[Contact_key]
+
+		annotation SummarizationSetBy = User
+
+	column ContactId
+		isHidden
+		lineageTag: 88232af9-608e-4c64-a6c0-03d6abbe1556
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Contact[ContactId]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Contact Name'
+		lineageTag: 1c996e18-92bf-4619-ada0-d9c63c6fe2d4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Contact[Contact Name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Wallet_key
+		isHidden
+		formatString: 0
+		lineageTag: 22f25a96-19a8-4f77-b77e-341217eb9589
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Contact[Wallet_key]
+
+		annotation SummarizationSetBy = User
+
+	column Email
+		lineageTag: e6515073-0165-463e-b1a4-334c5f1c7ece
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Contact[Email]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company
+		lineageTag: 4145673e-8239-49c7-9fe4-00e4d80365e0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Contact[Company]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Person Contact' = calculated
+		mode: import
+		source = Contact
+
+	annotation PBI_Id = ef6d189b3a354bf39c04694536f191c1
+

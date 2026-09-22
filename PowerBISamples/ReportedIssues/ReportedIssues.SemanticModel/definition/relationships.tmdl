@@ -254,3 +254,12 @@ relationship af5cc543-63b7-46a3-a5f3-3031631a37c9
 	fromColumn: 'Person Fact'.ReportedIssuePersonOptionType_key
 	toColumn: 'Person Option Type'.ReportedIssuePersonOptionType_key
 
+relationship 39edd156-4fba-a068-ff8e-5576011e089c
+	isActive: false
+	fromColumn: 'Person Contact'.Wallet_key
+	toColumn: Wallet.Wallet_key
+
+relationship ac22db75-eb54-c4d8-4f23-7e65ca99967b
+	fromColumn: 'Person Fact'.Contact_key
+	toColumn: 'Person Contact'.Contact_key
+

@@ -174,7 +174,6 @@ erDiagram
         calc PersonCount
         attr Investigation
         calc WorkflowStage_Person_
-        attr Contact_key
         attr EnteredFirstName
         attr EnteredLastName
         attr EnteredEmail

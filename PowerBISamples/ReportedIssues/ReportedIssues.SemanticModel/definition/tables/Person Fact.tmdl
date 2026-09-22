@@ -37,7 +37,11 @@ table 'Person Fact'
 
 		annotation SummarizationSetBy = User
 
-	column 'Person Count' = 1
+	column 'Person Count' =
+			
+			VAR PersonOptionTypeCode = RELATED('Person Option Type'[PersonOptionTypeCode])
+			RETURN
+			    IF(PersonOptionTypeCode = -1, 0, 1)
 		formatString: 0
 		lineageTag: c323b8f1-ed54-4c4c-bb3c-e02a271b7946
 		summarizeBy: sum
@@ -84,10 +88,13 @@ table 'Person Fact'
 
 	column Contact_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: b1f390ba-48e2-4bab-9f5b-cdb915d37a99
 		summarizeBy: none
 		sourceColumn: Contact_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = User
 

@@ -139,6 +139,7 @@ BEGIN
     DELETE FROM mart.ReportedIssueBranchOptionFact;
     DELETE FROM mart.ReportedIssueOptionSelectFact;
     DELETE FROM mart.ReportedIssuePersonFact;
+    DELETE FROM mart.ReportedIssuePersonFact2;
     DELETE FROM mart.ReportedIssueRootCauseAnalysisFact;
     DELETE FROM mart.ReportedIssueInvestigationTeamFact;
     DELETE FROM mart.ReportedIssueBodyPart;
@@ -196,6 +197,7 @@ BEGIN
     -- - mart.PPEPropertyType
     -- - mart.PPEStatus
     -- - mart.ReportedIssueBodyPartEnum
+    -- - mart.ReportedIssuePersonOptionType
     -- - mart.ReportedIssueRootCauseAnalysisType
     -- - mart.ReportedIssueSeverity
     -- - mart.ReportedIssueStatus

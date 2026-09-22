@@ -4,15 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format loosely follows Keep a Changelog principles (dates in YYYY-MM-DD). Version numbers align with assembly versions unless otherwise noted.
 
-## [Unreleased]
+## [5.1.0] - 2026-09-22
 
-### Added (Unreleased)
+### Added (5.1.0)
 
 - `Tools/WorkWallet.BI.PowerBIModelDocGenerator`: generates `PowerBISamplesModels.md` and the per-module diagram files under `PowerBISamplesModels/` directly from each Power BI `.SemanticModel`'s TMDL/`diagramLayout.json` files, replacing the hand-maintained model-view screenshots. Not referenced by `WorkWallet.BI.Client.sln` (maintainer-only tool). Run it (optionally with `-- --check`) to regenerate/verify the docs.
 - `.github/workflows/ci.yml`: CI now builds the solution and fails if the generated Power BI model docs are stale.
 
-### Changed (Unreleased)
+### Changed (5.1.0)
 
+- ReportedIssues: we now capture much richer detail about the people selected when someone fills in a reported issue form (e.g. who was involved, who was interviewed) - including how each person was selected (an existing contact, a Work Wallet user, typed in by hand, or answered "N/A") and their name/email/contact link. The original person data is unchanged and still populated as before, so existing reports/queries keep working. Requires a DB deploy; run a full ReportedIssues reload afterwards to backfill this new detail for existing issues.
+- Permits: `mart.PermitSignatureFact` is now clustered on `Permit_key` instead of the `PermitSignatureId` GUID, giving the per-permit deletes in `mart.ETL_DeletePermitFacts` a seek path and avoiding fragmentation from clustering on a random GUID (`PermitSignatureId` remains a nonclustered unique key). Requires a DB deploy; the migration rebuilds the table in place.
+- `WorkWallet.BI.ClientDatabaseDeploy`: the schema deployment command timeout is now configurable via `AppSettings:SchemaDeploymentTimeoutSeconds` (defaults to 600s, up from DbUp's previous hardcoded 60s), so migrations that rebuild large existing tables (e.g. the `PermitSignatureFact` reclustering above) don't time out and roll back on databases with a lot of history.
 - `PowerBISamplesModels.md` restructured into a lightweight index linking to one generated Mermaid-diagram file per module under `PowerBISamplesModels/`; the `Images/PowerBIModelDiagrams/` screenshots have been removed.
 - `Build-ReleaseAssets.ps1` moved to `Tools/`.
 

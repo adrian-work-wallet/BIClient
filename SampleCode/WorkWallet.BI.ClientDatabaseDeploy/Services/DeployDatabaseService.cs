@@ -72,7 +72,7 @@ internal class DeployDatabaseService(
                     new SqlScriptOptions { ScriptType = ScriptType.RunAlways, RunGroupOrder = 4 })
 
                 .LogToConsole()
-                .WithExecutionTimeout(TimeSpan.FromMinutes(1))
+                .WithExecutionTimeout(TimeSpan.FromSeconds(_settings.SchemaDeploymentTimeoutSeconds))
                 .WithTransaction()
                 .Build();
 

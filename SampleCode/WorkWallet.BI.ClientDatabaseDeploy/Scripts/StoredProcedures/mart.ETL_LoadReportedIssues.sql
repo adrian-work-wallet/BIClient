@@ -291,7 +291,71 @@ BEGIN
 
         EXEC mart.ETL_LoadReportedIssueOptionSelectFact @reportedIssueOptionSelectTable = @reportedIssueOptionSelectTable, @investigation = 0;
 
-        -- load the ReportedIssuePerson data
+        -- load the ReportedIssuePerson2 data (enriched detail: PersonOptionTypeCode, ContactId, FirstName, LastName, Email;
+        -- also a superset of ReportedIssuePeople, additionally including N/A answers)
+
+        DECLARE @reportedIssuePersonTable2 mart.ETL_ReportedIssuePersonTable2;
+
+        INSERT INTO @reportedIssuePersonTable2
+        (
+            ReportedIssuePersonId
+            ,ReportedIssueId
+            ,PersonId
+            ,OptionId
+            ,Question
+            ,[Option]
+            ,PersonOptionTypeCode
+            ,ContactId
+            ,FirstName
+            ,LastName
+            ,Email
+            ,WalletId
+        )
+        SELECT * FROM OPENJSON(@json, '$.ReportedIssuePeople2')
+        WITH
+        (
+            ReportedIssuePersonId uniqueidentifier
+            ,ReportedIssueId uniqueidentifier
+            ,PersonId uniqueidentifier
+            ,OptionId uniqueidentifier
+            ,Question nvarchar(500)
+            ,[Option] nvarchar(50)
+            ,PersonOptionTypeCode int
+            ,ContactId uniqueidentifier
+            ,FirstName nvarchar(max)
+            ,LastName nvarchar(max)
+            ,Email nvarchar(max)
+            ,WalletId uniqueidentifier
+        );
+
+        -- seed the shared ReportedIssuePerson dimension from the full superset (including N/A answers) so it covers
+        -- both ReportedIssuePersonFact2 below and the deprecated ReportedIssuePersonFact derived further down
+        DECLARE @reportedIssuePersonDimensionTable mart.ETL_ReportedIssuePersonTable;
+
+        INSERT INTO @reportedIssuePersonDimensionTable
+        (
+            ReportedIssueId
+            ,PersonId
+            ,OptionId
+            ,Question
+            ,[Option]
+            ,WalletId
+        )
+        SELECT DISTINCT
+            ReportedIssueId
+            ,PersonId
+            ,OptionId
+            ,Question
+            ,[Option]
+            ,WalletId
+        FROM @reportedIssuePersonTable2;
+
+        EXEC mart.ETL_MaintainReportedIssuePersonDimension @reportedIssuePersonTable = @reportedIssuePersonDimensionTable;
+
+        EXEC mart.ETL_LoadReportedIssuePersonFact2 @reportedIssuePersonTable2 = @reportedIssuePersonTable2, @investigation = 0;
+
+        -- load the deprecated ReportedIssuePeople data, derived from ReportedIssuePeople2 by excluding N/A answers
+        -- (the deprecated dataset never included them); the dimension is already seeded above
 
         DECLARE @reportedIssuePersonTable mart.ETL_ReportedIssuePersonTable;
 
@@ -304,18 +368,15 @@ BEGIN
             ,[Option]
             ,WalletId
         )
-        SELECT * FROM OPENJSON(@json, '$.ReportedIssuePeople')
-        WITH
-        (
-            ReportedIssueId uniqueidentifier
-            ,PersonId uniqueidentifier
-            ,OptionId uniqueidentifier
-            ,Question nvarchar(500)
-            ,[Option] nvarchar(50)
-            ,WalletId uniqueidentifier
-        );
-
-        EXEC mart.ETL_MaintainReportedIssuePersonDimension @reportedIssuePersonTable = @reportedIssuePersonTable;
+        SELECT DISTINCT
+            ReportedIssueId
+            ,PersonId
+            ,OptionId
+            ,Question
+            ,[Option]
+            ,WalletId
+        FROM @reportedIssuePersonTable2
+        WHERE PersonOptionTypeCode <> -1;
 
         EXEC mart.ETL_LoadReportedIssuePersonFact @reportedIssuePersonTable = @reportedIssuePersonTable, @investigation = 0;
 
@@ -401,7 +462,71 @@ BEGIN
 
         EXEC mart.ETL_LoadReportedIssueOptionSelectFact @reportedIssueOptionSelectTable = @reportedIssueInvestigationOptionSelectTable, @investigation = 1;
 
-        -- load the ReportedIssueInvestigationPerson data
+        -- load the ReportedIssueInvestigationPerson2 data (enriched detail: PersonOptionTypeCode, ContactId, FirstName, LastName, Email;
+        -- also a superset of ReportedIssueInvestigationPeople, additionally including N/A answers)
+
+        DECLARE @reportedIssueInvestigationPersonTable2 mart.ETL_ReportedIssuePersonTable2;
+
+        INSERT INTO @reportedIssueInvestigationPersonTable2
+        (
+            ReportedIssuePersonId
+            ,ReportedIssueId
+            ,PersonId
+            ,OptionId
+            ,Question
+            ,[Option]
+            ,PersonOptionTypeCode
+            ,ContactId
+            ,FirstName
+            ,LastName
+            ,Email
+            ,WalletId
+        )
+        SELECT * FROM OPENJSON(@json, '$.ReportedIssueInvestigationPeople2')
+        WITH
+        (
+            ReportedIssuePersonId uniqueidentifier '$.ReportedIssueInvestigationPersonId'
+            ,ReportedIssueId uniqueidentifier
+            ,PersonId uniqueidentifier
+            ,OptionId uniqueidentifier
+            ,Question nvarchar(500)
+            ,[Option] nvarchar(50)
+            ,PersonOptionTypeCode int
+            ,ContactId uniqueidentifier
+            ,FirstName nvarchar(max)
+            ,LastName nvarchar(max)
+            ,Email nvarchar(max)
+            ,WalletId uniqueidentifier
+        );
+
+        -- seed the shared ReportedIssuePerson dimension from the full superset (including N/A answers) so it covers
+        -- both ReportedIssuePersonFact2 below and the deprecated ReportedIssuePersonFact derived further down
+        DECLARE @reportedIssueInvestigationPersonDimensionTable mart.ETL_ReportedIssuePersonTable;
+
+        INSERT INTO @reportedIssueInvestigationPersonDimensionTable
+        (
+            ReportedIssueId
+            ,PersonId
+            ,OptionId
+            ,Question
+            ,[Option]
+            ,WalletId
+        )
+        SELECT DISTINCT
+            ReportedIssueId
+            ,PersonId
+            ,OptionId
+            ,Question
+            ,[Option]
+            ,WalletId
+        FROM @reportedIssueInvestigationPersonTable2;
+
+        EXEC mart.ETL_MaintainReportedIssuePersonDimension @reportedIssuePersonTable = @reportedIssueInvestigationPersonDimensionTable;
+
+        EXEC mart.ETL_LoadReportedIssuePersonFact2 @reportedIssuePersonTable2 = @reportedIssueInvestigationPersonTable2, @investigation = 1;
+
+        -- load the deprecated ReportedIssueInvestigationPeople data, derived from ReportedIssueInvestigationPeople2 by
+        -- excluding N/A answers (the deprecated dataset never included them); the dimension is already seeded above
 
         DECLARE @reportedIssueInvestigationPersonTable mart.ETL_ReportedIssuePersonTable;
 
@@ -414,18 +539,15 @@ BEGIN
             ,[Option]
             ,WalletId
         )
-        SELECT * FROM OPENJSON(@json, '$.ReportedIssueInvestigationPeople')
-        WITH
-        (
-            ReportedIssueId uniqueidentifier
-            ,PersonId uniqueidentifier
-            ,OptionId uniqueidentifier
-            ,Question nvarchar(500)
-            ,[Option] nvarchar(50)
-            ,WalletId uniqueidentifier
-        );
-
-        EXEC mart.ETL_MaintainReportedIssuePersonDimension @reportedIssuePersonTable = @reportedIssueInvestigationPersonTable;
+        SELECT DISTINCT
+            ReportedIssueId
+            ,PersonId
+            ,OptionId
+            ,Question
+            ,[Option]
+            ,WalletId
+        FROM @reportedIssueInvestigationPersonTable2
+        WHERE PersonOptionTypeCode <> -1;
 
         EXEC mart.ETL_LoadReportedIssuePersonFact @reportedIssuePersonTable = @reportedIssueInvestigationPersonTable, @investigation = 1;
 

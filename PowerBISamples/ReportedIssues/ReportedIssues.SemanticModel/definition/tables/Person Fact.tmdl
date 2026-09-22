@@ -130,7 +130,7 @@ table 'Person Fact'
 			        TRUE(),
 			        PersonOptionTypeCode = -1, BLANK(),
 			        PersonOptionTypeCode IN { 2, 3 }, RELATED('Person Contact'[Contact Name]),
-			        'Person Fact'[Entered First Name] & " " & 'Person Fact'[Entered Last Name]
+			        TRIM('Person Fact'[Entered First Name] & " " & 'Person Fact'[Entered Last Name])
 			    )
 		lineageTag: 0cec5b19-ad90-45ca-81d7-c8fcc4bfec95
 		summarizeBy: none

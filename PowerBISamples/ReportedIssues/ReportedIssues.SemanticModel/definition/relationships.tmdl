@@ -236,3 +236,21 @@ relationship fd9f608b-66ee-402a-95d8-1d0f4a117fa9
 	fromColumn: Issue.'Under Investigation Date'
 	toColumn: LocalDateTable_4113c75e-2ddf-4c5a-ac16-c0a9c2a98c42.Date
 
+relationship e19ae741-822d-4008-9707-036c5e97abde
+	isActive: false
+	fromColumn: Issue.LeadInvestigatorContact_key
+	toColumn: Contact.Contact_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 1beb4495-5aa7-4d1c-add3-7b25de3ec9b9
+	isActive: false
+	fromColumn: 'Investigation Team Fact'.Contact_key
+	toColumn: Contact.Contact_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship af5cc543-63b7-46a3-a5f3-3031631a37c9
+	fromColumn: 'Person Fact'.ReportedIssuePersonOptionType_key
+	toColumn: 'Person Option Type'.ReportedIssuePersonOptionType_key
+

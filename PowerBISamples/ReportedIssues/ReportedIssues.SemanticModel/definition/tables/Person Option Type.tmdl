@@ -1,0 +1,50 @@
+table 'Person Option Type'
+	lineageTag: 4f68ff31-3e22-4869-a4d7-e8493262f2bc
+
+	column ReportedIssuePersonOptionType_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 46f5cca6-04a8-4717-89ae-77e0758a1358
+		summarizeBy: none
+		sourceColumn: ReportedIssuePersonOptionType_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column PersonOptionTypeCode
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1a0dea22-9390-4582-a58b-57742fdd16f1
+		summarizeBy: none
+		sourceColumn: PersonOptionTypeCode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column 'Person Option Type'
+		dataType: string
+		lineageTag: 8a4c73db-ddfc-4216-912c-9244a7cc262a
+		summarizeBy: none
+		sourceColumn: Person Option Type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Person Option Type' = m
+		mode: import
+		source =
+				let
+				  Source = Sql.Database("demo-workwalletbi.database.windows.net", "demo-workwalletbi"),
+				  #"Navigation 1" = Source{[Schema = "mart", Item = "ReportedIssuePersonOptionType"]}[Data],
+				    #"Removed Columns" = Table.RemoveColumns(#"Navigation 1",{"_created", "_edited"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"PersonOptionType", "Person Option Type"}})
+				in
+				  #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

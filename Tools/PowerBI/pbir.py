@@ -634,7 +634,27 @@ def write_page(report_dir: Path, page_id: str, display_name: str, visuals: list[
     kept = sorted(d.name for d in (pdir / "visuals").iterdir() if d.is_dir() and d.name not in generated)
     if kept:
         print(f"{display_name}: kept {len(kept)} existing visual(s) not generated here: {', '.join(kept)}")
+    for warning in find_overlaps(pdir):
+        print(f"{display_name}: WARNING {warning}")
     return kept
+
+
+def find_overlaps(page_dir: Path, tolerance: float = 0.5) -> list[str]:
+    """Visuals on a page that overlap (textboxes excepted: the header deliberately sits under buttons on its
+    subtitle line). A selected visual is drawn on top, so an overlapped button or slicer can't be clicked."""
+    boxes = []
+    for f in sorted(Path(page_dir).glob("visuals/*/visual.json")):
+        v = json.loads(f.read_text(encoding="utf-8-sig"))
+        vtype = v.get("visual", {}).get("visualType")
+        if vtype and vtype != "textbox":
+            p = v["position"]
+            boxes.append((f"{vtype} {f.parent.name}", p["x"], p["y"], p["x"] + p["width"], p["y"] + p["height"]))
+    found = []
+    for i, a in enumerate(boxes):
+        for b in boxes[i + 1:]:
+            if (min(a[3], b[3]) - max(a[1], b[1]) > tolerance) and (min(a[4], b[4]) - max(a[2], b[2]) > tolerance):
+                found.append(f"{a[0]} overlaps {b[0]}")
+    return found
 
 
 def apply_theme(report_dir: Path, theme_file: str = "WorkWallet.json", allow_dirty: bool = False,

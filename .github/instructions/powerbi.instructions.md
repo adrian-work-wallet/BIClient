@@ -120,6 +120,7 @@ The canvas is 1280 × 720. The constants live in `Tools/PowerBI/pbir.py`.
   - Keep the target page's drillthrough binding and a Back button (`pbir.back_button`).
   - On the source page, add a drillthrough button (`pbir.drillthrough_button`) whose text comes from a measure: "Select an item…" until one row is selected, then "View X details  ›".
   - Place it outside other visuals (e.g. on the header subtitle line). A selected visual is drawn on top and hides anything overlapping it.
+  - With three or more dropdowns, the slicers reach far enough left to cover the subtitle line: end the button before the first slicer's x. `write_page` prints a warning for overlapping visuals (`pbir.find_overlaps`); fix every one before publishing.
   - Bind to a unique column. If the record has no unique reference, bind to its unique `Url` column (as the existing samples do) and show a readable reference in the button text.
   - Check uniqueness with DAX (`DISTINCTCOUNT` against `COUNTROWS`). For people, the same person can be a contact at several companies; binding to name and email groups their records, which is usually what a "person's" page needs. List every company on the page.
 - **Links to Work Wallet**: show `Url` (web URL) columns as a link icon (table `values` `urlIcon: true`), headed "Link".

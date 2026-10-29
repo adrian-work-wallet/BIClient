@@ -461,3 +461,66 @@ erDiagram
     "Branch Option Fact" }o--|| "Audit" : "Audit_key"
     "Branch Option Fact" }o--|| "Branch Option" : "AuditBranchOption_key"
 ```
+
+## Audits - Date and Measures
+
+```mermaid
+---
+config:
+  theme: neutral
+---
+erDiagram
+    "Date" {
+        attr Date
+        calc Year
+        calc Month
+        calc MonthStart
+        calc YearMonth
+    }
+    "Audit" {
+        attr Reference
+        attr AuditReference
+        attr InspectedOn
+        agg Score
+        agg PotentialScore
+        attr AverageScore
+        attr AveragePotentialScore
+        attr PercentageScore
+        agg Flags
+        attr ExternalIdentifier
+        calc ConductedBy
+        calc ScoreDisplay
+        calc AuditCount
+        attr PlannedStatusDate
+        attr ReportInProgressStatusDate
+        attr ReadyForReviewStatusDate
+        attr CompleteStatusDate
+        attr ClosedStatusDate
+    }
+    "Audit Measures" {
+        measure Audits
+        measure CompletedAudits
+        measure OpenAudits
+        measure CompletionRate
+        measure Auditors
+        measure MonthlyAverageAudits
+        measure MonthlyAverageLine
+        measure MostCommonAuditType
+        measure AverageScore
+        measure ScoredAudits
+        measure BestLocation
+        measure LowestLocation
+        measure LocationsAudited
+        measure ResponseScore
+        measure FlaggedResponses
+        measure IssueResponses
+        measure AuditsWithIssues
+        measure AuditsWithIssuesShare
+        measure TopIssue
+        measure TopIssueShare
+        measure RepeatIssues
+        measure ScoreBar
+        measure GradingBadge
+    }
+    "Audit" }o--|| "Date" : "Inspected Date"
+```

@@ -351,3 +351,7 @@ relationship 6655d580-c13e-44e1-827c-6614a74d4e17
 	fromColumn: Audit.'Closed Status Date'
 	toColumn: LocalDateTable_82e4754d-c2c2-4548-acbf-270c54686ffc.Date
 
+relationship 0016647c-9010-50e7-ae80-4e53e981f8d4
+	fromColumn: Audit.'Inspected Date'
+	toColumn: Date.Date
+

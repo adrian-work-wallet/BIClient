@@ -1,0 +1,81 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "81663a7beb44547d8b7c",
+  "position": {
+    "x": 272.8,
+    "y": 592,
+    "z": 1000,
+    "height": 112,
+    "width": 236.8,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Numeric Question"
+                    }
+                  },
+                  "Property": "Numeric Question"
+                }
+              },
+              "queryRef": "Numeric Question.Numeric Question",
+              "nativeQueryRef": "Question",
+              "displayName": "Question"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Numeric Answer Fact"
+                        }
+                      },
+                      "Property": "Numeric Answer"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Numeric Answer Fact.Numeric Answer)",
+              "nativeQueryRef": "Answer",
+              "displayName": "Answer"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Numeric questions'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

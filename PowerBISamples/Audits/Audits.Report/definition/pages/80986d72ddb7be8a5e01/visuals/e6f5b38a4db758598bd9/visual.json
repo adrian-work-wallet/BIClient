@@ -1,0 +1,76 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "e6f5b38a4db758598bd9",
+  "position": {
+    "x": 24,
+    "y": 592,
+    "z": 1000,
+    "height": 112,
+    "width": 236.8,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Checklist Option"
+                    }
+                  },
+                  "Property": "Checklist Question"
+                }
+              },
+              "queryRef": "Checklist Option.Checklist Question",
+              "nativeQueryRef": "Question",
+              "displayName": "Question"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Checklist Option"
+                    }
+                  },
+                  "Property": "Checklist Answer"
+                }
+              },
+              "queryRef": "Checklist Option.Checklist Answer",
+              "nativeQueryRef": "Answer",
+              "displayName": "Answer"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Checklists'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

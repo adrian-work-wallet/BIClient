@@ -25,13 +25,16 @@ The samples under `PowerBISamples/` serve two audiences. Every change must work 
 The samples are developed against a demo wallet, but must not depend on it.
 
 - **Never hard-code wallet data** in measures or visuals: no names, IDs, answer texts, locations or record types.
-- **Match statuses and types by code** (see `ReferenceData.md`), not by display name. This applies to measures and to page and visual filters.
+- **Codes in DAX, names in filters**:
+  - Measures and calculated columns match statuses and types by code (see `ReferenceData.md`), not by display name. Codes are stable; names can differ from the reference list (e.g. "Decomissioned", "InProgress") or be reworded later.
+  - Report, page and visual filters use the display-name column (e.g. `Status` is not "Deleted"), because users see them in the Filters pane and must be able to read and change them. Check each name in the data first (with DAX), and use the name that matches the code you mean.
+  - True/false flag filters (e.g. "Is Latest is True") are readable as they are.
 - **Use colours the wallet provides** (e.g. grading set colours) rather than fixed thresholds. Where a scale is needed, use a neutral fixed scale (e.g. 0%–100%), not business thresholds.
 - **Handle sentinel values.** Scores, potentials and percentages use `-1` for "not scored"; exclude them (`>= 0`) from sums and averages.
 - **Handle ties.** `TOPN(1, …)` returns every tied row, so never use it to pick "the" top item. Use the tie-aware leader pattern (`Name (+n tied)`).
 - **Don't rely on optional product features.** If a wallet may not use a feature (e.g. flagged answers), give the user a fallback, such as a slicer that switches what is counted.
 - **Default filters and slicers may use demo values**, as consumers are expected to reset them. Prefer no saved selection where the page still makes sense.
-- **Match the Work Wallet portal's defaults** so the report's numbers agree with what users see in Work Wallet. For example, the portal's Assets page shows Active assets by default. Check the portal page for the module and mirror its default with an editable report-level filter on the status code (`pbir.set_report_filter_in`). Tell users on the page when the filter hides records (e.g. a KPI label "7 more with other statuses (see Filters)").
+- **Match the Work Wallet portal's defaults** so the report's numbers agree with what users see in Work Wallet. For example, the portal's Assets page shows Active assets by default. Check the portal page for the module and mirror its default with an editable report-level filter on the status name (`pbir.set_report_filter_in`). Tell users on the page when the filter hides records (e.g. a KPI label "7 more with other statuses (see Filters)").
 - **Check edge cases with DAX** before publishing: empty periods, a single item, ties, and data without the optional feature.
 - **Explain empty data on the page.** Pages for optional features (e.g. investigation answers a wallet doesn't record) should say so, e.g. with a subtitle measure ("None recorded in this period"), rather than show empty visuals.
 
@@ -63,7 +66,7 @@ The samples are developed against a demo wallet, but must not depend on it.
 - **`ISINSCOPE` checks must cover every column a visual might group by**, e.g. both a raw question column and its order-prefixed variant.
 - **Placeholder and excluded data**:
   - Some date columns use `1899-12-30` for "no date" rather than blank. Calculated columns should treat dates on or before `1900-01-01` as blank. Check existing calculated columns too: a duration using a placeholder end date goes hugely negative (e.g. an ended assignment with no end date).
-  - Exclude records with a Deleted status with a report-level filter on the status code (`pbir.set_report_filter_not_in`), and in measures that ignore report filters. Some modules use a `Deleted` flag or "draft" (not finalised) flag instead; exclude those too.
+  - Exclude records with a Deleted status with a report-level filter on the status name (`pbir.set_report_filter_not_in`), and by code in measures that ignore report filters. Some modules use a `Deleted` flag or "draft" (not finalised) flag instead; exclude those too.
   - Remove stale report-level filters on display names (`pbir.remove_report_filters`), and replace stale page filters when rebuilding a page (`write_page(..., page_filters=[...])`).
   - Give blank grouping values a label in a calculated column (e.g. `"(No company)"`), so matrix rows aren't blank.
   - When codes don't sort in display order (e.g. `-1` for "not set"), sort by a hidden order column.

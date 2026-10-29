@@ -62,7 +62,7 @@
                 "Entity": "Asset Status"
               }
             },
-            "Property": "AssetStatusCode"
+            "Property": "Asset Status"
           }
         },
         "type": "Categorical",
@@ -87,7 +87,7 @@
                             "Source": "r"
                           }
                         },
-                        "Property": "AssetStatusCode"
+                        "Property": "Asset Status"
                       }
                     }
                   ],
@@ -95,7 +95,7 @@
                     [
                       {
                         "Literal": {
-                          "Value": "0L"
+                          "Value": "'Active'"
                         }
                       }
                     ]
@@ -116,7 +116,7 @@
                 "Entity": "Asset Status"
               }
             },
-            "Property": "AssetStatusCode"
+            "Property": "Asset Status"
           }
         },
         "type": "Categorical",
@@ -143,7 +143,7 @@
                                 "Source": "r"
                               }
                             },
-                            "Property": "AssetStatusCode"
+                            "Property": "Asset Status"
                           }
                         }
                       ],
@@ -151,7 +151,7 @@
                         [
                           {
                             "Literal": {
-                              "Value": "3L"
+                              "Value": "'Deleted'"
                             }
                           }
                         ]
@@ -174,7 +174,7 @@
                 "Entity": "Inspection Status"
               }
             },
-            "Property": "InspectionStatusCode"
+            "Property": "Inspection Status"
           }
         },
         "type": "Categorical",
@@ -201,7 +201,7 @@
                                 "Source": "r"
                               }
                             },
-                            "Property": "InspectionStatusCode"
+                            "Property": "Inspection Status"
                           }
                         }
                       ],
@@ -209,7 +209,7 @@
                         [
                           {
                             "Literal": {
-                              "Value": "3L"
+                              "Value": "'Deleted'"
                             }
                           }
                         ]

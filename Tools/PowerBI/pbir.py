@@ -386,8 +386,9 @@ def top_n_filter(category_field, order_measure_field, count):
 
 
 def in_filter(entity, prop, values: list):
-    """Visual-level 'is one of' filter, e.g. in_filter('Status', 'StatusCode', ['2L', '3L']). Values are PBIR
-    literals: '2L' for integers, "'Text'" for text. Prefer codes over display names."""
+    """Visual-level 'is one of' filter, e.g. in_filter('Status', 'Status', ["'Reported'"]). Values are PBIR
+    literals: "'Text'" for text, '2L' for integers, 'true' for booleans. Filters show in the Filters pane, so
+    filter on display names (readable), not codes; use codes in DAX."""
     return {
         "name": vid("in", entity, prop, *values),
         "field": col(entity, prop),
@@ -610,7 +611,7 @@ def write_page(report_dir: Path, page_id: str, display_name: str, visuals: list[
     folder names are returned so the caller can check them. replace_all=True deletes every existing visual and
     clears page-level formatting (the theme supplies page background/outspace). Use it only when deliberately
     rebuilding a whole page. Refuses to run if the page has uncommitted changes, unless allow_dirty=True.
-    page_filters: when given, replaces the page's filters (e.g. in_filter(...) on a status code); drillthrough
+    page_filters: when given, replaces the page's filters (e.g. in_filter(...) on a status name); drillthrough
     filters are always kept. Pass [] to remove stale filters.
     """
     pdir = Path(report_dir) / "definition" / "pages" / page_id
@@ -717,8 +718,8 @@ def remove_report_filters(report_dir: Path, entity: str, prop: str) -> int:
 
 
 def set_report_filter_not_in(report_dir: Path, entity: str, prop: str, values: list, key: str):
-    """Report-level filter excluding values (e.g. deleted records by status code) on every page.
-    values are DAX literals as PBIR expects them, e.g. ['8L'] for integers or ["'Deleted'"] for text."""
+    """Report-level filter excluding values (e.g. deleted records) on every page. Use the display-name column,
+    as users see it in the Filters pane: values are PBIR literals, e.g. ["'Deleted'"] for text."""
     _set_report_filter(report_dir, entity, prop, values, key, exclude=True)
 
 

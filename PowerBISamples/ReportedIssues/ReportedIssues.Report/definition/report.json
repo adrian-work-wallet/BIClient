@@ -105,7 +105,7 @@
                 "Entity": "Status"
               }
             },
-            "Property": "ReportedIssueStatusCode"
+            "Property": "Status"
           }
         },
         "type": "Categorical",
@@ -132,7 +132,7 @@
                                 "Source": "r"
                               }
                             },
-                            "Property": "ReportedIssueStatusCode"
+                            "Property": "Status"
                           }
                         }
                       ],
@@ -140,7 +140,7 @@
                         [
                           {
                             "Literal": {
-                              "Value": "8L"
+                              "Value": "'Deleted'"
                             }
                           }
                         ]

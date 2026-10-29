@@ -390,7 +390,7 @@
                 "Entity": "Status"
               }
             },
-            "Property": "ReportedIssueStatusCode"
+            "Property": "Status"
           }
         },
         "type": "Categorical",
@@ -415,7 +415,7 @@
                             "Source": "f"
                           }
                         },
-                        "Property": "ReportedIssueStatusCode"
+                        "Property": "Status"
                       }
                     }
                   ],
@@ -423,14 +423,14 @@
                     [
                       {
                         "Literal": {
-                          "Value": "2L"
+                          "Value": "'Reported'"
                         }
                       }
                     ],
                     [
                       {
                         "Literal": {
-                          "Value": "3L"
+                          "Value": "'Under Investigation'"
                         }
                       }
                     ]
@@ -451,7 +451,7 @@
                 "Entity": "Severity"
               }
             },
-            "Property": "ReportedIssueSeverityCode"
+            "Property": "Severity"
           }
         },
         "type": "Categorical",
@@ -476,7 +476,7 @@
                             "Source": "f"
                           }
                         },
-                        "Property": "ReportedIssueSeverityCode"
+                        "Property": "Severity"
                       }
                     }
                   ],
@@ -484,14 +484,14 @@
                     [
                       {
                         "Literal": {
-                          "Value": "4L"
+                          "Value": "'High'"
                         }
                       }
                     ],
                     [
                       {
                         "Literal": {
-                          "Value": "8L"
+                          "Value": "'Critical'"
                         }
                       }
                     ]

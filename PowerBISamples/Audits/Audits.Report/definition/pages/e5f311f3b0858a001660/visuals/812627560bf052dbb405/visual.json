@@ -13,26 +13,6 @@
     "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Columns": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Date"
-                    }
-                  },
-                  "Property": "Year Month"
-                }
-              },
-              "queryRef": "Date.Year Month",
-              "nativeQueryRef": "Month",
-              "active": true,
-              "displayName": "Month"
-            }
-          ]
-        },
         "Rows": {
           "projections": [
             {
@@ -79,6 +59,26 @@
               "queryRef": "Location.Area",
               "nativeQueryRef": "Area",
               "active": false
+            }
+          ]
+        },
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Date"
+                    }
+                  },
+                  "Property": "Year Month"
+                }
+              },
+              "queryRef": "Date.Year Month",
+              "nativeQueryRef": "Month",
+              "active": true,
+              "displayName": "Month"
             }
           ]
         },

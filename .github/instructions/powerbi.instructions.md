@@ -122,7 +122,7 @@ Saving in Power BI Desktop rewrites files into its own form. Expect this after e
 - **Commit a Desktop save on its own**, with no other edits (e.g. "Power BI Desktop save (no functional change)"), so later diffs show only real changes.
 - **Review a Desktop save structurally**, comparing property by property against the last commit (ignore whitespace and ordering). Then publish it and check the affected pages still render as before.
 - **Don't overwrite the user's Desktop edits.** Before regenerating files the user has saved in Desktop, compare them with the last commit. Carry any intentional edits into the build script first.
-- **Generate files in Desktop's form where practical** (no final line break, current schema versions, whole-number positions, `active` flags), so Desktop saves cause less churn.
+- **Generate files in Desktop's form** (no final line break, current schema versions, whole-number positions, `active` flags). `pbir.py` and `tmdl.py` already do this, so regenerating after a Desktop save should give no differences.
 
 ## Developing interactively in an agent session
 
@@ -157,6 +157,7 @@ The loop: edit files, publish to a dev workspace (seconds), check measures with 
   - `chromeless=1` hides the service chrome.
 - **Filter by URL** to reach a specific record: `&filter=Table/Column eq 'value'`, encoding spaces in names as `_x0020_`.
 - **Allow time to render**: wait about 15 seconds after navigating. Reload after each publish, because the browser caches the report.
+- **Slicers remember the viewer's last selection** (persistent filters), so a changed default won't show until you click "Reset to default". That button is in the full view; it isn't available with `chromeless=1`.
 - **The tab must be visible to render.** If visuals measure zero size or the canvas is blank, ask the user to bring the browser tab into view.
 - **Screenshots can be stale.** Confirm results by measuring the live page with `page.evaluate`:
   - element positions (`getBoundingClientRect`) and computed font sizes;

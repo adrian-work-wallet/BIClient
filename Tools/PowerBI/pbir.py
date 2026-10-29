@@ -29,7 +29,7 @@ import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
 
-VC_SCHEMA = "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json"
+VC_SCHEMA = "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json"
 
 
 @dataclass
@@ -127,12 +127,13 @@ def ref(f) -> str:
 
 
 def proj(f, display: str | None = None, active: bool | None = None):
+    """Projection in Desktop's key order: field, queryRef, nativeQueryRef, active, displayName."""
     r = ref(f)
     p = {"field": f, "queryRef": r, "nativeQueryRef": display or r.split(".", 1)[1].rstrip(")")}
-    if display:
-        p["displayName"] = display
     if active is not None:
         p["active"] = active
+    if display:
+        p["displayName"] = display
     return p
 
 
@@ -172,14 +173,19 @@ def title(text: str, subtitle: str | None = None, size: float | None = None):
 
 # ----------------------------------------------------------------------------------- visuals
 def container(page, key, vtype, x, y, w, h, z, visual_extra, container_objects=None, filters=None, extra=None):
-    """Generic visual container. z doubles as tab order."""
-    v = {"visualType": vtype, **visual_extra, "drillFilterOtherVisuals": True}
+    """Generic visual container. z doubles as tab order. Written in Power BI Desktop's canonical form
+    (key order, 'active' flags on hierarchical roles, whole-number positions) so Desktop saves don't churn."""
+    v = {"visualType": vtype, **visual_extra}
+    _set_active_flags(v.get("query", {}).get("queryState", {}))
     if container_objects:
         v["visualContainerObjects"] = container_objects
+    if "syncGroup" in v:
+        v["syncGroup"] = v.pop("syncGroup")
+    v["drillFilterOtherVisuals"] = True
     d = {
         "$schema": VC_SCHEMA,
         "name": vid(page, key),
-        "position": {"x": x, "y": y, "z": z, "height": h, "width": w, "tabOrder": z},
+        "position": {k: _num(val) for k, val in {"x": x, "y": y, "z": z, "height": h, "width": w, "tabOrder": z}.items()},
         "visual": v,
     }
     if filters:
@@ -187,6 +193,26 @@ def container(page, key, vtype, x, y, w, h, z, visual_extra, container_objects=N
     if extra:
         d.update(extra)
     return d
+
+
+def _num(v):
+    """Whole numbers as int (Desktop writes 802, not 802.0)."""
+    return int(v) if isinstance(v, float) and v.is_integer() else v
+
+
+# Desktop marks the expanded level of hierarchical roles: first projection active, the rest inactive.
+_ACTIVE_ROLES = ("Category", "Rows", "Columns")
+
+
+def _set_active_flags(query_state):
+    for role in _ACTIVE_ROLES:
+        projections = query_state.get(role, {}).get("projections", [])
+        for idx, p in enumerate(projections):
+            if "active" not in p:
+                rebuilt = {k: p[k] for k in ("field", "queryRef", "nativeQueryRef")}
+                rebuilt["active"] = idx == 0
+                rebuilt.update({k: v for k, v in p.items() if k not in rebuilt})
+                projections[idx] = rebuilt
 
 
 def header(page, heading, subtitle, eyebrow: str | None = None, width=720):
@@ -239,9 +265,10 @@ def kpi_cards(page, tiles, y=KPI_Y, h=KPI_H, key="kpis", value_size=18, padding=
     tiles: list of (projection, reference_label_measure, reference_colour_measure[, value_font_size]).
     The reference label is a text measure shown under the value (e.g. '▲ 7% vs previous period');
     its font colour can come from a colour measure. padding = (top, bottom, left, right) of the callout.
+    Reference label padding, if ever needed, is paddingTop/paddingBottom/paddingLeft/paddingRight on
+    referenceLabel (not the *Margin names used by the padding object; Desktop drops those).
     """
-    ref_labels = [sel_props(DEFAULT, backgroundShow=b(False), paddingIndividual=b(True),
-                            topMargin=i(0), bottomMargin=i(12), leftMargin=i(14), rightMargin=i(10))]
+    ref_labels = [sel_props(DEFAULT, backgroundShow=b(False), paddingIndividual=b(True))]
     projections, ref_values = [], []
     values = [sel_props(DEFAULT, fontSize=n(value_size))]
     for tile in tiles:
@@ -404,8 +431,9 @@ def back_button(page, key="back", x=W - MARGIN - 150, y=22, w=150, h=36):
 
 # ------------------------------------------------------------------------------------ files
 def write_json(path: Path, obj):
+    """CRLF, two-space indent, no final line break: the form Power BI Desktop saves."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\r\n")
+    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8", newline="\r\n")
 
 
 def write_page(report_dir: Path, page_id: str, display_name: str, visuals: list[dict]):

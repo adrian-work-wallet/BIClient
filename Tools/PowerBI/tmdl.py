@@ -101,7 +101,7 @@ def date_table(first_expr: str, last_expr: str,
     Relate it to a date-only column on the fact (e.g. a calculated DATE ( YEAR(..), MONTH(..), DAY(..) ) column),
     not to a date/time column.
     """
-    L = ["table Date", f"{T}dataCategory: Time", f"{T}lineageTag: {tag('Date')}", ""]
+    L = ["table Date", f"{T}lineageTag: {tag('Date')}", f"{T}dataCategory: Time", ""]
 
     def col(name, expr=None, dtype="dateTime", fmt=None, hidden=False, sort_by=None, key=False, category=None):
         L.append(f"{T}column {_quote(name)}" + (f" = {expr}" if expr else ""))

@@ -13,26 +13,6 @@
     "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Columns": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Date"
-                    }
-                  },
-                  "Property": "Year Month"
-                }
-              },
-              "queryRef": "Date.Year Month",
-              "nativeQueryRef": "Month",
-              "active": true,
-              "displayName": "Month"
-            }
-          ]
-        },
         "Rows": {
           "projections": [
             {
@@ -50,6 +30,26 @@
               "nativeQueryRef": "Question",
               "active": true,
               "displayName": "Question"
+            }
+          ]
+        },
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Date"
+                    }
+                  },
+                  "Property": "Year Month"
+                }
+              },
+              "queryRef": "Date.Year Month",
+              "nativeQueryRef": "Month",
+              "active": true,
+              "displayName": "Month"
             }
           ]
         },

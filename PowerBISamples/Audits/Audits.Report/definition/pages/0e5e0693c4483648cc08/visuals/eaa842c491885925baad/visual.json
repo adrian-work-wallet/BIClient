@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "eaa842c491885925baad",
   "position": {
     "x": 1072,
@@ -28,8 +28,8 @@
               },
               "queryRef": "Audit Status.Audit Status",
               "nativeQueryRef": "Status",
-              "displayName": "Status",
-              "active": true
+              "active": true,
+              "displayName": "Status"
             }
           ]
         }

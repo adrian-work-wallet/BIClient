@@ -1,6 +1,6 @@
 table Date
-	lineageTag: 9f926b70-3c67-50df-bdf9-e93c77dee92a
 	dataCategory: Time
+	lineageTag: 9f926b70-3c67-50df-bdf9-e93c77dee92a
 
 	column Date
 		dataType: dateTime

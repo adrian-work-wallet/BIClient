@@ -358,6 +358,15 @@ table 'Audit Measures'
 		displayFolder: Labels
 		lineageTag: 1a64c97c-ab58-5fb5-a860-c1cad1cef8d2
 
+	/// Text for the Audits list drillthrough button; reflects the audit selected in the table.
+	measure 'Audit Details Button Label' =
+			VAR Selected = IF ( HASONEVALUE ( Audit[Audit Reference] ), VALUES ( Audit[Audit Reference] ) )
+			RETURN
+			    IF ( ISBLANK ( Selected ), "Select an audit to view details", "View " & Selected & " details  ›" )
+		isHidden
+		displayFolder: Labels
+		lineageTag: 638af6ed-0f90-558b-bc90-f8358372cea7
+
 	/// Semantic colour for favourable changes; matches the theme's 'good' colour.
 	measure 'Colour Good' = "#2E9E6B"
 		isHidden

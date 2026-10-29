@@ -11,7 +11,7 @@ The format loosely follows Keep a Changelog principles (dates in YYYY-MM-DD). Ve
 - Audits Power BI sample redesigned (Power BI only; no database deploy or data reload needed):
   - New `WorkWallet.json` report theme and a consistent page layout: a header with slicers, a row of KPI tiles with "vs previous period" indicators, then the main content.
   - Each page is reworked:
-    - Audits list: KPI tiles above the audit register.
+    - Audits list: KPI tiles above the audit register, and a "View details" button that opens Audit details for the selected audit (no right-click needed).
     - Audits completed: monthly chart with an average line, plus a by-type breakdown.
     - Audit details: summary tiles, score gauge, section and tag score bars, and grading badges.
     - Top 5 trending issues: a by-month issue heatmap.

@@ -5,7 +5,7 @@
     "x": 24,
     "y": 80,
     "z": 2000,
-    "height": 108,
+    "height": 124,
     "width": 1232,
     "tabOrder": 2000
   },
@@ -110,6 +110,13 @@
                   "Value": "12L"
                 }
               }
+            },
+            "calloutSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "62D"
+                }
+              }
             }
           }
         }
@@ -117,10 +124,38 @@
       "padding": [
         {
           "properties": {
-            "paddingUniform": {
+            "paddingIndividual": {
               "expr": {
                 "Literal": {
-                  "Value": "4L"
+                  "Value": "true"
+                }
+              }
+            },
+            "topMargin": {
+              "expr": {
+                "Literal": {
+                  "Value": "10L"
+                }
+              }
+            },
+            "bottomMargin": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            },
+            "leftMargin": {
+              "expr": {
+                "Literal": {
+                  "Value": "14L"
+                }
+              }
+            },
+            "rightMargin": {
+              "expr": {
+                "Literal": {
+                  "Value": "10L"
                 }
               }
             }
@@ -160,6 +195,22 @@
           }
         }
       ],
+      "spacing": [
+        {
+          "properties": {
+            "verticalSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
       "referenceLabel": [
         {
           "properties": {
@@ -173,14 +224,35 @@
             "paddingIndividual": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             },
-            "paddingUniform": {
+            "topMargin": {
               "expr": {
                 "Literal": {
                   "Value": "0L"
+                }
+              }
+            },
+            "bottomMargin": {
+              "expr": {
+                "Literal": {
+                  "Value": "12L"
+                }
+              }
+            },
+            "leftMargin": {
+              "expr": {
+                "Literal": {
+                  "Value": "14L"
+                }
+              }
+            },
+            "rightMargin": {
+              "expr": {
+                "Literal": {
+                  "Value": "10L"
                 }
               }
             }

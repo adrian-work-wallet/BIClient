@@ -45,7 +45,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Every audit in the selected period. Right-click a row and choose Drill through > Audit details.",
+                    "value": "Every audit in the selected period. Select an audit in the register to view its full results.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "9pt",

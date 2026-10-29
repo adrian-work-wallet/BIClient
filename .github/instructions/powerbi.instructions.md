@@ -106,6 +106,9 @@ Saving in Power BI Desktop rewrites files into its own form. Expect this after e
   - Visual `$schema` versions are bumped (e.g. `visualContainer/2.4.0` → `2.14.0`).
   - `"active": true` is added to `Category`, `Rows` and `Columns` projections. Lower matrix row levels get `false`.
   - Whole numbers lose their `.0` (e.g. `802.0` → `802`).
+  - Fractional numbers are written with up to 17 significant digits (e.g. `770.40000000000009`, where Python writes `770.4000000000001`). Keep positions in whole pixels.
+  - Empty `"objects": {}` blocks are removed.
+  - An empty `"columnHeaders": [{ "properties": {} }]` entry is added (after `columnWidth`) to some tables, e.g. one with per-column conditional formatting. When this appears, mirror it in the build script.
 - **Unsupported properties are silently dropped.** Examples seen so far:
   - `referenceLabel` `*Margin` padding;
   - gauge callout font size;
@@ -122,7 +125,7 @@ Saving in Power BI Desktop rewrites files into its own form. Expect this after e
 - **Commit a Desktop save on its own**, with no other edits (e.g. "Power BI Desktop save (no functional change)"), so later diffs show only real changes.
 - **Review a Desktop save structurally**, comparing property by property against the last commit (ignore whitespace and ordering). Then publish it and check the affected pages still render as before.
 - **Don't overwrite the user's Desktop edits.** Before regenerating files the user has saved in Desktop, compare them with the last commit. Carry any intentional edits into the build script first.
-- **Generate files in Desktop's form** (no final line break, current schema versions, whole-number positions, `active` flags). `pbir.py` and `tmdl.py` already do this, so regenerating after a Desktop save should give no differences.
+- **Generate files in Desktop's form** (no final line break, current schema versions, whole-pixel positions, `active` flags, no empty `objects`). `pbir.py` and `tmdl.py` already do this, so regenerating after a Desktop save should give no differences. If a Desktop save still changes generated files, update the tools to match.
 
 ## Developing interactively in an agent session
 

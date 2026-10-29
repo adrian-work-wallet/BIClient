@@ -176,6 +176,8 @@ def container(page, key, vtype, x, y, w, h, z, visual_extra, container_objects=N
     """Generic visual container. z doubles as tab order. Written in Power BI Desktop's canonical form
     (key order, 'active' flags on hierarchical roles, whole-number positions) so Desktop saves don't churn."""
     v = {"visualType": vtype, **visual_extra}
+    if not v.get("objects"):
+        v.pop("objects", None)  # Desktop removes empty "objects": {}
     _set_active_flags(v.get("query", {}).get("queryState", {}))
     if container_objects:
         v["visualContainerObjects"] = container_objects
@@ -196,8 +198,9 @@ def container(page, key, vtype, x, y, w, h, z, visual_extra, container_objects=N
 
 
 def _num(v):
-    """Whole numbers as int (Desktop writes 802, not 802.0)."""
-    return int(v) if isinstance(v, float) and v.is_integer() else v
+    """Positions in whole pixels. Desktop writes fractional numbers with up to 17 significant digits
+    (e.g. 770.40000000000009) where Python writes 770.4000000000001, so fractions would churn on every save."""
+    return int(round(v))
 
 
 # Desktop marks the expanded level of hierarchical roles: first projection active, the rest inactive.
@@ -311,6 +314,8 @@ def table(page, key, x, y, w, h, columns, title_text, subtitle=None, sort=None, 
     obj = dict(objects or {})
     if widths:
         obj["columnWidth"] = [sel_props({"metadata": c["queryRef"]}, value=n(wd)) for c, wd in zip(columns, widths) if wd]
+    if "columnHeaders" in obj:
+        obj["columnHeaders"] = obj.pop("columnHeaders")  # Desktop writes columnHeaders after columnWidth
     co = title(title_text, subtitle, title_size)
     co.update(container_extra or {})
     return container(page, key, "tableEx", x, y, w, h, z, {"query": q, "objects": obj}, co)

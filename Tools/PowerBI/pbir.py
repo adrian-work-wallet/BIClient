@@ -330,6 +330,7 @@ def table(page, key, x, y, w, h, columns, title_text, subtitle=None, sort=None, 
     obj = dict(objects or {})
     if widths:
         obj["columnWidth"] = [sel_props({"metadata": c["queryRef"]}, value=n(wd)) for c, wd in zip(columns, widths) if wd]
+        obj.setdefault("columnHeaders", props())  # Desktop adds an empty columnHeaders to tables with widths
     if "columnHeaders" in obj:
         obj["columnHeaders"] = obj.pop("columnHeaders")  # Desktop writes columnHeaders after columnWidth
     co = title(title_text, subtitle, title_size, subtitle_measure)
@@ -518,6 +519,11 @@ def matrix(page, key, x, y, w, h, rows, columns, values, title_text, subtitle=No
                                        backColor=cell_colour) for v in values]
     if row_header_width:
         objects["columnWidth"] = [sel_props({"metadata": rows[0]["queryRef"]}, value=n(row_header_width))]
+        objects["columnHeaders"] = props()  # Desktop adds this (after columnWidth) on save
+        if columns:
+            # ...and, when it rewrites the visual, writes the Columns role first.
+            state = {"Columns": state["Columns"], "Rows": state["Rows"], "Values": state["Values"]}
+            q["queryState"] = state
     visual = {"query": q}
     if expanded and len(rows) > 1:
         depth = len(rows) - 1 if expanded is True else min(int(expanded), len(rows) - 1)

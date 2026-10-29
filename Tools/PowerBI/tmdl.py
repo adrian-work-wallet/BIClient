@@ -415,7 +415,7 @@ def add_relationship(relationships_tmdl: Path, from_ref: str, to_ref: str, extra
     if f"fromColumn: {from_ref}\n{T}toColumn: {to_ref}\n" in text + "\n":
         return
     rel = [f"relationship {tag('rel/' + from_ref + '->' + to_ref)}"] + [f"{T}{e}" for e in (extra or [])] + \
-          [f"{T}fromColumn: {from_ref}", f"{T}toColumn: {to_ref}", ""]
+          [f"{T}fromColumn: {from_ref}", f"{T}toColumn: {to_ref}", "", ""]  # Desktop ends the file with a blank line
     _write_text(relationships_tmdl, text.rstrip("\n") + "\n\n" + "\n".join(rel))
 
 

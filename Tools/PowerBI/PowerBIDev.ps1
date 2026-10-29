@@ -128,10 +128,30 @@ function Invoke-PbiRefresh {
 }
 
 function Invoke-PbiDax {
-    <# Runs a DAX query (EVALUATE ...) against a published model and returns the rows. #>
+    <# Runs a DAX query (EVALUATE ...) against a published model and returns the rows. Query errors (e.g. a
+       measure with a syntax error) are thrown with just the service's message rather than returning nothing. #>
     param([Parameter(Mandatory)] [string]$WorkspaceId, [Parameter(Mandatory)] [string]$ModelId, [Parameter(Mandatory)] [string]$Query)
     $body = @{ queries = @(@{ query = $Query }); serializerSettings = @{ includeNulls = $true } } | ConvertTo-Json -Depth 5
-    $result = Invoke-RestMethod -Method Post -Headers (Get-PbiToken PowerBI) -Body $body `
-        -Uri "$script:PowerBIApi/groups/$WorkspaceId/datasets/$ModelId/executeQueries"
+    try {
+        $result = Invoke-RestMethod -Method Post -Headers (Get-PbiToken PowerBI) -Body $body `
+            -Uri "$script:PowerBIApi/groups/$WorkspaceId/datasets/$ModelId/executeQueries"
+    } catch {
+        $detail = try { ($_.ErrorDetails.Message | ConvertFrom-Json).error.'pbi.error'.details[0].detail.value } catch { $null }
+        throw "DAX query failed: $(if ($detail) { $detail } else { $_.Exception.Message })"
+    }
+    if ($result.results[0].error) { throw "DAX query failed: $($result.results[0].error.message)" }
     $result.results[0].tables[0].rows
+}
+
+function Test-PbiMeasures {
+    <# Evaluates every measure defined in a local measures-table .tmdl against the published model and
+       reports any that fail (e.g. a syntax error or a reserved word used as a variable name). #>
+    param([Parameter(Mandatory)] [string]$WorkspaceId, [Parameter(Mandatory)] [string]$ModelId, [Parameter(Mandatory)] [string]$TmdlPath)
+    $table = (Select-String -Path $TmdlPath -Pattern '^table (.+)$' | Select-Object -First 1).Matches[0].Groups[1].Value.Trim("'")
+    $names = Select-String -Path $TmdlPath -Pattern "^\tmeasure (.+?) =" | ForEach-Object { $_.Matches[0].Groups[1].Value.Trim("'") }
+    $failed = foreach ($name in $names) {
+        try { Invoke-PbiDax -WorkspaceId $WorkspaceId -ModelId $ModelId -Query "EVALUATE ROW(""v"", '$table'[$name])" | Out-Null }
+        catch { [pscustomobject]@{ Measure = $name; Error = $_.Exception.Message } }
+    }
+    if ($failed) { $failed } else { "All $($names.Count) measures in '$table' evaluate" }
 }

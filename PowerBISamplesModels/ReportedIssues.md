@@ -19,6 +19,12 @@ erDiagram
         calc IssueCount
         calc ReportedBy
         attr UnderInvestigationDate
+        calc InvestigationStartedOn
+        calc ClosedOn
+        calc HoursToReport
+        calc DaysToStartInvestigation
+        calc DaysToClose
+        calc AgeBand
     }
     "Location" {
         attr LocationType
@@ -31,6 +37,8 @@ erDiagram
         attr LocationExternalIdentifier
         attr AllDepartments
         attr SiteStatus
+        calc CompanyName
+        calc SiteName
     }
     "Severity" {
         attr Severity
@@ -74,6 +82,12 @@ erDiagram
         calc IssueCount
         calc ReportedBy
         attr UnderInvestigationDate
+        calc InvestigationStartedOn
+        calc ClosedOn
+        calc HoursToReport
+        calc DaysToStartInvestigation
+        calc DaysToClose
+        calc AgeBand
     }
     "Body Part Fact" {
         calc BodyPartCount
@@ -108,6 +122,12 @@ erDiagram
         calc IssueCount
         calc ReportedBy
         attr UnderInvestigationDate
+        calc InvestigationStartedOn
+        calc ClosedOn
+        calc HoursToReport
+        calc DaysToStartInvestigation
+        calc DaysToClose
+        calc AgeBand
     }
     "Branch Option Fact" {
         calc BranchOptionCount
@@ -138,6 +158,12 @@ erDiagram
         calc IssueCount
         calc ReportedBy
         attr UnderInvestigationDate
+        calc InvestigationStartedOn
+        calc ClosedOn
+        calc HoursToReport
+        calc DaysToStartInvestigation
+        calc DaysToClose
+        calc AgeBand
     }
     "Option Select Fact" {
         calc OptionSelectCount
@@ -169,6 +195,12 @@ erDiagram
         calc IssueCount
         calc ReportedBy
         attr UnderInvestigationDate
+        calc InvestigationStartedOn
+        calc ClosedOn
+        calc HoursToReport
+        calc DaysToStartInvestigation
+        calc DaysToClose
+        calc AgeBand
     }
     "Person Fact" {
         calc PersonCount
@@ -215,6 +247,12 @@ erDiagram
         calc IssueCount
         calc ReportedBy
         attr UnderInvestigationDate
+        calc InvestigationStartedOn
+        calc ClosedOn
+        calc HoursToReport
+        calc DaysToStartInvestigation
+        calc DaysToClose
+        calc AgeBand
     }
     "Root Cause Analysis Fact" {
         attr RootCauseAnalysis
@@ -244,6 +282,12 @@ erDiagram
         calc IssueCount
         calc ReportedBy
         attr UnderInvestigationDate
+        calc InvestigationStartedOn
+        calc ClosedOn
+        calc HoursToReport
+        calc DaysToStartInvestigation
+        calc DaysToClose
+        calc AgeBand
     }
     "Investigation Team Fact" {
     }
@@ -289,6 +333,12 @@ erDiagram
         calc IssueCount
         calc ReportedBy
         attr UnderInvestigationDate
+        calc InvestigationStartedOn
+        calc ClosedOn
+        calc HoursToReport
+        calc DaysToStartInvestigation
+        calc DaysToClose
+        calc AgeBand
     }
     "Unit" {
     }
@@ -314,6 +364,12 @@ erDiagram
         calc IssueCount
         calc ReportedBy
         attr UnderInvestigationDate
+        calc InvestigationStartedOn
+        calc ClosedOn
+        calc HoursToReport
+        calc DaysToStartInvestigation
+        calc DaysToClose
+        calc AgeBand
     }
     "Date Time Question" {
         attr Question
@@ -348,6 +404,12 @@ erDiagram
         calc IssueCount
         calc ReportedBy
         attr UnderInvestigationDate
+        calc InvestigationStartedOn
+        calc ClosedOn
+        calc HoursToReport
+        calc DaysToStartInvestigation
+        calc DaysToClose
+        calc AgeBand
     }
     "Signature Contact" {
         attr ContactName
@@ -368,4 +430,83 @@ erDiagram
     "Signature Fact" }o--|| "Issue" : "ReportedIssue_key"
     "Signature Fact" }o--|| "Signature Contact" : "Contact_key"
     "Signature Fact" }o--|| "Signature Person Option Type" : "ReportedIssuePersonOptionType_key"
+```
+
+## Reported Issues - Date and Measures
+
+```mermaid
+---
+config:
+  theme: neutral
+---
+erDiagram
+    "Date" {
+        attr Date
+        calc Year
+        calc Month
+        calc MonthStart
+        calc YearMonth
+        calc SlicerDate
+    }
+    "Issue" {
+        attr IssueReference
+        attr OccurredOn
+        attr ReportedOn
+        attr IssueOverview
+        attr CloseDate
+        calc IssueCount
+        calc ReportedBy
+        attr UnderInvestigationDate
+        calc InvestigationStartedOn
+        calc ClosedOn
+        calc HoursToReport
+        calc DaysToStartInvestigation
+        calc DaysToClose
+        calc AgeBand
+    }
+    "Issue Measures" {
+        measure Issues
+        measure OpenIssues
+        measure UnderInvestigation
+        measure ClosedIssues
+        measure ClosureRate
+        measure SeriousIssues
+        measure SeriousShare
+        measure MonthlyAverageIssues
+        measure MonthlyAverageLine
+        measure MostCommonCategory
+        measure LocationsWithIssues
+        measure TopLocation
+        measure MedianHoursToReport
+        measure AverageDaysToStartInvestigation
+        measure AverageDaysToClose
+        measure OpenOver30Days
+        measure SeriousAwaitingInvestigation
+        measure IssuesWithRootCauseAnalysis
+        measure RootCauseIssues
+        measure ImmediateCauseIssues
+        measure TopRootCause
+        measure TopImmediateCause
+        measure InjuryReports
+        measure InjuredBodyParts
+        measure SeriousInjuryReports
+        measure MostAffectedBodyPart
+        measure MostAffectedBodyArea
+        measure PeopleRecorded
+        measure IssuesWithPeople
+        measure PeopleTypedInShare
+        measure MostCommonPersonQuestion
+        measure NumericAnswers
+        measure NumericTotal
+        measure NumericAverage
+        measure NumericHighest
+        measure IssuesWithNumericAnswers
+        measure DateTimeAnswers
+        measure AverageHoursAfterOccurrence
+        measure Signatures
+        measure Signed
+        measure AwaitingSignature
+        measure AverageDaysToSign
+    }
+    "Issue" }o--|| "Date" : "Occurred Date"
 ```

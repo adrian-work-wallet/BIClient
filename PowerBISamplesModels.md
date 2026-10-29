@@ -97,6 +97,7 @@ inactive relationship. Each column is prefixed with its kind instead of its data
 * [Reported Issues - Numeric Answer](PowerBISamplesModels/ReportedIssues.md#reported-issues---numeric-answer)
 * [Reported Issues - Date Time Answer](PowerBISamplesModels/ReportedIssues.md#reported-issues---date-time-answer)
 * [Reported Issues - Signature](PowerBISamplesModels/ReportedIssues.md#reported-issues---signature)
+* [Reported Issues - Date and Measures](PowerBISamplesModels/ReportedIssues.md#reported-issues---date-and-measures)
 
 ## Safety Cards
 

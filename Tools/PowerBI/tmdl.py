@@ -2,9 +2,10 @@
 table, and reusable DAX patterns (previous period, trend labels/colours, tie-aware leaders).
 
 The committed TMDL files are the source of truth. Use MeasuresTable / write_date_table to create these
-tables for a model that doesn't have them yet. For an existing model, edit the .tmdl directly; the DAX
-pattern functions return text you can paste or adapt. Scripts that use these helpers are throwaway (keep
-them in the agent's session workspace, not the repo).
+tables for a model that doesn't have them yet. For an existing model, use the additive helpers at the end
+of this file (add_columns, upsert_measures, set_sort_by, add_table_refs, add_relationship, add_diagram_page)
+or edit the .tmdl directly; the DAX pattern functions return text you can paste or adapt. Scripts that use
+these helpers are throwaway (keep them in the agent's session workspace, not the repo).
 
     import sys; sys.path.insert(0, "Tools/PowerBI")
     import tmdl as t
@@ -26,6 +27,7 @@ model.tmdl and any relationships to relationships.tmdl for new tables.
 """
 from __future__ import annotations
 
+import re
 import uuid
 from pathlib import Path
 
@@ -270,3 +272,181 @@ def semantic_colours(table: MeasuresTable, good="#2E9E6B", bad="#D6493A", neutra
               desc="Semantic colour for unfavourable changes; matches the theme's 'bad' colour.")
     table.add("Colour Neutral", f'"{neutral}"', folder="Formatting", hidden=True,
               desc="Semantic colour for no change or no comparison; matches the theme's secondary text colour.")
+
+
+# ------------------------------------------------------------------- editing existing models
+# Additive, idempotent edits to committed TMDL (the source of truth): they add what's missing and leave
+# everything else untouched, so they are safe to re-run.
+
+def _read(path: Path) -> str:
+    return Path(path).read_text(encoding="utf-8")
+
+
+def _write_text(path: Path, text: str):
+    Path(path).write_text(text.replace("\r\n", "\n"), encoding="utf-8", newline="\r\n")
+
+
+def calc_column_lines(table, name, expr, dtype, fmt=None, hidden=False, desc=None, sort_by=None,
+                      summarize="none", category=None) -> list[str]:
+    """TMDL lines for a calculated column (dtype: string, int64, double, dateTime, boolean)."""
+    out = [f"{T}/// {desc}"] if desc else []
+    expr = expr.strip("\n")
+    if "\n" in expr:
+        out.append(f"{T}column {_quote(name)} =")
+        out.extend(dax_block(expr, 3))
+    else:
+        out.append(f"{T}column {_quote(name)} = {expr.strip()}")
+    out.append(f"{T}{T}dataType: {dtype}")
+    if hidden:
+        out.append(f"{T}{T}isHidden")
+    if fmt:
+        out.append(f"{T}{T}formatString: {fmt}")
+    out.append(f"{T}{T}lineageTag: {tag(table + '/' + name)}")
+    if category:
+        out.append(f"{T}{T}dataCategory: {category}")
+    out.append(f"{T}{T}summarizeBy: {summarize}")
+    if sort_by:
+        out.append(f"{T}{T}sortByColumn: {_quote(sort_by)}")
+    out += ["", f"{T}{T}annotation SummarizationSetBy = Automatic", ""]
+    return out
+
+
+def add_columns(table_tmdl: Path, columns: list[list[str]]) -> list[str]:
+    """Inserts calculated columns (from calc_column_lines) before the table's first partition/hierarchy.
+    Columns that already exist (by name) are skipped. Returns the names added."""
+    text = _read(table_tmdl).replace("\r\n", "\n")
+    added = []
+    for lines in columns:
+        decl = next(l for l in lines if l.startswith(f"{T}column "))
+        name = decl[len(f"{T}column "):].split(" =")[0]
+        if f"\n{T}column {name}\n" in text or f"\n{T}column {name} =" in text:
+            continue
+        anchor = min(i for i in (text.find(f"\n{T}hierarchy "), text.find(f"\n{T}partition ")) if i >= 0)
+        text = text[:anchor + 1] + "\n".join(lines) + "\n" + text[anchor + 1:]
+        added.append(name.strip("'"))
+    _write_text(table_tmdl, text)
+    return added
+
+
+_TOP_LEVEL = re.compile(rf"^{T}(///|measure |column |partition |hierarchy |annotation |calculationGroup)")
+
+
+def _measure_span(lines: list[str], name: str):
+    """(start, end) line indexes of a measure block, including its /// description; None if absent."""
+    decl = re.compile(rf"^{T}measure {re.escape(_quote(name))}( =|$)")
+    for idx, line in enumerate(lines):
+        if decl.match(line):
+            start = idx
+            while start > 0 and lines[start - 1].startswith(f"{T}///"):
+                start -= 1
+            end = idx + 1
+            while end < len(lines) and not _TOP_LEVEL.match(lines[end]):
+                end += 1
+            return start, end
+    return None
+
+
+def upsert_measures(table_tmdl: Path, measures: list[list[str]], after: str | None = None) -> dict:
+    """Replaces measures (from measure_lines) that exist by name, in place, and inserts the rest after the
+    measure named `after` (or before the table's first column/partition). Returns {'replaced': [...],
+    'added': [...]}. Everything else in the file is left untouched."""
+    lines = _read(table_tmdl).replace("\r\n", "\n").split("\n")
+    result = {"replaced": [], "added": []}
+    insert_at = None
+    if after:
+        span = _measure_span(lines, after)
+        if span is None:
+            raise ValueError(f"measure '{after}' not found in {table_tmdl}")
+        insert_at = span[1]
+    for block in measures:
+        decl = next(l for l in block if l.startswith(f"{T}measure "))
+        name = decl[len(f"{T}measure "):].split(" =")[0].strip("'")
+        span = _measure_span(lines, name)
+        if span:
+            lines[span[0]:span[1]] = block
+            result["replaced"].append(name)
+            if insert_at is not None and insert_at > span[0]:
+                insert_at += len(block) - (span[1] - span[0])
+            continue
+        if insert_at is None:
+            insert_at = next(i for i, l in enumerate(lines) if l.startswith((f"{T}column ", f"{T}partition ")))
+        lines[insert_at:insert_at] = block
+        insert_at += len(block)
+        result["added"].append(name)
+    _write_text(table_tmdl, "\n".join(lines))
+    return result
+
+
+def set_sort_by(table_tmdl: Path, column: str, sort_by: str, replace: bool = False):
+    """Sets sortByColumn on an existing column (e.g. sort a name column by its code). An existing sort is kept
+    unless replace=True."""
+    text = _read(table_tmdl).replace("\r\n", "\n")
+    start = text.index(f"\n{T}column {_quote(column)}\n") + 1
+    end = text.find(f"\n{T}column ", start)
+    end = len(text) if end < 0 else end
+    block = text[start:end]
+    if "sortByColumn:" in block:
+        if not replace:
+            return
+        block = re.sub(r"sortByColumn: [^\n]+", f"sortByColumn: {_quote(sort_by)}", block)
+    else:
+        block = block.replace(f"{T}{T}summarizeBy:", f"{T}{T}sortByColumn: {_quote(sort_by)}\n{T}{T}summarizeBy:", 1) \
+            if "summarizeBy:" in block else block.replace(f"{T}{T}lineageTag:", f"{T}{T}sortByColumn: {_quote(sort_by)}\n{T}{T}lineageTag:", 1)
+    _write_text(table_tmdl, text[:start] + block + text[end:])
+
+
+def add_table_refs(model_tmdl: Path, tables: list[str]):
+    """Adds 'ref table' lines to model.tmdl for new tables (after the last existing ref table)."""
+    text = _read(model_tmdl).replace("\r\n", "\n")
+    lines = text.split("\n")
+    refs = [i for i, l in enumerate(lines) if l.startswith("ref table ")]
+    for t in tables:
+        line = f"ref table {_quote(t)}"
+        if line not in lines:
+            refs_last = max(i for i, l in enumerate(lines) if l.startswith("ref table "))
+            lines.insert(refs_last + 1, line)
+    _write_text(model_tmdl, "\n".join(lines))
+
+
+def add_relationship(relationships_tmdl: Path, from_ref: str, to_ref: str, extra: list[str] | None = None):
+    """Adds a relationship, e.g. add_relationship(path, "Issue.'Occurred Date'", "Date.Date"); skipped if present.
+    extra: further property lines, e.g. ["crossFilteringBehavior: bothDirections"]."""
+    text = _read(relationships_tmdl).replace("\r\n", "\n")
+    if f"fromColumn: {from_ref}\n{T}toColumn: {to_ref}\n" in text + "\n":
+        return
+    rel = [f"relationship {tag('rel/' + from_ref + '->' + to_ref)}"] + [f"{T}{e}" for e in (extra or [])] + \
+          [f"{T}fromColumn: {from_ref}", f"{T}toColumn: {to_ref}", ""]
+    _write_text(relationships_tmdl, text.rstrip("\n") + "\n\n" + "\n".join(rel))
+
+
+def add_diagram_page(semantic_model_dir: Path, page_name: str, tables: list[str], layout: dict | None = None):
+    """Adds a model diagram page (used by the model doc generator) and puts any new tables on 'All tables'.
+    Existing number formatting is preserved. layout: optional {table: (x, y, w, h)}."""
+    import json
+    import re
+    path = Path(semantic_model_dir) / "diagramLayout.json"
+    raw = path.read_text(encoding="utf-8-sig")
+    d = json.loads(raw, parse_float=lambda s: "__NUM__" + s)
+
+    def node(name, i):
+        x, y, w, h = (layout or {}).get(name, (i * 300, 0, 260, 400))
+        return {"location": {"x": x, "y": y}, "nodeIndex": name, "nodeLineageTag": tag(name),
+                "size": {"height": h, "width": w}, "zIndex": i}
+
+    all_tables = d["diagrams"][0]
+    known = {n["nodeIndex"] for n in all_tables["nodes"]}
+    z = max((n.get("zIndex", 0) for n in all_tables["nodes"]), default=0)
+    for t in tables:
+        if t not in known:
+            z += 1
+            all_tables["nodes"].append(node(t, z) | {"location": {"x": 3000, "y": 400 * (z % 5)}})
+    if not any(dg["name"] == page_name for dg in d["diagrams"]):
+        template = d["diagrams"][1] if len(d["diagrams"]) > 1 else all_tables
+        page = {k: v for k, v in template.items() if k != "nodes"}
+        page.update({"ordinal": max(dg["ordinal"] for dg in d["diagrams"]) + 1, "name": page_name,
+                     "scrollPosition": {"x": 0, "y": 0}, "nodes": [node(t, i) for i, t in enumerate(tables)]})
+        d["diagrams"].append({k: page[k] for k in template.keys()})
+    indent = 2 if '\n  "' in raw[:50] else 4
+    out = re.sub(r'"__NUM__([^"]+)"', r"\1", json.dumps(d, indent=indent))
+    nl = "\r\n" if "\r\n" in raw else "\n"
+    path.write_text(out + ("\n" if raw.endswith(("\n", "\r\n")) else ""), encoding="utf-8", newline=nl)

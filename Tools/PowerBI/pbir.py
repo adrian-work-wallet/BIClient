@@ -170,9 +170,13 @@ DEFAULT = {"id": "default"}
 ALL_DATA = {"data": [{"dataViewWildcard": {"matchingOption": 1}}]}
 
 
-def title(text: str, subtitle: str | None = None, size: float | None = None):
+def title(text: str, subtitle: str | None = None, size: float | None = None, subtitle_measure: str | None = None):
+    """Visual title and optional subtitle. subtitle_measure: a text measure for a dynamic subtitle (e.g. one
+    that says 'None recorded in this period' so an empty visual explains itself)."""
     o = {"title": props(show=b(True), text=s(text), **({"fontSize": n(size)} if size else {}))}
-    if subtitle:
+    if subtitle_measure:
+        o["subTitle"] = props(show=b(True), text={"expr": meas(subtitle_measure)})
+    elif subtitle:
         o["subTitle"] = props(show=b(True), text=s(subtitle))
     return o
 
@@ -209,8 +213,16 @@ def _num(v):
     return int(round(v))
 
 
-# Desktop marks the expanded level of hierarchical roles: first projection active, the rest inactive.
+# Desktop marks the expanded level of hierarchical roles: first projection active, the rest inactive
+# (unless a matrix is expanded, when every shown level is active).
 _ACTIVE_ROLES = ("Category", "Rows", "Columns")
+
+
+def _with_active(p, active: bool):
+    rebuilt = {k: p[k] for k in ("field", "queryRef", "nativeQueryRef")}
+    rebuilt["active"] = active
+    rebuilt.update({k: v for k, v in p.items() if k not in rebuilt})
+    return rebuilt
 
 
 def _set_active_flags(query_state):
@@ -218,10 +230,7 @@ def _set_active_flags(query_state):
         projections = query_state.get(role, {}).get("projections", [])
         for idx, p in enumerate(projections):
             if "active" not in p:
-                rebuilt = {k: p[k] for k in ("field", "queryRef", "nativeQueryRef")}
-                rebuilt["active"] = idx == 0
-                rebuilt.update({k: v for k, v in p.items() if k not in rebuilt})
-                projections[idx] = rebuilt
+                projections[idx] = _with_active(p, idx == 0)
 
 
 def header(page, heading, subtitle, eyebrow: str | None = None, width=720):
@@ -313,7 +322,7 @@ def kpi_cards(page, tiles, y=KPI_Y, h=KPI_H, key="kpis", value_size=18, padding=
 
 
 def table(page, key, x, y, w, h, columns, title_text, subtitle=None, sort=None, widths=None, objects=None, z=1000,
-          title_size=None, container_extra=None):
+          title_size=None, container_extra=None, filters=None, subtitle_measure=None):
     """Table (tableEx). sort: [(field, 'Ascending'|'Descending')]; widths: per-column px or None."""
     q = {"queryState": {"Values": {"projections": columns}}}
     if sort:
@@ -323,9 +332,9 @@ def table(page, key, x, y, w, h, columns, title_text, subtitle=None, sort=None, 
         obj["columnWidth"] = [sel_props({"metadata": c["queryRef"]}, value=n(wd)) for c, wd in zip(columns, widths) if wd]
     if "columnHeaders" in obj:
         obj["columnHeaders"] = obj.pop("columnHeaders")  # Desktop writes columnHeaders after columnWidth
-    co = title(title_text, subtitle, title_size)
+    co = title(title_text, subtitle, title_size, subtitle_measure)
     co.update(container_extra or {})
-    return container(page, key, "tableEx", x, y, w, h, z, {"query": q, "objects": obj}, co)
+    return container(page, key, "tableEx", x, y, w, h, z, {"query": q, "objects": obj}, co, filters=filters)
 
 
 def image_grid(width=110, height=20):
@@ -373,6 +382,55 @@ def top_n_filter(category_field, order_measure_field, count):
     }
 
 
+def in_filter(entity, prop, values: list):
+    """Visual-level 'is one of' filter, e.g. in_filter('Status', 'StatusCode', ['2L', '3L']). Values are PBIR
+    literals: '2L' for integers, "'Text'" for text. Prefer codes over display names."""
+    return {
+        "name": vid("in", entity, prop, *values),
+        "field": col(entity, prop),
+        "type": "Categorical",
+        "filter": {"Version": 2, "From": [{"Name": "f", "Entity": entity, "Type": 0}],
+                   "Where": [{"Condition": {"In": {
+                       "Expressions": [{"Column": {"Expression": {"SourceRef": {"Source": "f"}}, "Property": prop}}],
+                       "Values": [[{"Literal": {"Value": v}}] for v in values]}}}]},
+        "howCreated": "User",
+    }
+
+
+def measure_filter(entity, measure, kind=">", value="0L"):
+    """Visual-level measure filter, e.g. measure_filter('Issue Measures', 'Issues') keeps rows where [Issues] > 0.
+    Use it on tables built only from dimension columns: without a measure nothing ties the rows to the
+    page's filters (e.g. the selected issue), so every dimension row would be listed."""
+    kinds = {"=": 0, ">": 1, ">=": 2, "<": 3, "<=": 4}
+    return {
+        "name": vid("measure", entity, measure, kind, value),
+        "field": {"Measure": {"Expression": {"SourceRef": {"Entity": entity}}, "Property": measure}},
+        "type": "Advanced",
+        "filter": {"Version": 2, "From": [{"Name": "m", "Entity": entity, "Type": 0}],
+                   "Where": [{"Condition": {"Comparison": {
+                       "ComparisonKind": kinds[kind],
+                       "Left": {"Measure": {"Expression": {"SourceRef": {"Source": "m"}}, "Property": measure}},
+                       "Right": {"Literal": {"Value": value}}}}}]},
+        "howCreated": "User",
+    }
+
+
+def page_header(page, heading, subtitle, date_display, months=12, dropdowns=(), eyebrow=None):
+    """Header strip: the header textbox on the left and slicers right-aligned to the content edge, with the
+    header narrowed so it never runs under the slicers. dropdowns: [(key, entity, prop, display), ...].
+    Returns the visuals (header, date slicer, dropdown slicers)."""
+    date_w, dd_w = 300, 184
+    x = W - MARGIN
+    dropdown_visuals = []
+    for idx, (key, entity, prop, display) in enumerate(reversed(list(dropdowns))):
+        x -= dd_w
+        dropdown_visuals.insert(0, dropdown_slicer(page, key, entity, prop, display, x, dd_w, z=3001 + idx))
+        x -= GAP
+    x -= date_w
+    return [header(page, heading, subtitle, eyebrow, width=x - MARGIN - GAP),
+            date_slicer(page, x, date_w, date_display, months=months)] + dropdown_visuals
+
+
 def not_blank_filter(entity, prop):
     """Visual-level 'is not blank' filter."""
     return {
@@ -399,7 +457,7 @@ def score_gradient(measure_name):
             "nullColoringStrategy": {"strategy": s("noColor")["expr"]}}}}}}}}
 
 
-def count_gradient(measure_name, low="#FFF6DD", high=BAD):
+def count_gradient(measure_name, low="#FDEBC8", high=BAD):
     """Data-driven light-to-red scale for counts (heatmap cells)."""
     return {"solid": {"color": {"expr": {"FillRule": {
         "Input": meas(measure_name),
@@ -441,6 +499,90 @@ def back_button(page, key="back", x=W - MARGIN - 150, y=22, w=150, h=36):
         }}, {"visualLink": props(show=b(True), type=s("Back"))}, extra={"howCreated": "InsertVisualButton"})
 
 
+# ------------------------------------------------------------------------------- more visuals
+def matrix(page, key, x, y, w, h, rows, columns, values, title_text, subtitle=None, cell_colour=None,
+           stepped=True, row_header_width=None, filters=None, sort=None, expanded=False, z=1000):
+    """Matrix (pivotTable). rows/columns/values: lists of projections. cell_colour: a fill rule (e.g.
+    count_gradient) applied to every value cell. Expand/collapse via the row headers (stepped layout).
+    expanded=True opens every row level above the last by default (or pass a number of levels); this is
+    level-wide, so it doesn't depend on the data. Rows must be plain columns, not hierarchy levels."""
+    state = {"Rows": {"projections": rows}, "Values": {"projections": values}}
+    if columns:
+        state["Columns"] = {"projections": columns}
+    q = {"queryState": state}
+    if sort:
+        q["sortDefinition"] = {"sort": [{"field": f, "direction": d} for f, d in sort]}
+    objects = {"rowHeaders": props(stepped=b(stepped))}
+    if cell_colour:
+        objects["values"] = [sel_props({"data": [{"dataViewWildcard": {"matchingOption": 1}}], "metadata": v["queryRef"]},
+                                       backColor=cell_colour) for v in values]
+    if row_header_width:
+        objects["columnWidth"] = [sel_props({"metadata": rows[0]["queryRef"]}, value=n(row_header_width))]
+    visual = {"query": q}
+    if expanded and len(rows) > 1:
+        depth = len(rows) - 1 if expanded is True else min(int(expanded), len(rows) - 1)
+        # "Expand all down" marks every shown level active and records level-wide (data-independent) states.
+        rows = [_with_active(r, idx <= depth) for idx, r in enumerate(rows)]
+        state["Rows"]["projections"] = rows
+        levels = []
+        for idx, r in enumerate(rows):
+            level = {"queryRefs": [r["queryRef"]]}
+            if idx >= depth:
+                level["isCollapsed"] = True
+            if idx < len(rows) - 1:
+                level["identityKeys"] = [r["field"]]
+            level["isPinned"] = True
+            levels.append(level)
+        visual["expansionStates"] = [{"roles": ["Rows"], "levels": levels, "root": {}}]
+    visual["objects"] = objects
+    return container(page, key, "pivotTable", x, y, w, h, z, visual, title(title_text, subtitle), filters=filters)
+
+
+def column_chart(page, key, x, y, w, h, category, values, title_text, subtitle=None, series=None, line=None,
+                 series_colours=None, legend=True, z=1000):
+    """Stacked column chart by category (e.g. month), optionally split by a series and with a dashed line
+    measure (e.g. a monthly average). series_colours: {value: hex} for a fixed palette (e.g. severity)."""
+    vtype = "lineStackedColumnComboChart" if line else "columnChart"
+    state = {"Category": {"projections": [category]}, "Y": {"projections": values}}
+    if series:
+        state["Series"] = {"projections": [series]}
+    if line:
+        state["Y2"] = {"projections": [line]}
+    objects = {"legend": props(show=b(legend and bool(series)), position=s("Top"))}
+    if line:
+        objects["lineStyles"] = props(strokeWidth=i(2), lineStyle=s("dashed"), showMarker=b(False))
+        objects["valueAxis"] = props(secShow=b(False))
+    if series and series_colours:
+        objects["dataPoint"] = [series_colour(series["field"], value, hex_) for value, hex_ in series_colours.items()]
+    return container(page, key, vtype, x, y, w, h, z, {
+        "query": {"queryState": state, "sortDefinition": {"sort": [{"field": category["field"], "direction": "Ascending"}]}},
+        "objects": objects}, title(title_text, subtitle))
+
+
+def series_colour(series_field, value: str, hex_: str):
+    """dataPoint entry fixing the colour of one series value (e.g. severity 'High' -> red)."""
+    c = series_field["Column"]
+    return {"properties": {"fill": colour(hex_)},
+            "selector": {"data": [{"scopeId": {"Comparison": {"ComparisonKind": 0,
+                                                              "Left": {"Column": c},
+                                                              "Right": {"Literal": {"Value": "'" + value.replace("'", "''") + "'"}}}}}]}}
+
+
+def text_card(page, key, x, y, w, h, value_proj, label=None, font_size=10, z=2000):
+    """Single-tile card for a long text value (e.g. an issue overview), wrapped and left aligned."""
+    return container(page, key, "cardVisual", x, y, w, h, z, {
+        "query": {"queryState": {"Data": {"projections": [value_proj]}}},
+        "objects": {
+            "layout": props(orientation=n(2), maxTiles=i(1), alignment=s("top"), calloutSize=n(100)),
+            "padding": [sel_props(DEFAULT, paddingIndividual=b(True), topMargin=i(8), bottomMargin=i(8),
+                                  leftMargin=i(14), rightMargin=i(14))],
+            "label": [sel_props(DEFAULT, show=b(bool(label)))],
+            "value": [sel_props(DEFAULT, fontSize=n(font_size), textWrap=b(True), horizontalAlignment=s("left"),
+                                fontFamily=s("'Segoe UI', wf_segoe-ui_normal, helvetica, arial, sans-serif"))],
+            "accentBar": [sel_props(DEFAULT, show=b(False))],
+        }})
+
+
 # ------------------------------------------------------------------------------------ files
 def write_json(path: Path, obj):
     """CRLF, two-space indent, no final line break: the form Power BI Desktop saves."""
@@ -475,10 +617,17 @@ def write_page(report_dir: Path, page_id: str, display_name: str, visuals: list[
     return kept
 
 
-def apply_theme(report_dir: Path, theme_file: str = "WorkWallet.json", allow_dirty: bool = False):
-    """Registers StaticResources/RegisteredResources/<theme_file> as the report's custom theme."""
+def apply_theme(report_dir: Path, theme_file: str = "WorkWallet.json", allow_dirty: bool = False,
+                copy_from: Path | None = None):
+    """Registers StaticResources/RegisteredResources/<theme_file> as the report's custom theme.
+    copy_from: a report folder that already has the theme; it is copied unchanged (keeps every copy identical)."""
     report_path = Path(report_dir) / "definition" / "report.json"
     require_clean(report_path, allow_dirty)
+    if copy_from:
+        src = Path(copy_from) / "StaticResources" / "RegisteredResources" / theme_file
+        dst = Path(report_dir) / "StaticResources" / "RegisteredResources" / theme_file
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        dst.write_bytes(src.read_bytes())
     report = json.loads(report_path.read_text(encoding="utf-8"))
     report["themeCollection"]["customTheme"] = {
         "name": theme_file,
@@ -490,3 +639,62 @@ def apply_theme(report_dir: Path, theme_file: str = "WorkWallet.json", allow_dir
                      "items": [{"name": theme_file, "path": theme_file, "type": "CustomTheme"}]})
     report["resourcePackages"] = packages
     write_json(report_path, report)
+
+
+PAGE_SCHEMA = "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json"
+
+
+def create_page(report_dir: Path, page_id: str, display_name: str) -> bool:
+    """Creates an empty 1280x720 page (and adds it to pages.json) if it doesn't exist. Returns True if created."""
+    pdir = Path(report_dir) / "definition" / "pages" / page_id
+    if (pdir / "page.json").exists():
+        return False
+    write_json(pdir / "page.json", {"$schema": PAGE_SCHEMA, "name": page_id, "displayName": display_name,
+                                    "displayOption": "FitToPage", "height": H, "width": W})
+    pages_path = Path(report_dir) / "definition" / "pages" / "pages.json"
+    pages = json.loads(pages_path.read_text(encoding="utf-8"))
+    pages["pageOrder"].append(page_id)
+    write_json(pages_path, pages)
+    return True
+
+
+def set_page_order(report_dir: Path, page_ids: list[str], active: str | None = None):
+    """Sets the page tab order (every existing page must be listed) and the page the report opens on."""
+    pages_path = Path(report_dir) / "definition" / "pages" / "pages.json"
+    pages = json.loads(pages_path.read_text(encoding="utf-8"))
+    assert sorted(pages["pageOrder"]) == sorted(page_ids), "page_ids must list every page exactly once"
+    pages["pageOrder"] = page_ids
+    pages["activePageName"] = active or page_ids[0]
+    write_json(pages_path, pages)
+
+
+def set_drillthrough(report_dir: Path, page_id: str, entity: str, prop: str, hidden: bool = True):
+    """Makes a page a drillthrough target on Entity[prop] (e.g. a record reference) and hides it from the
+    page tabs (it is reached by drilling through, so it shouldn't be opened directly)."""
+    path = Path(report_dir) / "definition" / "pages" / page_id / "page.json"
+    page = json.loads(path.read_text(encoding="utf-8"))
+    filter_name = vid("drillthrough-filter", page_id)
+    page["filterConfig"] = {"filters": [{"name": filter_name, "field": col(entity, prop), "type": "Categorical",
+                                         "howCreated": "Drillthrough"}]}
+    page["pageBinding"] = {"name": vid("drillthrough-binding", page_id), "type": "Drillthrough",
+                           "parameters": [{"name": vid("drillthrough-param", page_id), "boundFilter": filter_name,
+                                           "fieldExpr": col(entity, prop)}]}
+    if hidden:
+        page["visibility"] = "HiddenInViewMode"
+    write_json(path, page)
+
+
+def set_report_filter_not_in(report_dir: Path, entity: str, prop: str, values: list, key: str):
+    """Report-level filter excluding values (e.g. deleted records by status code) on every page.
+    values are DAX literals as PBIR expects them, e.g. ['8L'] for integers or ["'Deleted'"] for text."""
+    path = Path(report_dir) / "definition" / "report.json"
+    report = json.loads(path.read_text(encoding="utf-8"))
+    flt = {"name": vid("report-filter", key), "field": col(entity, prop), "type": "Categorical",
+           "filter": {"Version": 2, "From": [{"Name": "r", "Entity": entity, "Type": 0}],
+                      "Where": [{"Condition": {"Not": {"Expression": {"In": {
+                          "Expressions": [{"Column": {"Expression": {"SourceRef": {"Source": "r"}}, "Property": prop}}],
+                          "Values": [[{"Literal": {"Value": v}}] for v in values]}}}}}]},
+           "howCreated": "User"}
+    config = report.setdefault("filterConfig", {})
+    config["filters"] = [f for f in config.get("filters", []) if f["name"] != flt["name"]] + [flt]
+    write_json(path, report)

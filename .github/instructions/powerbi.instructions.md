@@ -32,6 +32,7 @@ The samples are developed against a demo wallet, but must not depend on it.
 - **Don't rely on optional product features.** If a wallet may not use a feature (e.g. flagged answers), give the user a fallback, such as a slicer that switches what is counted.
 - **Default filters and slicers may use demo values**, as consumers are expected to reset them. Prefer no saved selection where the page still makes sense.
 - **Check edge cases with DAX** before publishing: empty periods, a single item, ties, and data without the optional feature.
+- **Explain empty data on the page.** Pages for optional features (e.g. investigation answers a wallet doesn't record) should say so, e.g. with a subtitle measure ("None recorded in this period"), rather than show empty visuals.
 
 ## Semantic model conventions
 
@@ -56,6 +57,21 @@ The samples are developed against a demo wallet, but must not depend on it.
   - For rows that must still show, return a placeholder such as `"–"` instead of blank.
   - The reverse also applies: a measure that never returns blank (e.g. one that falls back to a parent-level value) pulls in unrelated dimension rows. Return `BLANK ()` when the row has no facts (`ISEMPTY ( Fact )`).
 - **`ISINSCOPE` checks must cover every column a visual might group by**, e.g. both a raw question column and its order-prefixed variant.
+- **Placeholder and excluded data**:
+  - Some date columns use `1899-12-30` for "no date" rather than blank. Calculated columns should treat dates on or before `1900-01-01` as blank.
+  - Exclude records with a Deleted status with a report-level filter on the status code (`pbir.set_report_filter_not_in`), and in measures that ignore report filters.
+  - Give blank grouping values a label in a calculated column (e.g. `"(No company)"`), so matrix rows aren't blank.
+  - When codes don't sort in display order (e.g. `-1` for "not set"), sort by a hidden order column.
+- **Single-record (detail) pages**:
+  - Read the record's attributes with measures such as `IF ( HASONEVALUE ( Fact[Key] ), MAXX ( Fact, RELATED ( Dim[Name] ) ) )`, not `MIN ( Dim[Name] )`. With single-direction relationships a dimension isn't filtered by the record, so `MIN` shows the right value only when a drillthrough happens to pass that column too (and is wrong from a URL filter or another source visual).
+  - Tables built only from dimension columns aren't tied to the record either, and list every dimension row. Add a measure filter (`pbir.measure_filter`, e.g. `[Issues] > 0`) unless the relationships cross-filter both ways.
+  - Keep these record-level measures (and their colour measures) for the record's tiles only. Measures used for conditional formatting are part of a table's query, so keep table colour measures cheap (`SELECTEDVALUE` of the grouped column). A colour measure that read the fact row made a register table with several dimension columns evaluate every combination and fail with "Query has exceeded the available resources".
+- **Text labels**: avoid "1 hours"-style plurals; use wording such as "within an hour", "the same day" and "the next day" for small values.
+- **Zero vs blank**: a KPI tile shows `--` for blank. Add `+ 0` when zero is the meaningful answer (e.g. "Serious, awaiting investigation"), but only in measures used by cards, because a measure that is never blank pulls every row into tables.
+- **DAX gotchas**:
+  - Don't name variables after DAX functions (e.g. `TopCount`). The whole query fails with "Failed to resolve name 'SYNTAXERROR'".
+  - Quote table names that are also DAX keywords or functions in queries: `'Date'`, `'Status'`.
+  - `MEDIANX` over a date difference needs a numeric expression (`( a - b ) * 1.0`).
 - **Long text for KPI tiles** (e.g. a question) is truncated in the measure (`tmdl.truncate_label`, about 45 characters).
 - **New tables** need three things:
   - a `ref table` line in `model.tmdl`;
@@ -70,7 +86,7 @@ The canvas is 1280 × 720. The constants live in `Tools/PowerBI/pbir.py`.
   - Copy it unchanged from a report that already uses it, register it with `pbir.apply_theme`, and keep every copy identical.
   - Put formatting in the theme, not on individual visuals (page background, card tiles, table headers, slicers).
 - **Navigation**: no in-canvas navigation menus. Users switch pages with the Power BI page tabs, Pages pane or app navigation.
-- **Header** (`pbir.header`, x 24, y 8, 720 × 64): one textbox holding:
+- **Header** (`pbir.header`, x 24, y 8, 720 × 64; or `pbir.page_header`, which also places the slicers and narrows the header so it never runs under them): one textbox holding:
   - an 8pt accent eyebrow (`WORK WALLET  ·  <MODULE>`);
   - an 18pt title;
   - a 9pt grey subtitle saying what the page shows.
@@ -80,11 +96,13 @@ The canvas is 1280 × 720. The constants live in `Tools/PowerBI/pbir.py`.
 - **KPI row** (`pbir.kpi_cards`): one card visual (`cardVisual`) at y 80, height 124, holding four tiles.
   - Each tile shows a label, an 18pt value, and a reference label (a text measure, optionally coloured by a colour measure).
   - Use 13pt for text-valued tiles (names).
+  - Always use four tiles. With fewer, the tiles stretch and the page no longer fits (the service zooms out and visuals overflow). If a page has only three natural KPIs, add a relevant related one.
 - **Body**: y 216 to 704, with 24px side margins and 12px gaps.
 - **Dense detail pages** (e.g. drillthrough targets with many tables) use the compact rhythm:
   - summary cards at y 74, height 72, 8px gaps, ending at y 712;
-  - 12pt summary values with no wrapping;
-  - 9pt titles and 6/10px padding on small tables.
+  - 12pt summary values with no wrapping, and at most six tiles (about 200px each);
+  - long values (locations, "name (company)", free text) in wrapping text cards (`pbir.text_card`, 9pt), because multi-tile cards truncate rather than wrap;
+  - 9pt titles and 6/10px padding on small tables, with column widths (`widths=`) that fit the container (about its width minus 36px), so there's no horizontal scrollbar.
 - **Names**: sentence case for page names, visual titles and column display names.
 - **Drillthrough**:
   - Keep the target page's drillthrough binding and a Back button (`pbir.back_button`).
@@ -93,6 +111,8 @@ The canvas is 1280 × 720. The constants live in `Tools/PowerBI/pbir.py`.
 - **Charts and tables**:
   - Rank with visual-level Top N filters (`pbir.top_n_filter`).
   - Use colour scales for heatmap matrices (`score_gradient` for 0–1 percentages, `count_gradient` for counts).
+  - Open matrix row levels by default (`pbir.matrix(..., expanded=True)`, or a number of levels). A collapsed matrix shows a few top-level rows and a lot of empty space. The expansion is level-wide, so it doesn't depend on the data.
+  - Fix colours for fixed lists (e.g. severity) by code with `series_colours` / colour measures; let the theme colour everything else.
   - Size in-cell images with table `grid` `imageWidth` / `imageHeight`, and make the column about 15px wider than the image.
   - Avoid donut charts and other visuals that become unreadable when a wallet has many categories.
 
@@ -106,6 +126,11 @@ The canvas is 1280 × 720. The constants live in `Tools/PowerBI/pbir.py`.
 - **Slicer fonts:** relative date slicer inputs ignore text size settings (they render at about 8pt). Set slicer `items` (and `date`) text to 8pt in the theme so dropdowns match.
 - **Drillthrough button:** `visualContainerObjects.visualLink` has `type 'Drillthrough'` and `drillthroughSection` set to the target page name. Style the default, hover and disabled states via selectors `{"id": "default" | "hover" | "disabled"}`.
 - **Conditional colour from a measure** ("field value") is `{"solid": {"color": {"expr": {"Measure": …}}}}` (`pbir.colour_measure`).
+- **Expanded matrix rows** need both parts of Desktop's "expand all down" form, or the service shows the matrix collapsed:
+  - `"active": true` on every shown `Rows` projection;
+  - `expansionStates` with one entry per row level (`isCollapsed: true` only on levels left closed, `identityKeys` on all but the last) and `"root": {}`.
+
+  Per-member `root.children` toggles depend on the data, so don't use them.
 
 ## Power BI Desktop round-trips
 
@@ -140,6 +165,21 @@ Saving in Power BI Desktop rewrites files into its own form. Expect this after e
 - **Don't overwrite the user's Desktop edits.** Commit a Desktop save before regenerating anything (the helpers refuse to write over uncommitted changes). If a rebuild script no longer reproduces the committed files, carry the differences into the script first.
 - **Generate files in Desktop's form** (no final line break, current schema versions, whole-pixel positions, `active` flags, no empty `objects`). `pbir.py` and `tmdl.py` already do this, so regenerating after a Desktop save should give no differences. If a Desktop save still changes generated files, update the tools to match.
 
+## Applying the design to a report
+
+A repeatable sequence for bringing a sample report up to this design:
+
+1. **Review the existing report.** List each page's visuals and fields, and keep what users rely on.
+2. **Profile the data with DAX before designing**:
+   - status and type code distributions (e.g. how many records are Deleted);
+   - placeholder dates, blank names or companies, "not set" codes;
+   - which tables are empty in the dev wallet (optional features), so those pages are designed to explain empty data;
+   - relationship cross-filter directions (they decide whether dimension-only tables follow the page's filters).
+3. **Model**: add the `Date` table, relationship and measures table (`tmdl.py`). Publish, refresh once, then run `Test-PbiMeasures`.
+4. **Report**: copy the theme (`pbir.apply_theme(copy_from=...)`). Keep existing page names (ids) where a page is kept, so links and bookmarks still work. Set the report-level filters, page order and drillthrough targets (`set_report_filter_not_in`, `set_page_order`, `set_drillthrough`).
+5. **Publish and check every page in the browser**, including the drillthrough (select a row, click the button, then Back) and a record reached by URL filter.
+6. **Finish**: model docs, CHANGELOG, then the user's Power BI Desktop save (see [Finishing](#finishing)).
+
 ## Developing interactively in an agent session
 
 The loop: edit files, publish to a dev workspace (seconds), check measures with DAX, then check the rendered pages in the integrated browser.
@@ -157,6 +197,8 @@ The loop: edit files, publish to a dev workspace (seconds), check measures with 
 - **Edit** (see [Source of truth](#source-of-truth)):
   - For small changes, edit the JSON/TMDL directly.
   - For new pages or a restyle, write a throwaway build script in the session workspace using `pbir.py` / `tmdl.py`.
+  - Once a model change is committed or published, make further model changes with the additive helpers (`tmdl.add_columns`, `tmdl.upsert_measures`, …) or the edit tool, not by re-running a whole-model script.
+  - Edit scripts and files with the edit tool. Don't rewrite them with ad hoc Python piped through PowerShell, which has truncated a file before failing.
   - Stable visual names and lineage tags keep diffs to real changes.
   - When files are edited by hand, create them with CRLF line endings and tab-indented TMDL (as Desktop does).
 - **Publish** with `Tools/PowerBI/PowerBIDev.ps1`:
@@ -165,22 +207,24 @@ The loop: edit files, publish to a dev workspace (seconds), check measures with 
   - Measure-only changes need no refresh.
   - Refresh (`Invoke-PbiRefresh -Wait`) after adding tables, columns or calculated tables.
 - **Refresh limits**: Pro workspaces allow 8 API-triggered refreshes in any rolling 24 hours ("exceeded the amount of requests"), so only refresh when needed. When the limit is hit, ask the user to use "Refresh now" on the semantic model in the service; manual refreshes aren't counted.
-- **Verify measures** with `Invoke-PbiDax`. Use `CALCULATETABLE ( ROW ( … ), <filters> )` to test specific contexts (a date range, one record, ties).
+- **Verify measures** after every model change:
+  - `Test-PbiMeasures -TmdlPath '<...>/<Module> Measures.tmdl'` evaluates every measure in the file and lists any that fail.
+  - Use `Invoke-PbiDax` with `CALCULATETABLE ( ROW ( … ), <filters> )` to test specific contexts (a date range, one record, ties). DAX errors arrive in the response body of a successful HTTP call; `Invoke-PbiDax` raises them.
 
 ### Checking pages in the browser
 
 - **Open a page**: `https://app.powerbi.com/groups/<workspaceId>/reports/<reportId>/<pageName>?experience=power-bi&chromeless=1`.
   - The user signs in once in the integrated browser.
   - `chromeless=1` hides the service chrome.
-- **Filter by URL** to reach a specific record: `&filter=Table/Column eq 'value'`, encoding spaces in names as `_x0020_`.
+- **Filter by URL** to reach a specific record: `&filter=Table/Column eq 'value'`, encoding spaces in names as `_x0020_`. The URL filter is added to the viewer's persisted state, including filters carried by an earlier drillthrough (such as the date range), so a record outside that state shows blank.
 - **Allow time to render**: wait about 15 seconds after navigating. Reload after each publish, because the browser caches the report.
 - **Slicers remember the viewer's last selection** (persistent filters), so a changed default won't show until you click "Reset to default". That button is in the full view; it isn't available with `chromeless=1`.
 - **The tab must be visible to render.** If visuals measure zero size or the canvas is blank, ask the user to bring the browser tab into view.
-- **Screenshots can be stale.** Confirm results by measuring the live page with `page.evaluate`:
+- **Screenshots can be stale.** Prefer saving the live render to a file with Playwright, `page.screenshot({ path })`, then viewing the file. Confirm details by measuring the live page with `page.evaluate`:
   - element positions (`getBoundingClientRect`) and computed font sizes;
   - card tiles are `.small-multiples-grid-cell-content`, tables are `[role="grid"]`.
 - **Full canvas**: `page.setViewportSize({ width: 1700, height: 1000 })` shows the whole canvas.
-- **Test interactions** with Playwright: click a table row (`getByText(...).click()`), click buttons, and right-click → Drill through.
+- **Test interactions** with Playwright: click a table row (`getByText(...).click()` or `page.mouse.click(x, y)`), click buttons, and right-click → Drill through. A button's own label can intercept locator clicks; click it by position instead.
 
 ### Finishing
 
@@ -196,13 +240,18 @@ The loop: edit files, publish to a dev workspace (seconds), check measures with 
   - `Publish-PbiReport`
   - `Export-PbiDefinition` (downloads a published definition)
   - `Invoke-PbiRefresh`
-  - `Invoke-PbiDax`
+  - `Invoke-PbiDax` (raises DAX errors with a readable message)
+  - `Test-PbiMeasures` (evaluates every measure in a measures `.tmdl`)
 - **`Tools/PowerBI/pbir.py`**: report builders and the layout constants. It covers:
-  - header, date and dropdown slicers, the KPI card row, tables, bar charts;
-  - Top N and not-blank filters, gradients;
+  - header (`header`, `page_header`), date and dropdown slicers, the KPI card row, text cards, tables, matrices (optionally expanded), bar and column charts;
+  - Top N, not-blank, "is one of" (`in_filter`) and measure (`measure_filter`) filters, gradients, fixed series colours;
   - drillthrough and Back buttons;
-  - `write_page` (writes only the given visuals, keeping other visuals, page filters and drillthrough bindings; `replace_all=True` rebuilds the page) and `apply_theme`.
-- **`Tools/PowerBI/tmdl.py`**: the `MeasuresTable` builder, the `Date` table, and the DAX patterns (previous period, change labels, trend colours, tie-aware leader, truncation, semantic colours). The writers need `overwrite=True` to replace an existing file.
+  - pages and report settings: `create_page`, `set_page_order`, `set_drillthrough` (a hidden drillthrough target), `set_report_filter_not_in`;
+  - `write_page` (writes only the given visuals, keeping other visuals, page filters and drillthrough bindings; `replace_all=True` rebuilds the page) and `apply_theme` (`copy_from=` copies the theme from another report).
+- **`Tools/PowerBI/tmdl.py`**:
+  - new tables: the `MeasuresTable` builder and the `Date` table; the writers need `overwrite=True` to replace an existing file;
+  - additive edits to an existing model: `add_columns`, `upsert_measures` (replaces by name in place, keeping lineage tags, or inserts), `set_sort_by`, `add_table_refs`, `add_relationship`, `add_diagram_page`;
+  - DAX patterns: previous period, change labels, trend colours, tie-aware leader, truncation, semantic colours.
 - **`Tools/PowerBI/_guard.py`**: the shared check that stops the helpers writing over uncommitted changes (`allow_dirty=True` overrides it).
 - **`Tools/WorkWallet.BI.PowerBIModelDocGenerator`**: generates `PowerBISamplesModels.md` and `PowerBISamplesModels/*.md` from the TMDL and `diagramLayout.json`. Never edit its output by hand.
 - **Prerequisites**: Azure CLI, Python 3, the .NET SDK, and the integrated browser with its Playwright tools.

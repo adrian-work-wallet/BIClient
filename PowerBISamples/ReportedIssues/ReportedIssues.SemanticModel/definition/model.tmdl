@@ -51,6 +51,8 @@ ref table LocalDateTable_3d20e287-b104-4ee2-89de-f928079e5948
 ref table Unit
 ref table 'Signature Contact'
 ref table 'Signature Person Option Type'
+ref table Date
+ref table 'Issue Measures'
 
 ref cultureInfo en-GB
 

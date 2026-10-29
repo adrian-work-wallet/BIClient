@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "0eb1adf660765087b8dd",
   "position": {
     "x": 24,
@@ -28,6 +28,7 @@
               },
               "queryRef": "Scored Response.Scored Response Question",
               "nativeQueryRef": "Question",
+              "active": true,
               "displayName": "Question"
             }
           ]
@@ -128,7 +129,6 @@
         }
       ]
     },
-    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -170,7 +170,8 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
   },
   "filterConfig": {
     "filters": [

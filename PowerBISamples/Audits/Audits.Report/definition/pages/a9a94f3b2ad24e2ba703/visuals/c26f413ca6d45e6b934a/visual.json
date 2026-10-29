@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "c26f413ca6d45e6b934a",
   "position": {
     "x": 24,
@@ -13,25 +13,6 @@
     "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Rows": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Scored Response"
-                    }
-                  },
-                  "Property": "Scored Response Question"
-                }
-              },
-              "queryRef": "Scored Response.Scored Response Question",
-              "nativeQueryRef": "Question",
-              "displayName": "Question"
-            }
-          ]
-        },
         "Columns": {
           "projections": [
             {
@@ -47,7 +28,28 @@
               },
               "queryRef": "Date.Year Month",
               "nativeQueryRef": "Month",
+              "active": true,
               "displayName": "Month"
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Scored Response"
+                    }
+                  },
+                  "Property": "Scored Response Question"
+                }
+              },
+              "queryRef": "Scored Response.Scored Response Question",
+              "nativeQueryRef": "Question",
+              "active": true,
+              "displayName": "Question"
             }
           ]
         },
@@ -168,7 +170,6 @@
         }
       ]
     },
-    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -210,7 +211,8 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
   },
   "filterConfig": {
     "filters": [

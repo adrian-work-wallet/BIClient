@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "812627560bf052dbb405",
   "position": {
     "x": 24,
@@ -13,52 +13,6 @@
     "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Rows": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Location"
-                    }
-                  },
-                  "Property": "Company"
-                }
-              },
-              "queryRef": "Location.Company",
-              "nativeQueryRef": "Company"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Location"
-                    }
-                  },
-                  "Property": "Site"
-                }
-              },
-              "queryRef": "Location.Site",
-              "nativeQueryRef": "Site"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Location"
-                    }
-                  },
-                  "Property": "Area"
-                }
-              },
-              "queryRef": "Location.Area",
-              "nativeQueryRef": "Area"
-            }
-          ]
-        },
         "Columns": {
           "projections": [
             {
@@ -74,7 +28,57 @@
               },
               "queryRef": "Date.Year Month",
               "nativeQueryRef": "Month",
+              "active": true,
               "displayName": "Month"
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Location"
+                    }
+                  },
+                  "Property": "Company"
+                }
+              },
+              "queryRef": "Location.Company",
+              "nativeQueryRef": "Company",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Location"
+                    }
+                  },
+                  "Property": "Site"
+                }
+              },
+              "queryRef": "Location.Site",
+              "nativeQueryRef": "Site",
+              "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Location"
+                    }
+                  },
+                  "Property": "Area"
+                }
+              },
+              "queryRef": "Location.Area",
+              "nativeQueryRef": "Area",
+              "active": false
             }
           ]
         },
@@ -213,7 +217,6 @@
         }
       ]
     },
-    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -255,6 +258,7 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
   }
 }

@@ -1,8 +1,9 @@
 """Helpers for generating Power BI report (PBIR) definition files from Python.
 
-Used by agent sessions to build or restyle the sample reports under PowerBISamples/ consistently.
-A per-report build script (kept outside the repo, e.g. in the agent's session workspace) imports
-this module, describes each page as a list of visuals, then calls write_page() for each page.
+The committed report files are the source of truth. These helpers create new pages and visuals, or restyle
+a report in bulk, in the house style. Scripts that use them are throwaway (keep them in the agent's session
+workspace, not the repo). Change an existing report with targeted edits: edit the visual.json directly, or
+generate only the visuals being changed.
 
     import sys; sys.path.insert(0, "Tools/PowerBI")
     import pbir as p
@@ -11,15 +12,18 @@ this module, describes each page as a list of visuals, then calls write_page() f
     p.settings.eyebrow = "WORK WALLET  ·  EXAMPLES"
     visuals = [
         p.header(PAGE, "Examples list", "Every example in the selected period."),
-        p.date_slicer(PAGE, 956, 300, display="Created on", months=3),
+        p.date_slicer(PAGE, 956, 300, display="Created on", months=12),
         p.kpi_cards(PAGE, [(p.MS("Examples", "Total examples"), "Examples Trend Label", "Examples Trend Colour")]),
         p.table(PAGE, "table", p.MARGIN, p.BODY_Y, p.CONTENT_W, p.BODY_H, [p.C("Example", "Reference")], "Register"),
     ]
     p.write_page(REPORT_DIR, PAGE, "Examples list", visuals)
 
-Visual names (folder names) are derived from uuid5(page id + key), so re-running produces the same
-files and only real changes show in git diffs. Power BI Desktop re-saves files in its own canonical
-form (schema version, property order); expect cosmetic diffs after a Desktop save.
+Safety: write_page() and apply_theme() refuse to write when the target has uncommitted changes, and
+write_page() only writes the visuals it is given. Other visuals on the page are kept unless replace_all=True.
+
+Visual names (folder names) are derived from uuid5(page id + key), so re-running produces the same files.
+Output matches Power BI Desktop's saved form, so a Desktop save should leave generated files unchanged.
+After any regeneration, check `git diff` shows only the intended changes.
 """
 from __future__ import annotations
 
@@ -28,6 +32,8 @@ import shutil
 import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
+
+from _guard import require_clean
 
 VC_SCHEMA = "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json"
 
@@ -441,22 +447,37 @@ def write_json(path: Path, obj):
     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8", newline="\r\n")
 
 
-def write_page(report_dir: Path, page_id: str, display_name: str, visuals: list[dict]):
-    """Rewrites a page's visuals; keeps the page's filters and drillthrough binding, drops page-level formatting
-    (the theme supplies page background/outspace)."""
+def write_page(report_dir: Path, page_id: str, display_name: str, visuals: list[dict],
+               replace_all: bool = False, allow_dirty: bool = False) -> list[str]:
+    """Writes the given visuals to a page and sets its display name. Keeps the page's filters and
+    drillthrough binding.
+
+    By default only the given visuals are (over)written, and any other visuals on the page are kept; their
+    folder names are returned so the caller can check them. replace_all=True deletes every existing visual and
+    clears page-level formatting (the theme supplies page background/outspace). Use it only when deliberately
+    rebuilding a whole page. Refuses to run if the page has uncommitted changes, unless allow_dirty=True.
+    """
     pdir = Path(report_dir) / "definition" / "pages" / page_id
+    require_clean(pdir, allow_dirty)
     page = json.loads((pdir / "page.json").read_text(encoding="utf-8"))
     page["displayName"] = display_name
-    page.pop("objects", None)
+    if replace_all:
+        page.pop("objects", None)
+        shutil.rmtree(pdir / "visuals", ignore_errors=True)
     write_json(pdir / "page.json", page)
-    shutil.rmtree(pdir / "visuals", ignore_errors=True)
     for v in visuals:
         write_json(pdir / "visuals" / v["name"] / "visual.json", v)
+    generated = {v["name"] for v in visuals}
+    kept = sorted(d.name for d in (pdir / "visuals").iterdir() if d.is_dir() and d.name not in generated)
+    if kept:
+        print(f"{display_name}: kept {len(kept)} existing visual(s) not generated here: {', '.join(kept)}")
+    return kept
 
 
-def apply_theme(report_dir: Path, theme_file: str = "WorkWallet.json"):
+def apply_theme(report_dir: Path, theme_file: str = "WorkWallet.json", allow_dirty: bool = False):
     """Registers StaticResources/RegisteredResources/<theme_file> as the report's custom theme."""
     report_path = Path(report_dir) / "definition" / "report.json"
+    require_clean(report_path, allow_dirty)
     report = json.loads(report_path.read_text(encoding="utf-8"))
     report["themeCollection"]["customTheme"] = {
         "name": theme_file,

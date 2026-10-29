@@ -1,6 +1,11 @@
 """Helpers for generating TMDL (semantic model) files from Python: a calculated Date table, a measures
 table, and reusable DAX patterns (previous period, trend labels/colours, tie-aware leaders).
 
+The committed TMDL files are the source of truth. Use MeasuresTable / write_date_table to create these
+tables for a model that doesn't have them yet. For an existing model, edit the .tmdl directly; the DAX
+pattern functions return text you can paste or adapt. Scripts that use these helpers are throwaway (keep
+them in the agent's session workspace, not the repo).
+
     import sys; sys.path.insert(0, "Tools/PowerBI")
     import tmdl as t
 
@@ -11,6 +16,10 @@ table, and reusable DAX patterns (previous period, trend labels/colours, tie-awa
     mt.write(TABLES_DIR)
     t.write_date_table(TABLES_DIR, "MIN ( Example[Created On] )", "MAX ( Example[Created On] )")
 
+Safety: the write functions refuse to replace an existing file unless overwrite=True, and refuse to write
+over uncommitted changes unless allow_dirty=True. After overwriting, check `git diff` shows only the
+intended changes.
+
 Lineage tags are uuid5-derived from table/object names, so regenerating keeps them stable. Files are written
 with CRLF line endings and tab indentation, matching Power BI Desktop. Remember to add 'ref table' lines to
 model.tmdl and any relationships to relationships.tmdl for new tables.
@@ -19,6 +28,8 @@ from __future__ import annotations
 
 import uuid
 from pathlib import Path
+
+from _guard import require_clean
 
 NS = uuid.UUID("6f1c6a3e-6c55-4d0e-9a59-4b6d1f0c2a11")
 T = "\t"
@@ -59,7 +70,13 @@ def measure_lines(table, name, expr, fmt=None, folder=None, hidden=False, desc=N
     return out
 
 
-def _write(path: Path, text: str):
+def _write(path: Path, text: str, overwrite: bool = False, allow_dirty: bool = False):
+    if path.exists():
+        if not overwrite:
+            raise FileExistsError(
+                f"{path} already exists. The committed TMDL is the source of truth: edit it directly, or pass "
+                "overwrite=True to replace it (then check git diff shows only the intended changes).")
+        require_clean(path, allow_dirty)
     path.write_text(text, encoding="utf-8", newline="\r\n")
 
 
@@ -88,8 +105,8 @@ class MeasuresTable:
         ]
         return "\n".join(self.lines + tail) + "\n"
 
-    def write(self, tables_dir: Path):
-        _write(Path(tables_dir) / f"{self.name}.tmdl", self.render())
+    def write(self, tables_dir: Path, overwrite: bool = False, allow_dirty: bool = False):
+        _write(Path(tables_dir) / f"{self.name}.tmdl", self.render(), overwrite, allow_dirty)
 
 
 # ------------------------------------------------------------------------------- Date table
@@ -142,8 +159,9 @@ RETURN
     return "\n".join(L) + "\n"
 
 
-def write_date_table(tables_dir: Path, first_expr: str, last_expr: str, **kw):
-    _write(Path(tables_dir) / "Date.tmdl", date_table(first_expr, last_expr, **kw))
+def write_date_table(tables_dir: Path, first_expr: str, last_expr: str, overwrite: bool = False,
+                     allow_dirty: bool = False, **kw):
+    _write(Path(tables_dir) / "Date.tmdl", date_table(first_expr, last_expr, **kw), overwrite, allow_dirty)
 
 
 # ----------------------------------------------------------------------------- DAX patterns

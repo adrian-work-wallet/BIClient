@@ -12,6 +12,14 @@ The samples under `PowerBISamples/` serve two audiences. Every change must work 
 - **Work Wallet**: demonstrates reporting capabilities to customers.
 - **Customers**: a baseline to copy and customise into their own reports, against their own wallet's data.
 
+## Source of truth
+
+- **The committed report and model files are the source of truth**: the `.Report` PBIR JSON, the `.SemanticModel` TMDL and the theme. Power BI Desktop, manual edits and generated output all change the same files.
+- **Build scripts are throwaway.** A session may write a script that uses `Tools/PowerBI/pbir.py` / `tmdl.py` to build or restyle a report. Keep it in the session workspace and don't commit it. Once its output is committed, the script is stale.
+- **Change existing reports with targeted edits.** Edit the `visual.json` / `.tmdl` directly, or generate only the visuals being changed. Only rebuild a whole page when restyling it, and pass `replace_all=True` explicitly.
+- **Rebuilds must not lose edits.** Before rebuilding pages from a script, check the script reproduces the committed files: run it first and `git diff` must be empty. Carry any differences into the script, then make the intended change.
+- **The helpers are safe by default.** They refuse to write over uncommitted changes. `write_page` only writes the visuals it is given and keeps the rest. The TMDL writers refuse to replace an existing file without `overwrite=True`.
+
 ## Working with any wallet
 
 The samples are developed against a demo wallet, but must not depend on it.
@@ -124,7 +132,7 @@ Saving in Power BI Desktop rewrites files into its own form. Expect this after e
 
 - **Commit a Desktop save on its own**, with no other edits (e.g. "Power BI Desktop save (no functional change)"), so later diffs show only real changes.
 - **Review a Desktop save structurally**, comparing property by property against the last commit (ignore whitespace and ordering). Then publish it and check the affected pages still render as before.
-- **Don't overwrite the user's Desktop edits.** Before regenerating files the user has saved in Desktop, compare them with the last commit. Carry any intentional edits into the build script first.
+- **Don't overwrite the user's Desktop edits.** Commit a Desktop save before regenerating anything (the helpers refuse to write over uncommitted changes). If a rebuild script no longer reproduces the committed files, carry the differences into the script first.
 - **Generate files in Desktop's form** (no final line break, current schema versions, whole-pixel positions, `active` flags, no empty `objects`). `pbir.py` and `tmdl.py` already do this, so regenerating after a Desktop save should give no differences. If a Desktop save still changes generated files, update the tools to match.
 
 ## Developing interactively in an agent session
@@ -141,8 +149,9 @@ The loop: edit files, publish to a dev workspace (seconds), check measures with 
 
 ### Edit, publish, verify
 
-- **Edit**:
-  - Write a per-report build script in the session workspace using `pbir.py` / `tmdl.py`, or edit the JSON/TMDL directly.
+- **Edit** (see [Source of truth](#source-of-truth)):
+  - For small changes, edit the JSON/TMDL directly.
+  - For new pages or a restyle, write a throwaway build script in the session workspace using `pbir.py` / `tmdl.py`.
   - Stable visual names and lineage tags keep diffs to real changes.
   - When files are edited by hand, create them with CRLF line endings and tab-indented TMDL (as Desktop does).
 - **Publish** with `Tools/PowerBI/PowerBIDev.ps1`:
@@ -187,7 +196,8 @@ The loop: edit files, publish to a dev workspace (seconds), check measures with 
   - header, date and dropdown slicers, the KPI card row, tables, bar charts;
   - Top N and not-blank filters, gradients;
   - drillthrough and Back buttons;
-  - `write_page` (keeps page filters and drillthrough bindings) and `apply_theme`.
-- **`Tools/PowerBI/tmdl.py`**: the `MeasuresTable` builder, the `Date` table, and the DAX patterns (previous period, change labels, trend colours, tie-aware leader, truncation, semantic colours).
+  - `write_page` (writes only the given visuals, keeping other visuals, page filters and drillthrough bindings; `replace_all=True` rebuilds the page) and `apply_theme`.
+- **`Tools/PowerBI/tmdl.py`**: the `MeasuresTable` builder, the `Date` table, and the DAX patterns (previous period, change labels, trend colours, tie-aware leader, truncation, semantic colours). The writers need `overwrite=True` to replace an existing file.
+- **`Tools/PowerBI/_guard.py`**: the shared check that stops the helpers writing over uncommitted changes (`allow_dirty=True` overrides it).
 - **`Tools/WorkWallet.BI.PowerBIModelDocGenerator`**: generates `PowerBISamplesModels.md` and `PowerBISamplesModels/*.md` from the TMDL and `diagramLayout.json`. Never edit its output by hand.
 - **Prerequisites**: Azure CLI, Python 3, the .NET SDK, and the integrated browser with its Playwright tools.

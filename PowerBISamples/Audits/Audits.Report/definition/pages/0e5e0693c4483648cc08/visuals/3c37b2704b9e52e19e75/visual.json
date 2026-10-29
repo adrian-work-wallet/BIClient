@@ -45,7 +45,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Every audit in the selected period. Select an audit in the register to view its full results.",
+                    "value": "Every audit in the selected period.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "9pt",

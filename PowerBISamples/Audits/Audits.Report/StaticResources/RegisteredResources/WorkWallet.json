@@ -525,7 +525,7 @@
                 "color": "#1E2B37"
               }
             },
-            "textSize": 9,
+            "textSize": 8,
             "fontFamily": "'Segoe UI', wf_segoe-ui_normal, helvetica, arial, sans-serif"
           }
         ],
@@ -540,6 +540,22 @@
         "dropShadow": [
           {
             "show": false
+          }
+        ],
+        "date": [
+          {
+            "fontColor": {
+              "solid": {
+                "color": "#1E2B37"
+              }
+            },
+            "textSize": 8,
+            "fontFamily": "'Segoe UI', wf_segoe-ui_normal, helvetica, arial, sans-serif"
+          }
+        ],
+        "dateRangeText": [
+          {
+            "fontSize": 8
           }
         ]
       }

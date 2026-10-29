@@ -32328,19 +32328,7 @@ cultureInfo en-GB
 			          "ConceptualProperty": "Date"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Inspected on": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "date.year_month": {
 			      "Definition": {
@@ -32374,6 +32362,27 @@ cultureInfo en-GB
 			      "Terms": [
 			        {
 			          "Response": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "date.slicer_date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Date",
+			          "ConceptualProperty": "Slicer Date"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Inspected on": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",

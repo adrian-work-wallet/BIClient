@@ -79,6 +79,11 @@
             "metadata": "Body Part Enum.Body Part"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

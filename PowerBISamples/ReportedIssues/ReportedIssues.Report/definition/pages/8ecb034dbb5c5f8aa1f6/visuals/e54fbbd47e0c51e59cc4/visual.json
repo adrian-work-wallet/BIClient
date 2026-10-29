@@ -183,6 +183,11 @@
             "metadata": "Issue Measures.Average Days To Close"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

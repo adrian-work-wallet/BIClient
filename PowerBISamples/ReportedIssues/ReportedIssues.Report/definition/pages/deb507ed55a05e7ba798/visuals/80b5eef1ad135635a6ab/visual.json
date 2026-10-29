@@ -107,6 +107,11 @@
             "metadata": "Person Option Type.Person Option Type"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

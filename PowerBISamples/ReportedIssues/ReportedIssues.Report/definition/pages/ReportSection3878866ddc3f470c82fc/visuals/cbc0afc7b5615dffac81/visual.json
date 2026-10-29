@@ -13,6 +13,25 @@
     "visualType": "pivotTable",
     "query": {
       "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Severity"
+                    }
+                  },
+                  "Property": "Severity"
+                }
+              },
+              "queryRef": "Severity.Severity",
+              "nativeQueryRef": "Severity",
+              "active": true
+            }
+          ]
+        },
         "Rows": {
           "projections": [
             {
@@ -80,25 +99,6 @@
               },
               "queryRef": "Issue Measures.Issues",
               "nativeQueryRef": "Issues"
-            }
-          ]
-        },
-        "Columns": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Severity"
-                    }
-                  },
-                  "Property": "Severity"
-                }
-              },
-              "queryRef": "Severity.Severity",
-              "nativeQueryRef": "Severity",
-              "active": true
             }
           ]
         }
@@ -246,6 +246,11 @@
           "selector": {
             "metadata": "Option Select Fact.Workflow Stage (Option Select)"
           }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
         }
       ]
     },

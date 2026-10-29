@@ -79,6 +79,11 @@
             "metadata": "Branch Option.Branch Option"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

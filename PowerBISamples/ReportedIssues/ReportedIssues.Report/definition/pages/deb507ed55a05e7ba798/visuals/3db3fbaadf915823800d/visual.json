@@ -79,6 +79,11 @@
             "metadata": "Option Select.Option"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

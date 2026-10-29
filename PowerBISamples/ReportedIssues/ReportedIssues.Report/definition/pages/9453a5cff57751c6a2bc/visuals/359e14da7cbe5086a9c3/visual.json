@@ -193,6 +193,11 @@
             "metadata": "Issue Measures.Numeric Highest"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

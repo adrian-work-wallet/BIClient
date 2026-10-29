@@ -79,6 +79,11 @@
             "metadata": "Root Cause Analysis Fact.Root Cause Analysis"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

@@ -78,6 +78,11 @@
             "metadata": "Investigation Team Contact.Company"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

@@ -136,6 +136,11 @@
             "metadata": "Signature Fact.Signed On"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

@@ -78,6 +78,11 @@
             "metadata": "Date Time Answer Fact.Date and Time Answer"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

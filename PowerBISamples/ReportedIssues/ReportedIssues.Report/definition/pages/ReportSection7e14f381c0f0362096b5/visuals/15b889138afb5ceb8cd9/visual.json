@@ -328,6 +328,11 @@
             "metadata": "Lead Investigator Contact.Contact Name"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

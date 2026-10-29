@@ -107,6 +107,11 @@
             "metadata": "Issue Measures.Average Hours After Occurrence"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

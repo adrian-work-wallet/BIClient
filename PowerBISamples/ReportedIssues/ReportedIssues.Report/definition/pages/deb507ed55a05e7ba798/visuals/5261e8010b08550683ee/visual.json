@@ -111,6 +111,11 @@
             "metadata": "Numeric Question.Unit"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

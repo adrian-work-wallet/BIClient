@@ -13,6 +13,25 @@
     "visualType": "pivotTable",
     "query": {
       "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Severity"
+                    }
+                  },
+                  "Property": "Severity"
+                }
+              },
+              "queryRef": "Severity.Severity",
+              "nativeQueryRef": "Severity",
+              "active": true
+            }
+          ]
+        },
         "Rows": {
           "projections": [
             {
@@ -81,25 +100,6 @@
               "queryRef": "Issue Measures.People Recorded",
               "nativeQueryRef": "People",
               "displayName": "People"
-            }
-          ]
-        },
-        "Columns": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Severity"
-                    }
-                  },
-                  "Property": "Severity"
-                }
-              },
-              "queryRef": "Severity.Severity",
-              "nativeQueryRef": "Severity",
-              "active": true
             }
           ]
         }
@@ -247,6 +247,11 @@
           "selector": {
             "metadata": "Person Fact.Workflow Stage (Person)"
           }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
         }
       ]
     },

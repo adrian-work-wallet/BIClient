@@ -214,6 +214,11 @@
             "metadata": "Audit Measures.Grading Badge"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

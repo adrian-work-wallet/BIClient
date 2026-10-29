@@ -8,19 +8,9 @@ The format loosely follows Keep a Changelog principles (dates in YYYY-MM-DD). Ve
 
 ### Changed (Unreleased)
 
-- Audits Power BI sample redesigned (Power BI only; no database deploy or data reload needed):
-  - New `WorkWallet.json` report theme and a consistent page layout: a header with slicers, a row of KPI tiles with "vs previous period" indicators, then the main content.
-  - Each page is reworked:
-    - Audits list: KPI tiles above the audit register, and a "View details" button that opens Audit details for the selected audit (no right-click needed).
-    - Audits completed: monthly chart with an average line, plus a by-type breakdown.
-    - Audit details: summary tiles, score gauge, section and tag score bars, and grading badges.
-    - Top 5 trending issues: a by-month issue heatmap.
-    - Location report: a score heatmap by company, site and area, plus ranked locations.
-  - The semantic model gains a calculated `Date` table (date slicers now use `Date[Date]`) and an `Audit Measures` table.
-  - Measures handle unscored (`-1`) values and ties, and contain nothing specific to a particular wallet.
-  - The Top 5 trending issues page now counts flagged responses by default. Pick answers in the Response slicer to analyse those instead.
-  - Saved slicer selections have been cleared, so pages open showing all audit types, statuses and responses.
-  - See README section 5.9.4 for the design conventions.
+- Power BI samples: every sample report has had a significant makeover, with a fresh Work Wallet look and feel, consistent and easier-to-read page layouts, headline KPIs showing the trend against the previous period, and a quicker route from a list to a record's full details.
+- The sample semantic models are enhanced to support the new reports, with a shared date table and a set of ready-made measures. The measures work with any wallet's data, so the samples remain a solid starting point for your own reports.
+- No database deploy or data reload is needed. Open the updated `.pbip` projects and refresh to see the changes. Reports you have already customised are unaffected.
 
 ## [5.2.0] - 2026-10-16
 

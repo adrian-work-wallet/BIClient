@@ -60,11 +60,11 @@ table Date
 	partition Date = calculated
 		mode: import
 		source =
-				// Whole calendar years spanning every audit, extended to today so relative date slicers always work.
-				VAR FirstAudit = MIN ( Audit[Inspected On] )
-				VAR LastAudit = MAX ( Audit[Inspected On] )
-				VAR FirstDay = DATE ( YEAR ( COALESCE ( FirstAudit, TODAY () ) ), 1, 1 )
-				VAR LastDay = DATE ( YEAR ( MAX ( COALESCE ( LastAudit, TODAY () ), TODAY () ) ), 12, 31 )
+				// Whole calendar years spanning the data, extended to today so relative date slicers always work.
+				VAR FirstData = MIN ( Audit[Inspected On] )
+				VAR LastData = MAX ( Audit[Inspected On] )
+				VAR FirstDay = DATE ( YEAR ( COALESCE ( FirstData, TODAY () ) ), 1, 1 )
+				VAR LastDay = DATE ( YEAR ( MAX ( COALESCE ( LastData, TODAY () ), TODAY () ) ), 12, 31 )
 				RETURN
 				    CALENDAR ( FirstDay, LastDay )
 

@@ -554,17 +554,6 @@ Click Refresh (Home ribbon). Data is on-demand unless you publish to a service (
 
 Ensure any default filters (e.g. date, site, status) reflect values present in your Wallet or visuals may appear blank.
 
-#### 5.9.4 Report Design Conventions
-
-The Audits sample is the reference design for the samples. Reuse these conventions when building or customising reports:
-
-- **Theme**: `Audits.Report/StaticResources/RegisteredResources/WorkWallet.json` holds the colours, fonts and visual defaults (page background, card tiles, table headers, slicers). Keep formatting in the theme rather than on individual visuals, so a single theme change restyles every page. To reuse it, import it in Power BI Desktop (View → Themes → Browse for themes).
-- **Page layout** (1280 × 720): a header strip (title and subtitle on the left, slicers on the right), a single card visual holding four KPI tiles, then the main content area. No in-page navigation menu: use the Power BI page tabs or app navigation, so the full canvas width goes to content.
-- **Date table**: a calculated `Date` table, related to the report's main date (`Audit[Inspected Date]`), drives date slicers, monthly axes and "vs previous period" comparisons. The previous period is the same number of days immediately before the selected range.
-- **Measures table**: measures live in `Audit Measures`, grouped into display folders. Helper measures (previous-period values, KPI labels and colours) are hidden.
-- **Nothing wallet-specific in the model**: statuses are matched by status code, grading badges and colours come from each wallet's own grading sets, score colour scales run from a fixed 0% to 100%, and ties are reported (for example "Room 1 (+2 tied)") rather than one item being picked arbitrarily.
-- **Issues**: on the Top 5 trending issues page, "issues" are flagged responses (answers configured to raise a flag in Work Wallet) by default. Picking answers in the Response slicer analyses those answers instead.
-
 ### 5.10 Troubleshooting
 
 | Symptom | Cause | Resolution |

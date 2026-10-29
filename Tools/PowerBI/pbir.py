@@ -289,7 +289,7 @@ def kpi_cards(page, tiles, y=KPI_Y, h=KPI_H, key="kpis", value_size=18, padding=
     """
     ref_labels = [sel_props(DEFAULT, backgroundShow=b(False), paddingIndividual=b(True))]
     projections, ref_values = [], []
-    values = [sel_props(DEFAULT, fontSize=n(value_size))]
+    values = [sel_props(DEFAULT, fontSize=n(value_size), labelDisplayUnits=n(1))]  # 1 = no "K"/"M" abbreviation
     for tile in tiles:
         p, label_measure, colour_measure_name = tile[:3]
         projections.append(p)
@@ -674,6 +674,23 @@ def create_page(report_dir: Path, page_id: str, display_name: str) -> bool:
     pages_path = Path(report_dir) / "definition" / "pages" / "pages.json"
     pages = json.loads(pages_path.read_text(encoding="utf-8"))
     pages["pageOrder"].append(page_id)
+    write_json(pages_path, pages)
+    return True
+
+
+def delete_page(report_dir: Path, page_id: str, allow_dirty: bool = False) -> bool:
+    """Deletes a page (e.g. one whose content has been folded into another page) and removes it from
+    pages.json. Refuses if the page has uncommitted changes. Returns True if deleted."""
+    pdir = Path(report_dir) / "definition" / "pages" / page_id
+    if not pdir.exists():
+        return False
+    require_clean(pdir, allow_dirty)
+    shutil.rmtree(pdir)
+    pages_path = Path(report_dir) / "definition" / "pages" / "pages.json"
+    pages = json.loads(pages_path.read_text(encoding="utf-8"))
+    pages["pageOrder"] = [p for p in pages["pageOrder"] if p != page_id]
+    if pages.get("activePageName") == page_id:
+        pages["activePageName"] = pages["pageOrder"][0]
     write_json(pages_path, pages)
     return True
 

@@ -238,6 +238,32 @@
             "width": 234
           },
           "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3000,
+            "y": 400
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "9f926b70-3c67-50df-bdf9-e93c77dee92a",
+          "size": {
+            "height": 400,
+            "width": 260
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 3000,
+            "y": 800
+          },
+          "nodeIndex": "PPE Measures",
+          "nodeLineageTag": "c22e7b23-9a4d-52f1-ab41-ac897ab8a7b1",
+          "size": {
+            "height": 400,
+            "width": 260
+          },
+          "zIndex": 12
         }
       ],
       "name": "All tables",
@@ -612,6 +638,73 @@
         }
       ],
       "name": "Properties",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 5,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "9f926b70-3c67-50df-bdf9-e93c77dee92a",
+          "size": {
+            "height": 400,
+            "width": 260
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 300,
+            "y": 0
+          },
+          "nodeIndex": "PPE Measures",
+          "nodeLineageTag": "c22e7b23-9a4d-52f1-ab41-ac897ab8a7b1",
+          "size": {
+            "height": 400,
+            "width": 260
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 600,
+            "y": 0
+          },
+          "nodeIndex": "Assignment History",
+          "nodeLineageTag": "7b7a9674-cf97-5d68-86e9-49003dd337ba",
+          "size": {
+            "height": 400,
+            "width": 260
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 900,
+            "y": 0
+          },
+          "nodeIndex": "Stock History",
+          "nodeLineageTag": "a912399e-326d-5c4a-af8f-e8b5373d8767",
+          "size": {
+            "height": 400,
+            "width": 260
+          },
+          "zIndex": 3
+        }
+      ],
+      "name": "Date and measures",
       "zoomValue": 100,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,

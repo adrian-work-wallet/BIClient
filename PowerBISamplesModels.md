@@ -83,6 +83,7 @@ inactive relationship. Each column is prefixed with its kind instead of its data
 * [PPE - Stock History](PowerBISamplesModels/PPE.md#ppe---stock-history)
 * [PPE - Assignments](PowerBISamplesModels/PPE.md#ppe---assignments)
 * [PPE - Properties](PowerBISamplesModels/PPE.md#ppe---properties)
+* [PPE - Date and measures](PowerBISamplesModels/PPE.md#ppe---date-and-measures)
 
 ## Reported Issues
 

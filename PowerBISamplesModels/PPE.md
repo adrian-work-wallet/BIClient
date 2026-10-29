@@ -28,6 +28,7 @@ erDiagram
         calc Value
         calc StockSite
         calc StockLocation
+        calc StockLevel
     }
     "PPE Type" {
         attr PPEType
@@ -70,6 +71,7 @@ erDiagram
         calc Value
         calc StockSite
         calc StockLocation
+        calc StockLevel
     }
     "Stock History" {
         agg StockQuantity
@@ -119,6 +121,7 @@ erDiagram
         calc Value
         calc StockSite
         calc StockLocation
+        calc StockLevel
     }
     "Assignment" {
         attr AssignedOn
@@ -129,6 +132,8 @@ erDiagram
         calc Value
         calc AssignedFromStockSite
         calc ReturnedToStockSite
+        calc DaysToExpiry
+        calc ExpiryStatus
     }
     "Assignment History" {
         attr ActionedOn
@@ -213,4 +218,80 @@ erDiagram
     "PPE Type" }o--|| "PPE Type Master" : "PPETypeId"
     "Property Fact" }o--|| "PPE Type Master" : "PPETypeId"
     "Property" }o--|| "Property Type" : "PPEPropertyType_key"
+```
+
+## PPE - Date and measures
+
+```mermaid
+---
+config:
+  theme: neutral
+---
+erDiagram
+    "Date" {
+        attr Date
+        calc Year
+        calc Month
+        calc MonthStart
+        calc YearMonth
+        calc SlicerDate
+    }
+    "PPE Measures" {
+        measure PPEIssued
+        measure ReplacementDue
+        measure ReplacementRequested
+        measure ExpiredPPE
+        measure ExpiringSoon
+        measure PeopleWithPPE
+        measure PeopleNeedingReplacements
+        measure CompaniesWithPPE
+        measure MostCommonReplacement
+        measure OldestExpiredDays
+        measure StockOnHand
+        measure StockLines
+        measure LowStockLines
+        measure OutOfStockLines
+        measure StockLocations
+        measure WarningQuantity
+        measure PPEIssuedInPeriod
+        measure PPEReturned
+        measure PPEReplaced
+        measure PPERemoved
+        measure AssignmentActions
+        measure MonthlyAverageIssued
+        measure MonthlyAverageLine
+        measure MostIssuedPPE
+        measure StockAdded
+        measure StockTransferred
+        measure StockRemoved
+        measure StockMovements
+        measure MovementQuantity
+        measure StockValue
+        measure IssuedValue
+        measure RemovedValue
+        measure StockRemovedValue
+        measure PPETypesWithValue
+        measure UnitValue
+        measure PPETypes
+        measure PropertyValues
+        measure PPETypesWithProperties
+        measure Properties
+    }
+    "Assignment History" {
+        attr ActionedOn
+        calc From
+        calc To
+        calc AssignmentHistoryCount
+    }
+    "Stock History" {
+        agg StockQuantity
+        attr ActionedOn
+        attr Notes
+        calc StockLocation
+        calc TransferredFromStockLocation
+        calc StockSite
+        calc Value
+    }
+    "Assignment History" }o--|| "Date" : "Actioned Date"
+    "Stock History" }o--|| "Date" : "Actioned Date"
 ```

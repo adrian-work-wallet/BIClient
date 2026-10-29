@@ -35,6 +35,7 @@ The samples are developed against a demo wallet, but must not depend on it.
 - **Don't rely on optional product features.** If a wallet may not use a feature (e.g. flagged answers), give the user a fallback, such as a slicer that switches what is counted.
 - **Default filters and slicers may use demo values**, as consumers are expected to reset them. Prefer no saved selection where the page still makes sense.
 - **Match the Work Wallet portal's defaults** so the report's numbers agree with what users see in Work Wallet. For example, the portal's Assets page shows Active assets by default. Check the portal page for the module and mirror its default with an editable report-level filter on the status name (`pbir.set_report_filter_in`). Tell users on the page when the filter hides records (e.g. a KPI label "7 more with other statuses (see Filters)").
+  - Compare the portal's headline figures with the report's KPIs (e.g. PPE: available stock, assigned PPE, require replacement). If they already agree, no default filter is needed. Use the portal's wording for those tiles so the two read the same.
 - **Check edge cases with DAX** before publishing: empty periods, a single item, ties, and data without the optional feature.
 - **Explain empty data on the page.** Pages for optional features (e.g. investigation answers a wallet doesn't record) should say so, e.g. with a subtitle measure ("None recorded in this period"), rather than show empty visuals.
 
@@ -66,6 +67,7 @@ The samples are developed against a demo wallet, but must not depend on it.
 - **`ISINSCOPE` checks must cover every column a visual might group by**, e.g. both a raw question column and its order-prefixed variant.
 - **Placeholder and excluded data**:
   - Some date columns use `1899-12-30` for "no date" rather than blank. Calculated columns should treat dates on or before `1900-01-01` as blank. Check existing calculated columns too: a duration using a placeholder end date goes hugely negative (e.g. an ended assignment with no end date).
+  - When profiling, count blanks and placeholders separately: `BLANK () <= DATE ( 1900, 1, 1 )` is true in DAX, so a "before 1900" count includes real blanks.
   - Exclude records with a Deleted status with a report-level filter on the status name (`pbir.set_report_filter_not_in`), and by code in measures that ignore report filters. Some modules use a `Deleted` flag or "draft" (not finalised) flag instead; exclude those too.
   - Remove stale report-level filters on display names (`pbir.remove_report_filters`), and replace stale page filters when rebuilding a page (`write_page(..., page_filters=[...])`).
   - Give blank grouping values a label in a calculated column (e.g. `"(No company)"`), so matrix rows aren't blank.
@@ -99,17 +101,19 @@ The canvas is 1280 × 720. The constants live in `Tools/PowerBI/pbir.py`.
   - an 18pt title;
   - a 9pt grey subtitle saying what the page shows.
 - **Slicers**: top right, y 10, height 58, right-aligned to x 1256, 12px apart. Date slicers are about 300 wide and dropdowns about 180.
+  - When a dimension is shared by several fact tables (e.g. an action list covering both stock and assignment actions), limit each page's dropdown to the relevant values with a visual-level filter on the slicer, by name.
   - Use relative date slicers on `Date[Slicer Date]`, in one sync group per report.
   - Slicers in a sync group share one selection, so give them all the same default period. Otherwise the period a user sees depends on which page they opened first.
 - **KPI row** (`pbir.kpi_cards`): one card visual (`cardVisual`) at y 80, height 124, holding four tiles.
   - Each tile shows a label, an 18pt value, and a reference label (a text measure, optionally coloured by a colour measure).
   - Use 13pt for text-valued tiles (names).
+  - Values show in full (`labelDisplayUnits` 1, set by `kpi_cards`). Cards otherwise abbreviate to "1K" / "1.95K", which hides real figures once a wallet has more than 1,000 records.
   - Always use four tiles. With fewer, the tiles stretch and the page no longer fits (the service zooms out and visuals overflow). If a page has only three natural KPIs, add a relevant related one.
 - **Body**: y 216 to 704, with 24px side margins and 12px gaps.
 - **Dense detail pages** (e.g. drillthrough targets with many tables) use the compact rhythm:
   - summary cards at y 74, height 72, 8px gaps, ending at y 712;
   - 12pt summary values with no wrapping, and at most six tiles (about 200px each);
-  - long values (locations, "name (company)", free text) in wrapping text cards (`pbir.text_card`, 9pt), because multi-tile cards truncate rather than wrap;
+  - long values (locations, "name (company)", free text) in wrapping text cards (`pbir.text_card`, 9pt), because multi-tile cards truncate rather than wrap. Make a text card at least 72px tall: below that, the value under the label is clipped and the card looks empty;
   - 9pt titles and 6/10px padding on small tables, with column widths (`widths=`) that fit the container (about its width minus 36px), so there's no horizontal scrollbar.
 - **Names**: sentence case for page names, visual titles and column display names.
 - **Drillthrough**:
@@ -117,6 +121,7 @@ The canvas is 1280 × 720. The constants live in `Tools/PowerBI/pbir.py`.
   - On the source page, add a drillthrough button (`pbir.drillthrough_button`) whose text comes from a measure: "Select an item…" until one row is selected, then "View X details  ›".
   - Place it outside other visuals (e.g. on the header subtitle line). A selected visual is drawn on top and hides anything overlapping it.
   - Bind to a unique column. If the record has no unique reference, bind to its unique `Url` column (as the existing samples do) and show a readable reference in the button text.
+  - Check uniqueness with DAX (`DISTINCTCOUNT` against `COUNTROWS`). For people, the same person can be a contact at several companies; binding to name and email groups their records, which is usually what a "person's" page needs. List every company on the page.
 - **Links to Work Wallet**: show `Url` (web URL) columns as a link icon (table `values` `urlIcon: true`), headed "Link".
 - **Charts and tables**:
   - Rank with visual-level Top N filters (`pbir.top_n_filter`).
@@ -189,7 +194,7 @@ A repeatable sequence for bringing a sample report up to this design:
    - which tables are empty in the dev wallet (optional features), so those pages are designed to explain empty data;
    - relationship cross-filter directions (they decide whether dimension-only tables follow the page's filters).
 3. **Model**: add the `Date` table, relationship and measures table (`tmdl.py`). Publish, refresh once, then run `Test-PbiMeasures`.
-4. **Report**: copy the theme (`pbir.apply_theme(copy_from=...)`). Keep existing page names (ids) where a page is kept, so links and bookmarks still work. Set the report-level filters, page order and drillthrough targets (`set_report_filter_not_in`, `set_page_order`, `set_drillthrough`).
+4. **Report**: copy the theme (`pbir.apply_theme(copy_from=...)`). Keep existing page names (ids) where a page is kept, so links and bookmarks still work. Fold pages that are a single filtered table (e.g. one page per action) into a broader page with a dropdown, and delete them (`pbir.delete_page`). Set the report-level filters, page order and drillthrough targets (`set_report_filter_not_in`, `set_page_order`, `set_drillthrough`).
 5. **Publish and check every page in the browser**, including the drillthrough (select a row, click the button, then Back) and a record reached by URL filter.
 6. **Finish**: model docs, CHANGELOG, then the user's Power BI Desktop save (see [Finishing](#finishing)).
 
@@ -230,7 +235,7 @@ The loop: edit files, publish to a dev workspace (seconds), check measures with 
   - The user signs in once in the integrated browser.
   - `chromeless=1` hides the service chrome.
 - **Filter by URL** to reach a specific record: `&filter=Table/Column eq 'value'`, encoding spaces in names as `_x0020_`. The URL filter is added to the viewer's persisted state, including filters carried by an earlier drillthrough (such as the date range), so a record outside that state shows blank.
-- **Allow time to render**: wait about 15 seconds after navigating. Reload after each publish, because the browser caches the report.
+- **Allow time to render**: wait about 15 seconds after navigating. Reload after each publish, because the browser caches the report. A plain reload can still show the previous version; navigate to the URL with a throwaway query parameter (e.g. `&nocache=<timestamp>`) to force a fresh load.
 - **Slicers remember the viewer's last selection** (persistent filters), so a changed default won't show until you click "Reset to default". That button is in the full view; it isn't available with `chromeless=1`.
 - **The tab must be visible to render.** If visuals measure zero size or the canvas is blank, ask the user to bring the browser tab into view.
 - **Screenshots can be stale.** Prefer saving the live render to a file with Playwright, `page.screenshot({ path })`, then viewing the file. Confirm details by measuring the live page with `page.evaluate`:
@@ -260,7 +265,7 @@ The loop: edit files, publish to a dev workspace (seconds), check measures with 
   - header (`header`, `page_header`), date and dropdown slicers, the KPI card row, text cards, tables, matrices (optionally expanded), bar and column charts;
   - Top N, not-blank, "is one of" (`in_filter`) and measure (`measure_filter`) filters, gradients, fixed series colours;
   - drillthrough and Back buttons;
-  - pages and report settings: `create_page`, `set_page_order`, `set_drillthrough` (a hidden drillthrough target), `set_report_filter_in` / `set_report_filter_not_in`, `remove_report_filters`;
+  - pages and report settings: `create_page`, `delete_page`, `set_page_order`, `set_drillthrough` (a hidden drillthrough target), `set_report_filter_in` / `set_report_filter_not_in`, `remove_report_filters`;
   - `write_page` (writes only the given visuals, keeping other visuals, page filters and drillthrough bindings; `replace_all=True` rebuilds the page; `page_filters=` replaces the page filters) and `apply_theme` (`copy_from=` copies the theme from another report).
 - **`Tools/PowerBI/tmdl.py`**:
   - new tables: the `MeasuresTable` builder and the `Date` table; the writers need `overwrite=True` to replace an existing file;

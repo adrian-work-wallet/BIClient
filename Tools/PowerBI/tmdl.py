@@ -253,13 +253,13 @@ RETURN
 def truncate_label(measure_ref: str, max_len: int = 45, empty_text: str = "None in this period") -> str:
     """Shortens long text (e.g. a question) so it fits a KPI tile reference label."""
     return f"""
-VAR Text = {measure_ref}
+VAR LabelText = {measure_ref}
 RETURN
     SWITCH (
         TRUE (),
-        ISBLANK ( Text ), "{empty_text}",
-        LEN ( Text ) > {max_len}, LEFT ( Text, {max_len - 1} ) & "…",
-        Text
+        ISBLANK ( LabelText ), "{empty_text}",
+        LEN ( LabelText ) > {max_len}, LEFT ( LabelText, {max_len - 1} ) & "…",
+        LabelText
     )
 """
 
@@ -425,7 +425,8 @@ def add_diagram_page(semantic_model_dir: Path, page_name: str, tables: list[str]
     import json
     import re
     path = Path(semantic_model_dir) / "diagramLayout.json"
-    raw = path.read_text(encoding="utf-8-sig")
+    with open(path, encoding="utf-8-sig", newline="") as fh:  # keep the file's own line endings
+        raw = fh.read()
     d = json.loads(raw, parse_float=lambda s: "__NUM__" + s)
 
     def node(name, i):

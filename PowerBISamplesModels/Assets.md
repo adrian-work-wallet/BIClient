@@ -25,6 +25,8 @@ erDiagram
         calc AssignedCount
         calc UnassignedCount
         calc Url
+        calc DaysSinceInspection
+        calc InspectionBand
     }
     "Asset Status" {
         attr AssetStatus
@@ -55,6 +57,8 @@ erDiagram
         calc AssignedCount
         calc UnassignedCount
         calc Url
+        calc DaysSinceInspection
+        calc InspectionBand
     }
     "Assignment Fact" {
         attr From
@@ -105,6 +109,8 @@ erDiagram
         calc AssignedCount
         calc UnassignedCount
         calc Url
+        calc DaysSinceInspection
+        calc InspectionBand
     }
     "Property Fact" {
         attr PropertyValue
@@ -165,6 +171,8 @@ erDiagram
         calc AssignedCount
         calc UnassignedCount
         calc Url
+        calc DaysSinceInspection
+        calc InspectionBand
     }
     "Inspection Type" {
         attr InspectionType
@@ -217,6 +225,8 @@ erDiagram
         calc AssignedCount
         calc UnassignedCount
         calc Url
+        calc DaysSinceInspection
+        calc InspectionBand
     }
     "Observation" {
         attr ObservedOn
@@ -230,6 +240,9 @@ erDiagram
         calc ObservationNotes
         attr IsFinalised
         calc NewDefectCount
+        calc DaysOpen
+        calc OpenAgeBand
+        calc TimesSeenAgain
     }
     "Observation Status" {
         attr ObservationStatus
@@ -266,6 +279,8 @@ erDiagram
         attr WorkflowComponent
         calc RecordedDefectCount
         calc ObservationNotes
+        calc RecordedAs
+        calc CurrentStatus
     }
     "Observation" {
         attr ObservedOn
@@ -279,6 +294,9 @@ erDiagram
         calc ObservationNotes
         attr IsFinalised
         calc NewDefectCount
+        calc DaysOpen
+        calc OpenAgeBand
+        calc TimesSeenAgain
     }
     "Inspection" {
         calc InspectionCount
@@ -701,4 +719,112 @@ erDiagram
     }
     "Branch Option Fact" }o--|| "Branch Option" : "AssetInspectionBranchOption_key"
     "Branch Option Fact" }o--|| "Inspection" : "AssetInspection_key"
+```
+
+## Assets - Date and measures
+
+```mermaid
+---
+config:
+  theme: neutral
+---
+erDiagram
+    "Date" {
+        attr Date
+        calc Year
+        calc Month
+        calc MonthStart
+        calc YearMonth
+        calc SlicerDate
+    }
+    "Asset Measures" {
+        measure Assets
+        measure AssetsAnyStatus
+        measure ActiveAssets
+        measure OutOfServiceAssets
+        measure ActiveAssetsNeverInspected
+        measure ActiveAssetsNotInspectedInAYear
+        measure AssetsWithOpenDefects
+        measure AssetTypes
+        measure MostCommonAssetType
+        measure Inspections
+        measure CompletedInspections
+        measure OpenInspections
+        measure InspectionsWithDefects
+        measure DefectFindRate
+        measure AssetsInspected
+        measure ActiveAssetsInspected
+        measure InspectionCoverage
+        measure Inspectors
+        measure MonthlyAverageInspections
+        measure MonthlyAverageLine
+        measure MostCommonInspectionType
+        measure AverageScore
+        measure DefectsRaised
+        measure OpenDefects
+        measure OpenDefectsNow
+        measure ClosedDefects
+        measure AverageDaysToClose
+        measure AverageOpenDefectAge
+        measure OldestOpenDefectDays
+        measure OpenDefectsOver90Days
+        measure DefectsSeenAgain
+        measure MostAffectedAssetType
+        measure DefectsRecorded
+        measure TopDefectComponent
+        measure TopDefectComponentShare
+        measure RepeatDefectComponents
+        measure AssetsAssignedToSites
+        measure AssetsAssignedToPeople
+        measure AssetsNotAssigned
+        measure SitesWithAssets
+        measure PeopleWithAssets
+        measure Assignments
+        measure AssetsReassigned
+        measure AverageDaysPerAssignment
+        measure PropertyValues
+        measure AssetsWithProperties
+        measure Properties
+        measure SharedProperties
+    }
+    "Inspection" {
+        calc InspectionCount
+        calc DefectsRaised
+        attr InspectedOn
+        agg Score
+        agg PotentialScore
+        attr AverageScore
+        attr AveragePotentialScore
+        attr PercentageScore
+        agg Defects
+        attr Passed
+        attr ExternalIdentifier
+        attr InspectedByCompany
+        attr InProgressStatusDate
+        attr ReadyForReviewStatusDate
+        attr CompleteStatusDate
+        attr ArchivedStatusDate
+        calc ScoreDisplay
+        calc InspectedBy
+        calc Url
+    }
+    "Observation" {
+        attr ObservedOn
+        attr ClosedOn
+        attr ClosureNotes
+        calc ObservationCount
+        calc OpenDefectCount
+        calc ClosedDefectCount
+        calc DefectCount
+        attr Deleted
+        calc ObservationNotes
+        attr IsFinalised
+        calc NewDefectCount
+        calc DaysOpen
+        calc OpenAgeBand
+        calc TimesSeenAgain
+    }
+    "Inspection" }o--|| "Date" : "Inspected Date"
+    "Observation" }o--|| "Date" : "Observed Date"
+    "Observation" }o..|| "Date" : "Closed Date"
 ```

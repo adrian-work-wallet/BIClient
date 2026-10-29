@@ -31,6 +31,7 @@ The samples are developed against a demo wallet, but must not depend on it.
 - **Handle ties.** `TOPN(1, …)` returns every tied row, so never use it to pick "the" top item. Use the tie-aware leader pattern (`Name (+n tied)`).
 - **Don't rely on optional product features.** If a wallet may not use a feature (e.g. flagged answers), give the user a fallback, such as a slicer that switches what is counted.
 - **Default filters and slicers may use demo values**, as consumers are expected to reset them. Prefer no saved selection where the page still makes sense.
+- **Match the Work Wallet portal's defaults** so the report's numbers agree with what users see in Work Wallet. For example, the portal's Assets page shows Active assets by default. Check the portal page for the module and mirror its default with an editable report-level filter on the status code (`pbir.set_report_filter_in`). Tell users on the page when the filter hides records (e.g. a KPI label "7 more with other statuses (see Filters)").
 - **Check edge cases with DAX** before publishing: empty periods, a single item, ties, and data without the optional feature.
 - **Explain empty data on the page.** Pages for optional features (e.g. investigation answers a wallet doesn't record) should say so, e.g. with a subtitle measure ("None recorded in this period"), rather than show empty visuals.
 
@@ -40,6 +41,9 @@ The samples are developed against a demo wallet, but must not depend on it.
   - Relate it from a hidden, date-only calculated column on the main table, e.g. `DATE ( YEAR ( x ), MONTH ( x ), DAY ( x ) )`, not from a date/time column.
   - Date slicers, monthly axes (`Date[Year Month]`, sorted by `Month Start`) and previous-period measures all use it.
   - Relative date slicers use `Date[Slicer Date]` (`MIN ( Date, TODAY () )`). Future dates count as today, so "Last 12 months" also includes upcoming, future-dated records such as planned audits. Charts keep using the real date columns.
+  - **Several fact tables can share one Date table** (e.g. inspections by inspected date and defects by raised date). Each relationship must have only one filter path from `Date`. A both-directions relationship between the facts (or via a shared dimension) makes the new relationship ambiguous, and Power BI rejects it. Make the fact-to-dimension relationship single-direction first, and check the pages that relied on it.
+  - Add a second date (e.g. closed date) as an **inactive** relationship and use it in measures with `USERELATIONSHIP` ("closed in the period").
+- **Current-state pages** (registers, open items, current assignments) aren't filtered by date, so they have no date slicer (`page_header(..., date_display=None)`). Their age bands and "as at" values are calculated columns, evaluated at refresh; say "as at the last data refresh" in the subtitle.
 - **Measures table**: `<Module> Measures`, with display folders: one per topic (e.g. counts, scores, issues), plus Previous Period, Labels, Formatting and Images.
   - Hide helper measures: previous-period values, KPI labels, colours.
   - Give every visible measure a `///` description.
@@ -58,8 +62,9 @@ The samples are developed against a demo wallet, but must not depend on it.
   - The reverse also applies: a measure that never returns blank (e.g. one that falls back to a parent-level value) pulls in unrelated dimension rows. Return `BLANK ()` when the row has no facts (`ISEMPTY ( Fact )`).
 - **`ISINSCOPE` checks must cover every column a visual might group by**, e.g. both a raw question column and its order-prefixed variant.
 - **Placeholder and excluded data**:
-  - Some date columns use `1899-12-30` for "no date" rather than blank. Calculated columns should treat dates on or before `1900-01-01` as blank.
-  - Exclude records with a Deleted status with a report-level filter on the status code (`pbir.set_report_filter_not_in`), and in measures that ignore report filters.
+  - Some date columns use `1899-12-30` for "no date" rather than blank. Calculated columns should treat dates on or before `1900-01-01` as blank. Check existing calculated columns too: a duration using a placeholder end date goes hugely negative (e.g. an ended assignment with no end date).
+  - Exclude records with a Deleted status with a report-level filter on the status code (`pbir.set_report_filter_not_in`), and in measures that ignore report filters. Some modules use a `Deleted` flag or "draft" (not finalised) flag instead; exclude those too.
+  - Remove stale report-level filters on display names (`pbir.remove_report_filters`), and replace stale page filters when rebuilding a page (`write_page(..., page_filters=[...])`).
   - Give blank grouping values a label in a calculated column (e.g. `"(No company)"`), so matrix rows aren't blank.
   - When codes don't sort in display order (e.g. `-1` for "not set"), sort by a hidden order column.
 - **Single-record (detail) pages**:
@@ -69,8 +74,8 @@ The samples are developed against a demo wallet, but must not depend on it.
 - **Text labels**: avoid "1 hours"-style plurals; use wording such as "within an hour", "the same day" and "the next day" for small values.
 - **Zero vs blank**: a KPI tile shows `--` for blank. Add `+ 0` when zero is the meaningful answer (e.g. "Serious, awaiting investigation"), but only in measures used by cards, because a measure that is never blank pulls every row into tables.
 - **DAX gotchas**:
-  - Don't name variables after DAX functions (e.g. `TopCount`). The whole query fails with "Failed to resolve name 'SYNTAXERROR'".
-  - Quote table names that are also DAX keywords or functions in queries: `'Date'`, `'Status'`.
+  - Don't name variables after DAX functions or keywords (e.g. `TopCount`, `Text`, `Top`, `Current`, `LastDate`). The whole query fails with "Failed to resolve name 'SYNTAXERROR'", and `Test-PbiMeasures` lists every measure using one.
+  - Quote table names that are also DAX keywords or functions in queries and measures: `'Date'`, `'Status'`, `'Property'`.
   - `MEDIANX` over a date difference needs a numeric expression (`( a - b ) * 1.0`).
 - **Long text for KPI tiles** (e.g. a question) is truncated in the measure (`tmdl.truncate_label`, about 45 characters).
 - **New tables** need three things:
@@ -108,6 +113,8 @@ The canvas is 1280 × 720. The constants live in `Tools/PowerBI/pbir.py`.
   - Keep the target page's drillthrough binding and a Back button (`pbir.back_button`).
   - On the source page, add a drillthrough button (`pbir.drillthrough_button`) whose text comes from a measure: "Select an item…" until one row is selected, then "View X details  ›".
   - Place it outside other visuals (e.g. on the header subtitle line). A selected visual is drawn on top and hides anything overlapping it.
+  - Bind to a unique column. If the record has no unique reference, bind to its unique `Url` column (as the existing samples do) and show a readable reference in the button text.
+- **Links to Work Wallet**: show `Url` (web URL) columns as a link icon (table `values` `urlIcon: true`), headed "Link".
 - **Charts and tables**:
   - Rank with visual-level Top N filters (`pbir.top_n_filter`).
   - Use colour scales for heatmap matrices (`score_gradient` for 0–1 percentages, `count_gradient` for counts).
@@ -172,7 +179,7 @@ Saving in Power BI Desktop rewrites files into its own form. Expect this after e
 
 A repeatable sequence for bringing a sample report up to this design:
 
-1. **Review the existing report.** List each page's visuals and fields, and keep what users rely on.
+1. **Review the existing report.** List each page's visuals and fields, and keep what users rely on. A short throwaway script that prints each page's visuals, fields and filters (from the PBIR JSON) is quicker than opening pages one by one.
 2. **Profile the data with DAX before designing**:
    - status and type code distributions (e.g. how many records are Deleted);
    - placeholder dates, blank names or companies, "not set" codes;
@@ -228,6 +235,7 @@ The loop: edit files, publish to a dev workspace (seconds), check measures with 
   - card tiles are `.small-multiples-grid-cell-content`, tables are `[role="grid"]`.
 - **Full canvas**: `page.setViewportSize({ width: 1700, height: 1000 })` shows the whole canvas.
 - **Test interactions** with Playwright: click a table row (`getByText(...).click()` or `page.mouse.click(x, y)`), click buttons, and right-click → Drill through. A button's own label can intercept locator clicks; click it by position instead.
+  - Clicking a selected row again deselects it, and clicking a header re-sorts the table. Click a body cell once (locate it with `[role=gridcell][data-query-ref="Table.Column"]`), then check the button text changed before clicking it.
 
 ### Finishing
 
@@ -249,8 +257,8 @@ The loop: edit files, publish to a dev workspace (seconds), check measures with 
   - header (`header`, `page_header`), date and dropdown slicers, the KPI card row, text cards, tables, matrices (optionally expanded), bar and column charts;
   - Top N, not-blank, "is one of" (`in_filter`) and measure (`measure_filter`) filters, gradients, fixed series colours;
   - drillthrough and Back buttons;
-  - pages and report settings: `create_page`, `set_page_order`, `set_drillthrough` (a hidden drillthrough target), `set_report_filter_not_in`;
-  - `write_page` (writes only the given visuals, keeping other visuals, page filters and drillthrough bindings; `replace_all=True` rebuilds the page) and `apply_theme` (`copy_from=` copies the theme from another report).
+  - pages and report settings: `create_page`, `set_page_order`, `set_drillthrough` (a hidden drillthrough target), `set_report_filter_in` / `set_report_filter_not_in`, `remove_report_filters`;
+  - `write_page` (writes only the given visuals, keeping other visuals, page filters and drillthrough bindings; `replace_all=True` rebuilds the page; `page_filters=` replaces the page filters) and `apply_theme` (`copy_from=` copies the theme from another report).
 - **`Tools/PowerBI/tmdl.py`**:
   - new tables: the `MeasuresTable` builder and the `Date` table; the writers need `overwrite=True` to replace an existing file;
   - additive edits to an existing model: `add_columns`, `upsert_measures` (replaces by name in place, keeping lineage tags, or inserts), `set_sort_by`, `add_table_refs`, `add_relationship`, `add_diagram_page`;

@@ -343,17 +343,19 @@ def image_grid(width=110, height=20):
     return {"grid": props(imageHeight=n(height), imageWidth=n(width))}
 
 
-def bar_chart(page, key, x, y, w, h, category, value, title_text, subtitle=None, fill=None, top_n=None, z=1100):
-    """Horizontal bar chart sorted by value descending; optional Top N filter on the category."""
+def bar_chart(page, key, x, y, w, h, category, value, title_text, subtitle=None, fill=None, top_n=None, z=1100,
+              filters=None):
+    """Horizontal bar chart sorted by value descending; optional Top N filter on the category, plus any other
+    visual-level filters (e.g. in_filter on a type)."""
     objects = {"labels": props(show=b(True)), "categoryAxis": props(maxMarginFactor=i(45)), "legend": props(show=b(False))}
     if fill:
         objects["dataPoint"] = [fill]
-    filters = [top_n_filter(category["field"], value["field"], top_n)] if top_n else None
+    filters = ([top_n_filter(category["field"], value["field"], top_n)] if top_n else []) + list(filters or [])
     return container(page, key, "clusteredBarChart", x, y, w, h, z, {
         "query": {"queryState": {"Category": {"projections": [category]}, "Y": {"projections": [value]}},
                   "sortDefinition": {"sort": [{"field": value["field"], "direction": "Descending"}]}},
         "objects": objects,
-    }, title(title_text, subtitle), filters=filters)
+    }, title(title_text, subtitle), filters=filters or None)
 
 
 def top_n_filter(category_field, order_measure_field, count):
@@ -419,6 +421,7 @@ def measure_filter(entity, measure, kind=">", value="0L"):
 def page_header(page, heading, subtitle, date_display, months=12, dropdowns=(), eyebrow=None):
     """Header strip: the header textbox on the left and slicers right-aligned to the content edge, with the
     header narrowed so it never runs under the slicers. dropdowns: [(key, entity, prop, display), ...].
+    date_display=None omits the date slicer (for pages showing current state, e.g. a register).
     Returns the visuals (header, date slicer, dropdown slicers)."""
     date_w, dd_w = 300, 184
     x = W - MARGIN
@@ -427,6 +430,8 @@ def page_header(page, heading, subtitle, date_display, months=12, dropdowns=(), 
         x -= dd_w
         dropdown_visuals.insert(0, dropdown_slicer(page, key, entity, prop, display, x, dd_w, z=3001 + idx))
         x -= GAP
+    if date_display is None:
+        return [header(page, heading, subtitle, eyebrow, width=min(720, x + GAP - MARGIN - GAP))] + dropdown_visuals
     x -= date_w
     return [header(page, heading, subtitle, eyebrow, width=x - MARGIN - GAP),
             date_slicer(page, x, date_w, date_display, months=months)] + dropdown_visuals
@@ -597,7 +602,7 @@ def write_json(path: Path, obj):
 
 
 def write_page(report_dir: Path, page_id: str, display_name: str, visuals: list[dict],
-               replace_all: bool = False, allow_dirty: bool = False) -> list[str]:
+               replace_all: bool = False, allow_dirty: bool = False, page_filters: list | None = None) -> list[str]:
     """Writes the given visuals to a page and sets its display name. Keeps the page's filters and
     drillthrough binding.
 
@@ -605,6 +610,8 @@ def write_page(report_dir: Path, page_id: str, display_name: str, visuals: list[
     folder names are returned so the caller can check them. replace_all=True deletes every existing visual and
     clears page-level formatting (the theme supplies page background/outspace). Use it only when deliberately
     rebuilding a whole page. Refuses to run if the page has uncommitted changes, unless allow_dirty=True.
+    page_filters: when given, replaces the page's filters (e.g. in_filter(...) on a status code); drillthrough
+    filters are always kept. Pass [] to remove stale filters.
     """
     pdir = Path(report_dir) / "definition" / "pages" / page_id
     require_clean(pdir, allow_dirty)
@@ -613,6 +620,12 @@ def write_page(report_dir: Path, page_id: str, display_name: str, visuals: list[
     if replace_all:
         page.pop("objects", None)
         shutil.rmtree(pdir / "visuals", ignore_errors=True)
+    if page_filters is not None:
+        kept_filters = [f for f in page.get("filterConfig", {}).get("filters", []) if f.get("howCreated") == "Drillthrough"]
+        if kept_filters or page_filters:
+            page["filterConfig"] = {**page.get("filterConfig", {}), "filters": kept_filters + list(page_filters)}
+        else:
+            page.pop("filterConfig", None)
     write_json(pdir / "page.json", page)
     for v in visuals:
         write_json(pdir / "visuals" / v["name"] / "visual.json", v)
@@ -690,16 +703,42 @@ def set_drillthrough(report_dir: Path, page_id: str, entity: str, prop: str, hid
     write_json(path, page)
 
 
+def remove_report_filters(report_dir: Path, entity: str, prop: str) -> int:
+    """Removes report-level filters on Entity[prop] (e.g. a stale filter on a status display name). Returns the
+    number removed."""
+    path = Path(report_dir) / "definition" / "report.json"
+    report = json.loads(path.read_text(encoding="utf-8"))
+    filters = report.get("filterConfig", {}).get("filters", [])
+    kept = [f for f in filters if f.get("field") != col(entity, prop)]
+    if len(kept) != len(filters):
+        report["filterConfig"]["filters"] = kept
+        write_json(path, report)
+    return len(filters) - len(kept)
+
+
 def set_report_filter_not_in(report_dir: Path, entity: str, prop: str, values: list, key: str):
     """Report-level filter excluding values (e.g. deleted records by status code) on every page.
     values are DAX literals as PBIR expects them, e.g. ['8L'] for integers or ["'Deleted'"] for text."""
+    _set_report_filter(report_dir, entity, prop, values, key, exclude=True)
+
+
+def set_report_filter_in(report_dir: Path, entity: str, prop: str, values: list, key: str):
+    """Report-level filter keeping only values on every page, e.g. a default that matches the Work Wallet
+    portal (Active assets only). It shows in the Filters pane, so users can change or clear it."""
+    _set_report_filter(report_dir, entity, prop, values, key, exclude=False)
+
+
+def _set_report_filter(report_dir: Path, entity: str, prop: str, values: list, key: str, exclude: bool):
     path = Path(report_dir) / "definition" / "report.json"
     report = json.loads(path.read_text(encoding="utf-8"))
+    condition = {"In": {
+        "Expressions": [{"Column": {"Expression": {"SourceRef": {"Source": "r"}}, "Property": prop}}],
+        "Values": [[{"Literal": {"Value": v}}] for v in values]}}
+    if exclude:
+        condition = {"Not": {"Expression": condition}}
     flt = {"name": vid("report-filter", key), "field": col(entity, prop), "type": "Categorical",
            "filter": {"Version": 2, "From": [{"Name": "r", "Entity": entity, "Type": 0}],
-                      "Where": [{"Condition": {"Not": {"Expression": {"In": {
-                          "Expressions": [{"Column": {"Expression": {"SourceRef": {"Source": "r"}}, "Property": prop}}],
-                          "Values": [[{"Literal": {"Value": v}}] for v in values]}}}}}]},
+                      "Where": [{"Condition": condition}]},
            "howCreated": "User"}
     config = report.setdefault("filterConfig", {})
     config["filters"] = [f for f in config.get("filters", []) if f["name"] != flt["name"]] + [flt]

@@ -70,6 +70,8 @@ ref table 'Score Section Grading Set Option'
 ref table 'Scored Response Grading Set Option'
 ref table 'Inspection Workflow Component Type'
 ref table 'Inspected By Contact'
+ref table Date
+ref table 'Asset Measures'
 
 ref cultureInfo en-GB
 

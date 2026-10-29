@@ -41,6 +41,7 @@ inactive relationship. Each column is prefixed with its kind instead of its data
 * [Assets - Date Time Answer](PowerBISamplesModels/Assets.md#assets---date-time-answer)
 * [Assets - Checklist Answer](PowerBISamplesModels/Assets.md#assets---checklist-answer)
 * [Assets - Branch Option](PowerBISamplesModels/Assets.md#assets---branch-option)
+* [Assets - Date and measures](PowerBISamplesModels/Assets.md#assets---date-and-measures)
 
 ## Audits
 

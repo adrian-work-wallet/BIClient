@@ -138,7 +138,6 @@ relationship 438ad523-c8e8-9b08-e108-6c9e28befe71
 	toColumn: Wallet.Wallet_key
 
 relationship cf578a42-0456-40f4-9a12-7f52bdf1aee2
-	crossFilteringBehavior: bothDirections
 	fromColumn: Inspection.Asset_key
 	toColumn: Asset.Asset_key
 
@@ -530,4 +529,17 @@ relationship 2ec48584-f8f0-3326-07c1-0997e75e61f5
 	crossFilteringBehavior: bothDirections
 	fromColumn: 'Inspected By Fact'.Contact_key
 	toColumn: 'Inspected By Contact'.Contact_key
+
+relationship a63a5409-7c93-53da-9e43-801cc70bf9ba
+	fromColumn: Inspection.'Inspected Date'
+	toColumn: Date.Date
+
+relationship 0c2899d0-1cc9-5055-9741-e32119c2e665
+	fromColumn: Observation.'Observed Date'
+	toColumn: Date.Date
+
+relationship d3c0ac7b-3f62-5225-bf4b-d45f51b0890e
+	isActive: false
+	fromColumn: Observation.'Closed Date'
+	toColumn: Date.Date
 

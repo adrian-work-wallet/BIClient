@@ -64,6 +64,7 @@ The canvas is 1280 × 720. The constants live in `Tools/PowerBI/pbir.py`.
   - a 9pt grey subtitle saying what the page shows.
 - **Slicers**: top right, y 10, height 58, right-aligned to x 1256, 12px apart. Date slicers are about 300 wide and dropdowns about 180.
   - Use relative date slicers on `Date[Date]`, in one sync group per report.
+  - Slicers in a sync group share one selection, so give them all the same default period. Otherwise the period a user sees depends on which page they opened first.
 - **KPI row** (`pbir.kpi_cards`): one card visual (`cardVisual`) at y 80, height 124, holding four tiles.
   - Each tile shows a label, an 18pt value, and a reference label (a text measure, optionally coloured by a colour measure).
   - Use 13pt for text-valued tiles (names).
@@ -88,14 +89,40 @@ The canvas is 1280 × 720. The constants live in `Tools/PowerBI/pbir.py`.
 - **Theme objects need a selector for cardVisual.** Every visual-level object in the `cardVisual` section of a theme needs `"$id": "default"`; container objects (`background`, `border`, `dropShadow`, `title`, `padding`) don't.
 - **Card visual layout:**
   - Tiles split 50/50 between the callout (label + value) and the reference label by default, which clips the label. Set `layout.calloutSize` (62 with reference labels, 100 without).
-  - Use individual `padding` margins and `spacing.verticalSpacing` 2.
-  - Give the reference label `paddingIndividual` margins (bottom 12, left 14) so text clears the tile edges.
+  - Pad the callout with the `padding` object, which uses `paddingIndividual` plus `topMargin` / `bottomMargin` / `leftMargin` / `rightMargin`. Set `spacing.verticalSpacing` to 2.
+  - Reference label padding uses different property names: `paddingIndividual` plus `paddingTop` / `paddingBottom` / `paddingLeft` / `paddingRight`. Desktop silently drops `*Margin` names on `referenceLabel`.
 - **Slicer fonts:** relative date slicer inputs ignore text size settings (they render at about 8pt). Set slicer `items` (and `date`) text to 8pt in the theme so dropdowns match.
 - **Drillthrough button:** `visualContainerObjects.visualLink` has `type 'Drillthrough'` and `drillthroughSection` set to the target page name. Style the default, hover and disabled states via selectors `{"id": "default" | "hover" | "disabled"}`.
 - **Conditional colour from a measure** ("field value") is `{"solid": {"color": {"expr": {"Measure": …}}}}` (`pbir.colour_measure`).
-- **Power BI Desktop rewrites files on save.** It uses a newer schema version, adds `"active": true` and reorders properties, and silently drops properties it doesn't support (e.g. gauge callout font size, button outline corner radius).
-  - Before regenerating after a Desktop save, compare structurally with the last commit so the user's edits are not overwritten.
-  - Expect cosmetic diffs.
+
+## Power BI Desktop round-trips
+
+Saving in Power BI Desktop rewrites files into its own form. Expect this after every Desktop save.
+
+### What a Desktop save changes
+
+- **JSON files** (`visual.json`, `page.json`, `report.json`, the theme):
+  - The final line break is removed, so git shows whole-file changes that are whitespace only. Use `git diff --ignore-cr-at-eol` to see the real changes.
+  - Visual `$schema` versions are bumped (e.g. `visualContainer/2.4.0` → `2.14.0`).
+  - `"active": true` is added to `Category`, `Rows` and `Columns` projections. Lower matrix row levels get `false`.
+  - Whole numbers lose their `.0` (e.g. `802.0` → `802`).
+- **Unsupported properties are silently dropped.** Examples seen so far:
+  - `referenceLabel` `*Margin` padding;
+  - gauge callout font size;
+  - button outline corner radius.
+
+  A dropped property means it is unsupported or misnamed, so fix the generator rather than re-adding it.
+- **TMDL**:
+  - Table-level properties are reordered (`lineageTag` before `dataCategory`).
+  - Measures can move to a different position in the table file.
+  - Content is otherwise unchanged.
+
+### How to handle it
+
+- **Commit a Desktop save on its own**, with no other edits (e.g. "Power BI Desktop save (no functional change)"), so later diffs show only real changes.
+- **Review a Desktop save structurally**, comparing property by property against the last commit (ignore whitespace and ordering). Then publish it and check the affected pages still render as before.
+- **Don't overwrite the user's Desktop edits.** Before regenerating files the user has saved in Desktop, compare them with the last commit. Carry any intentional edits into the build script first.
+- **Generate files in Desktop's form where practical** (no final line break, current schema versions, whole-number positions, `active` flags), so Desktop saves cause less churn.
 
 ## Developing interactively in an agent session
 

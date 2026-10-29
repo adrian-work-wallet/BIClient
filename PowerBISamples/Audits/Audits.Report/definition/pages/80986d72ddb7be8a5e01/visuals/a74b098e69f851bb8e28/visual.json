@@ -3,9 +3,9 @@
   "name": "a74b098e69f851bb8e28",
   "position": {
     "x": 24,
-    "y": 80,
+    "y": 74,
     "z": 2000,
-    "height": 124,
+    "height": 72,
     "width": 1232,
     "tabOrder": 2000
   },
@@ -214,14 +214,14 @@
             "topMargin": {
               "expr": {
                 "Literal": {
-                  "Value": "10L"
+                  "Value": "6L"
                 }
               }
             },
             "bottomMargin": {
               "expr": {
                 "Literal": {
-                  "Value": "2L"
+                  "Value": "6L"
                 }
               }
             },
@@ -258,7 +258,7 @@
             "textWrap": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }

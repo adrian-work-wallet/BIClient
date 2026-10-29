@@ -3,9 +3,9 @@
   "name": "36f98f959bdd50268151",
   "position": {
     "x": 521.6,
-    "y": 608,
+    "y": 526,
     "z": 1000,
-    "height": 96,
+    "height": 186,
     "width": 236.8,
     "tabOrder": 1000
   },
@@ -66,6 +66,47 @@
               "expr": {
                 "Literal": {
                   "Value": "'Date questions'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
                 }
               }
             }

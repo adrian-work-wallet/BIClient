@@ -476,6 +476,7 @@ erDiagram
         calc Month
         calc MonthStart
         calc YearMonth
+        calc SlicerDate
     }
     "Audit" {
         attr Reference

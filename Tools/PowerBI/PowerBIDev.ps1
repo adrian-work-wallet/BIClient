@@ -109,16 +109,22 @@ function Export-PbiDefinition {
 }
 
 function Invoke-PbiRefresh {
+    <# Starts a refresh; with -Wait, polls until that refresh (matched by its request ID) finishes. #>
     param([Parameter(Mandatory)] [string]$WorkspaceId, [Parameter(Mandatory)] [string]$ModelId, [switch]$Wait)
     $headers = Get-PbiToken PowerBI
     $uri = "$script:PowerBIApi/groups/$WorkspaceId/datasets/$ModelId/refreshes"
-    Invoke-RestMethod -Method Post -Headers $headers -Uri $uri -Body '{"notifyOption":"NoNotification"}' | Out-Null
-    if (-not $Wait) { return 'Refresh started' }
+    $started = (Get-Date).ToUniversalTime().AddSeconds(-5)
+    $response = Invoke-WebRequest -Method Post -Headers $headers -Uri $uri -Body '{"notifyOption":"NoNotification"}' -UseBasicParsing
+    $requestId = $response.Headers['RequestId'] | Select-Object -First 1
+    if (-not $Wait) { return "Refresh started ($requestId)" }
     do {
         Start-Sleep -Seconds 5
-        $latest = (Invoke-RestMethod -Headers $headers -Uri "$uri`?`$top=1").value[0]
-    } while ($latest.status -eq 'Unknown')
-    "Refresh $($latest.status) $($latest.serviceExceptionJson)"
+        $history = (Invoke-RestMethod -Headers $headers -Uri "$uri`?`$top=10").value
+        # Match the refresh we started; fall back to start time if the service didn't return a request ID.
+        $mine = if ($requestId) { $history | Where-Object requestId -eq $requestId | Select-Object -First 1 }
+                else { $history | Where-Object { ([datetime]$_.startTime).ToUniversalTime() -ge $started } | Select-Object -First 1 }
+    } while (-not $mine -or $mine.status -eq 'Unknown')
+    "Refresh $($mine.status) $($mine.serviceExceptionJson)"
 }
 
 function Invoke-PbiDax {

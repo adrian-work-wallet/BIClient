@@ -112,15 +112,21 @@ class MeasuresTable:
 # ------------------------------------------------------------------------------- Date table
 def date_table(first_expr: str, last_expr: str,
                comment: str = "Whole calendar years spanning the data, extended to today so relative date slicers always work.") -> str:
-    """Calculated, marked Date table: Date (key), Year, Month Number (hidden), Month, Month Start, Year Month.
+    """Calculated, marked Date table: Date (key), Year, Month Number (hidden), Month, Month Start, Year Month,
+    Slicer Date.
 
     first_expr / last_expr: DAX scalars for the earliest/latest dates in the data, e.g. 'MIN ( Fact[Created On] )'.
     Relate it to a date-only column on the fact (e.g. a calculated DATE ( YEAR(..), MONTH(..), DAY(..) ) column),
     not to a date/time column.
+
+    Slicer Date is the field for relative date slicers ('Last 12 months'). Future dates count as today, so the
+    slicer also includes upcoming (future-dated) records. TODAY () is evaluated at refresh.
     """
     L = ["table Date", f"{T}lineageTag: {tag('Date')}", f"{T}dataCategory: Time", ""]
 
-    def col(name, expr=None, dtype="dateTime", fmt=None, hidden=False, sort_by=None, key=False, category=None):
+    def col(name, expr=None, dtype="dateTime", fmt=None, hidden=False, sort_by=None, key=False, category=None, desc=None):
+        if desc:
+            L.append(f"{T}/// {desc}")
         L.append(f"{T}column {_quote(name)}" + (f" = {expr}" if expr else ""))
         L.append(f"{T}{T}dataType: {dtype}")
         if key:
@@ -146,6 +152,8 @@ def date_table(first_expr: str, last_expr: str,
     col("Month", 'FORMAT ( \'Date\'[Date], "mmm" )', dtype="string", sort_by="'Month Number'", category="Months")
     col("Month Start", "DATE ( YEAR ( 'Date'[Date] ), MONTH ( 'Date'[Date] ), 1 )", dtype="dateTime", fmt="mmm yyyy")
     col("Year Month", 'FORMAT ( \'Date\'[Date], "mmm yyyy" )', dtype="string", sort_by="'Month Start'")
+    col("Slicer Date", "MIN ( 'Date'[Date], TODAY () )", dtype="dateTime", fmt="dd/mm/yyyy",
+        desc="Date for relative date slicers: future dates count as today, so 'Last N months' also includes upcoming records.")
 
     L += [f"{T}partition Date = calculated", f"{T}{T}mode: import", f"{T}{T}source =", *dax_block(f"""
 // {comment}
@@ -166,10 +174,11 @@ def write_date_table(tables_dir: Path, first_expr: str, last_expr: str, overwrit
 
 # ----------------------------------------------------------------------------- DAX patterns
 def previous_period(base: str) -> str:
-    """base for the same number of days immediately before the selected 'Date' range (blank if none)."""
+    """base for the same number of days immediately before the selected 'Date' range (blank if none).
+    The selected range is capped at today, so upcoming records included via 'Slicer Date' don't lengthen it."""
     return f"""
 VAR FirstDay = MIN ( 'Date'[Date] )
-VAR LastDay = MAX ( 'Date'[Date] )
+VAR LastDay = MIN ( MAX ( 'Date'[Date] ), TODAY () )
 VAR Days = LastDay - FirstDay + 1
 RETURN
     CALCULATE ( {base}, DATESBETWEEN ( 'Date'[Date], FirstDay - Days, FirstDay - 1 ) )
@@ -205,16 +214,19 @@ RETURN
 """
 
 
-def trend_colour(cur: str, prev: str, higher_is_good: bool = True) -> str:
-    """Colour for a trend label; needs hidden [Colour Good] / [Colour Bad] / [Colour Neutral] measures."""
+def trend_colour(cur: str, prev: str, higher_is_good: bool = True, zero_is_comparable: bool = False) -> str:
+    """Colour for a trend label; needs hidden [Colour Good] / [Colour Bad] / [Colour Neutral] measures.
+    Keep it consistent with the matching label: use zero_is_comparable=True with pts_change_label (a previous
+    0% is a real score); leave it False with pct_change_label (a % change from 0 can't be calculated)."""
     good, bad = ("[Colour Good]", "[Colour Bad]") if higher_is_good else ("[Colour Bad]", "[Colour Good]")
+    no_comparison = "ISBLANK ( Prev ) || ISBLANK ( Cur )" if zero_is_comparable else "ISBLANK ( Prev ) || Prev = 0"
     return f"""
 VAR Cur = {cur}
 VAR Prev = {prev}
 RETURN
     SWITCH (
         TRUE (),
-        ISBLANK ( Prev ) || Prev = 0 || Cur = Prev, [Colour Neutral],
+        {no_comparison} || Cur = Prev, [Colour Neutral],
         Cur > Prev, {good},
         {bad}
     )

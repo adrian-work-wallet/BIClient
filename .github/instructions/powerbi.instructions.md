@@ -25,7 +25,7 @@ The samples under `PowerBISamples/` serve two audiences. Every change must work 
 The samples are developed against a demo wallet, but must not depend on it.
 
 - **Never hard-code wallet data** in measures or visuals: no names, IDs, answer texts, locations or record types.
-- **Match statuses and types by code** (see `ReferenceData.md`), not by display name.
+- **Match statuses and types by code** (see `ReferenceData.md`), not by display name. This applies to measures and to page and visual filters.
 - **Use colours the wallet provides** (e.g. grading set colours) rather than fixed thresholds. Where a scale is needed, use a neutral fixed scale (e.g. 0%–100%), not business thresholds.
 - **Handle sentinel values.** Scores, potentials and percentages use `-1` for "not scored"; exclude them (`>= 0`) from sums and averages.
 - **Handle ties.** `TOPN(1, …)` returns every tied row, so never use it to pick "the" top item. Use the tie-aware leader pattern (`Name (+n tied)`).
@@ -38,15 +38,19 @@ The samples are developed against a demo wallet, but must not depend on it.
 - **Date table**: one calculated, marked `Date` table per model (`tmdl.date_table`).
   - Relate it from a hidden, date-only calculated column on the main table, e.g. `DATE ( YEAR ( x ), MONTH ( x ), DAY ( x ) )`, not from a date/time column.
   - Date slicers, monthly axes (`Date[Year Month]`, sorted by `Month Start`) and previous-period measures all use it.
+  - Relative date slicers use `Date[Slicer Date]` (`MIN ( Date, TODAY () )`). Future dates count as today, so "Last 12 months" also includes upcoming, future-dated records such as planned audits. Charts keep using the real date columns.
 - **Measures table**: `<Module> Measures`, with display folders: one per topic (e.g. counts, scores, issues), plus Previous Period, Labels, Formatting and Images.
   - Hide helper measures: previous-period values, KPI labels, colours.
   - Give every visible measure a `///` description.
   - Avoid `%` and other symbols in measure names; the model doc generator turns them into `_`.
-- **Previous period** is the same number of days immediately before the selected range (`tmdl.previous_period`). Pair it with a label (`pct_change_label` / `pts_change_label`) and a colour (`trend_colour`, setting `higher_is_good=False` for counts of problems).
+- **Previous period** is the same number of days immediately before the selected range (`tmdl.previous_period`). The range is capped at today, so upcoming records don't lengthen it. Pair it with:
+  - a label: `pct_change_label` for counts, `pts_change_label` for 0–1 percentages;
+  - a colour (`trend_colour`) that agrees with the label. Set `higher_is_good=False` for counts of problems. Set `zero_is_comparable=True` with `pts_change_label`, because a previous 0% is a real score.
+- **Labels must handle empty periods.** `FORMAT ( BLANK (), … )` returns an empty string, giving fragments such as " completion rate". Return `BLANK ()` (or a "No … in this period" text) when the value being described is blank or zero.
 - **Colours in DAX** come from hidden `Colour Good` / `Colour Bad` / `Colour Neutral` measures (`tmdl.semantic_colours`) that match the theme. Don't scatter hex values through measures.
 - **In-cell SVG measures** (bars, badges):
   - Set `dataCategory: ImageUrl`.
-  - Escape `#` as `%23` and XML-escape any text.
+  - Escape text from data, starting with `%` → `%25` (the image is a `data:` URL), then `#` → `%23`. XML-escape `&`, `<` and `'`.
   - Check colours from data are valid hex (`LEN = 7`) before using them.
 - **Tables drop a row when every measure in it is blank.**
   - For rows that must still show, return a placeholder such as `"–"` instead of blank.
@@ -71,7 +75,7 @@ The canvas is 1280 × 720. The constants live in `Tools/PowerBI/pbir.py`.
   - an 18pt title;
   - a 9pt grey subtitle saying what the page shows.
 - **Slicers**: top right, y 10, height 58, right-aligned to x 1256, 12px apart. Date slicers are about 300 wide and dropdowns about 180.
-  - Use relative date slicers on `Date[Date]`, in one sync group per report.
+  - Use relative date slicers on `Date[Slicer Date]`, in one sync group per report.
   - Slicers in a sync group share one selection, so give them all the same default period. Otherwise the period a user sees depends on which page they opened first.
 - **KPI row** (`pbir.kpi_cards`): one card visual (`cardVisual`) at y 80, height 124, holding four tiles.
   - Each tile shows a label, an 18pt value, and a reference label (a text measure, optionally coloured by a colour measure).
@@ -159,7 +163,7 @@ The loop: edit files, publish to a dev workspace (seconds), check measures with 
   - `Publish-PbiSemanticModel` for model changes.
   - Measure-only changes need no refresh.
   - Refresh (`Invoke-PbiRefresh -Wait`) after adding tables, columns or calculated tables.
-- **Refresh limits**: Pro workspaces throttle refreshes after many in a day ("exceeded the amount of requests"), so only refresh when needed.
+- **Refresh limits**: Pro workspaces allow 8 API-triggered refreshes in any rolling 24 hours ("exceeded the amount of requests"), so only refresh when needed. When the limit is hit, ask the user to use "Refresh now" on the semantic model in the service; manual refreshes aren't counted.
 - **Verify measures** with `Invoke-PbiDax`. Use `CALCULATETABLE ( ROW ( … ), <filters> )` to test specific contexts (a date range, one record, ties).
 
 ### Checking pages in the browser

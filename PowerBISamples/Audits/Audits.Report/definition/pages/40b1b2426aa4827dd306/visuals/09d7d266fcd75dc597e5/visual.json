@@ -23,10 +23,10 @@
                       "Entity": "Date"
                     }
                   },
-                  "Property": "Date"
+                  "Property": "Slicer Date"
                 }
               },
-              "queryRef": "Date.Date",
+              "queryRef": "Date.Slicer Date",
               "nativeQueryRef": "Inspected on",
               "active": true,
               "displayName": "Inspected on"
@@ -107,7 +107,7 @@
                                 "Source": "d"
                               }
                             },
-                            "Property": "Date"
+                            "Property": "Slicer Date"
                           }
                         },
                         "LowerBound": {

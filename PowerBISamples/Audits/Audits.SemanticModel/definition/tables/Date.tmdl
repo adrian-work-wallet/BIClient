@@ -57,6 +57,15 @@ table Date
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Date for relative date slicers: future dates count as today, so 'Last N months' also includes upcoming records.
+	column 'Slicer Date' = MIN ( 'Date'[Date], TODAY () )
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: afd0a8c4-27d7-542f-8739-e32153ca00fe
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition Date = calculated
 		mode: import
 		source =

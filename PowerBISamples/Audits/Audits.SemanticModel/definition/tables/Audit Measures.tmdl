@@ -181,7 +181,7 @@ table 'Audit Measures'
 	/// Audits for the same-length period immediately before the selected dates.
 	measure 'Audits PP' =
 			VAR FirstDay = MIN ( 'Date'[Date] )
-			VAR LastDay = MAX ( 'Date'[Date] )
+			VAR LastDay = MIN ( MAX ( 'Date'[Date] ), TODAY () )
 			VAR Days = LastDay - FirstDay + 1
 			RETURN
 			    CALCULATE ( [Audits], DATESBETWEEN ( 'Date'[Date], FirstDay - Days, FirstDay - 1 ) )
@@ -193,7 +193,7 @@ table 'Audit Measures'
 	/// Completed Audits for the same-length period immediately before the selected dates.
 	measure 'Completed Audits PP' =
 			VAR FirstDay = MIN ( 'Date'[Date] )
-			VAR LastDay = MAX ( 'Date'[Date] )
+			VAR LastDay = MIN ( MAX ( 'Date'[Date] ), TODAY () )
 			VAR Days = LastDay - FirstDay + 1
 			RETURN
 			    CALCULATE ( [Completed Audits], DATESBETWEEN ( 'Date'[Date], FirstDay - Days, FirstDay - 1 ) )
@@ -205,7 +205,7 @@ table 'Audit Measures'
 	/// Average Score for the same-length period immediately before the selected dates.
 	measure 'Average Score PP' =
 			VAR FirstDay = MIN ( 'Date'[Date] )
-			VAR LastDay = MAX ( 'Date'[Date] )
+			VAR LastDay = MIN ( MAX ( 'Date'[Date] ), TODAY () )
 			VAR Days = LastDay - FirstDay + 1
 			RETURN
 			    CALCULATE ( [Average Score], DATESBETWEEN ( 'Date'[Date], FirstDay - Days, FirstDay - 1 ) )
@@ -217,7 +217,7 @@ table 'Audit Measures'
 	/// Issue Responses for the same-length period immediately before the selected dates.
 	measure 'Issue Responses PP' =
 			VAR FirstDay = MIN ( 'Date'[Date] )
-			VAR LastDay = MAX ( 'Date'[Date] )
+			VAR LastDay = MIN ( MAX ( 'Date'[Date] ), TODAY () )
 			VAR Days = LastDay - FirstDay + 1
 			RETURN
 			    CALCULATE ( [Issue Responses], DATESBETWEEN ( 'Date'[Date], FirstDay - Days, FirstDay - 1 ) )
@@ -281,12 +281,18 @@ table 'Audit Measures'
 		displayFolder: Labels
 		lineageTag: 74e5af2e-1f89-59f5-9098-8d735b29b44f
 
-	measure 'Completion Rate Label' = FORMAT ( [Completion Rate], "0%" ) & " completion rate"
+	measure 'Completion Rate Label' =
+			VAR Rate = [Completion Rate]
+			RETURN
+			    IF ( NOT ISBLANK ( Rate ), FORMAT ( Rate, "0%" ) & " completion rate" )
 		isHidden
 		displayFolder: Labels
 		lineageTag: 9d036b2e-579e-5c0b-9013-a218acea2e12
 
-	measure 'Open Audits Label' = FORMAT ( DIVIDE ( [Open Audits], [Audits] ), "0%" ) & " of audits still open"
+	measure 'Open Audits Label' =
+			VAR AuditCount = [Audits]
+			RETURN
+			    IF ( AuditCount > 0, FORMAT ( DIVIDE ( [Open Audits], AuditCount ), "0%" ) & " of audits still open" )
 		isHidden
 		displayFolder: Labels
 		lineageTag: 3e45302d-8319-5950-87c1-72c77b2e1e53
@@ -302,19 +308,26 @@ table 'Audit Measures'
 		lineageTag: 5b8b1392-9d7f-5aca-bf43-2bf3b63f55f5
 
 	measure 'Most Common Audit Type Label' =
+			VAR AuditCount = [Audits]
 			VAR Types = ADDCOLUMNS ( VALUES ( 'Audit Type'[Audit Type] ), "@Audits", [Audits] )
 			RETURN
-			    FORMAT ( DIVIDE ( MAXX ( Types, [@Audits] ), [Audits] ), "0%" ) & " of audits"
+			    IF ( AuditCount > 0, FORMAT ( DIVIDE ( MAXX ( Types, [@Audits] ), AuditCount ), "0%" ) & " of audits" )
 		isHidden
 		displayFolder: Labels
 		lineageTag: d9c9dc93-3740-524d-a721-94c81edd5537
 
-	measure 'Auditors Label' = "Avg " & FORMAT ( DIVIDE ( [Audits], [Auditors] ), "#,0" ) & " audits each"
+	measure 'Auditors Label' =
+			VAR AuditorCount = [Auditors]
+			RETURN
+			    IF ( AuditorCount > 0, "Avg " & FORMAT ( DIVIDE ( [Audits], AuditorCount ), "#,0" ) & " audits each" )
 		isHidden
 		displayFolder: Labels
 		lineageTag: fd971b11-7c8b-50e6-b4fc-bfd037d34280
 
-	measure 'Audits With Issues Label' = FORMAT ( [Audits With Issues], "#,0" ) & " of " & FORMAT ( CALCULATE ( [Audits], REMOVEFILTERS ( 'Scored Response' ) ), "#,0" ) & " audits"
+	measure 'Audits With Issues Label' =
+			VAR AuditCount = CALCULATE ( [Audits], REMOVEFILTERS ( 'Scored Response' ) )
+			RETURN
+			    IF ( AuditCount > 0, FORMAT ( [Audits With Issues] + 0, "#,0" ) & " of " & FORMAT ( AuditCount, "#,0" ) & " audits" )
 		isHidden
 		displayFolder: Labels
 		lineageTag: 91bf0d4a-bbfa-59c2-b56e-8c2ea44e1c59
@@ -338,12 +351,18 @@ table 'Audit Measures'
 		displayFolder: Labels
 		lineageTag: 9e7c911d-d983-564d-9858-67d65e7545d4
 
-	measure 'Best Location Label' = FORMAT ( MAXX ( FILTER ( VALUES ( Location[Location] ), NOT ISBLANK ( [Average Score] ) ), [Average Score] ), "0%" ) & " average score"
+	measure 'Best Location Label' =
+			VAR BestScore = MAXX ( FILTER ( VALUES ( Location[Location] ), NOT ISBLANK ( [Average Score] ) ), [Average Score] )
+			RETURN
+			    IF ( NOT ISBLANK ( BestScore ), FORMAT ( BestScore, "0%" ) & " average score" )
 		isHidden
 		displayFolder: Labels
 		lineageTag: 3305bdaf-de51-5c9a-969b-b80eda910295
 
-	measure 'Lowest Location Label' = FORMAT ( MINX ( FILTER ( VALUES ( Location[Location] ), NOT ISBLANK ( [Average Score] ) ), [Average Score] ), "0%" ) & " average score"
+	measure 'Lowest Location Label' =
+			VAR LowestScore = MINX ( FILTER ( VALUES ( Location[Location] ), NOT ISBLANK ( [Average Score] ) ), [Average Score] )
+			RETURN
+			    IF ( NOT ISBLANK ( LowestScore ), FORMAT ( LowestScore, "0%" ) & " average score" )
 		isHidden
 		displayFolder: Labels
 		lineageTag: 1e2da446-d3a4-5d19-aea9-532da90012db
@@ -410,7 +429,7 @@ table 'Audit Measures'
 			RETURN
 			    SWITCH (
 			        TRUE (),
-			        ISBLANK ( Prev ) || Prev = 0 || Cur = Prev, [Colour Neutral],
+			        ISBLANK ( Prev ) || ISBLANK ( Cur ) || Cur = Prev, [Colour Neutral],
 			        Cur > Prev, [Colour Good],
 			        [Colour Bad]
 			    )
@@ -503,7 +522,7 @@ table 'Audit Measures'
 			        TRUE ()
 			    )
 			VAR Fill = SUBSTITUTE ( IF ( LEN ( GradingColour ) = 7, GradingColour, "#4A5568" ), "#", "%23" )
-			VAR Label = SUBSTITUTE ( SUBSTITUTE ( SUBSTITUTE ( SUBSTITUTE ( Grading, "&", "&amp;" ), "<", "&lt;" ), "#", "%23" ), "'", "&apos;" )
+			VAR Label = SUBSTITUTE ( SUBSTITUTE ( SUBSTITUTE ( SUBSTITUTE ( SUBSTITUTE ( Grading, "%", "%25" ), "&", "&amp;" ), "<", "&lt;" ), "#", "%23" ), "'", "&apos;" )
 			VAR Width = ROUND ( LEN ( Grading ) * 5.8 + 28, 0 )
 			RETURN
 			    IF (

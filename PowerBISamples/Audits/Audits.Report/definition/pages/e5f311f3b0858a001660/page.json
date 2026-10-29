@@ -70,7 +70,7 @@
                 "Entity": "Audit Status"
               }
             },
-            "Property": "Audit Status"
+            "Property": "AuditStatusCode"
           }
         },
         "type": "Categorical",
@@ -95,7 +95,7 @@
                             "Source": "a"
                           }
                         },
-                        "Property": "Audit Status"
+                        "Property": "AuditStatusCode"
                       }
                     }
                   ],
@@ -103,14 +103,14 @@
                     [
                       {
                         "Literal": {
-                          "Value": "'Complete'"
+                          "Value": "3L"
                         }
                       }
                     ],
                     [
                       {
                         "Literal": {
-                          "Value": "'Closed'"
+                          "Value": "6L"
                         }
                       }
                     ]

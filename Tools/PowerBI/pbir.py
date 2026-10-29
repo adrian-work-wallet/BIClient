@@ -241,8 +241,9 @@ def header(page, heading, subtitle, eyebrow: str | None = None, width=720):
                      {"objects": {"general": props(paragraphs=paragraphs)}})
 
 
-def date_slicer(page, x, w, display, months=None, years=None, entity="Date", prop="Date", sync_group=None):
-    """Relative date slicer ('Last N months/years', including today) on the Date table."""
+def date_slicer(page, x, w, display, months=None, years=None, entity="Date", prop="Slicer Date", sync_group=None):
+    """Relative date slicer ('Last N months/years', including today). Defaults to Date[Slicer Date], which counts
+    future dates as today, so upcoming (future-dated) records are included too."""
     duration, period, unit = (months, "Months", 2) if months else (years, "Years", 3)
     flt = {"Version": 2, "From": [{"Name": "d", "Entity": entity, "Type": 0}], "Where": [{"Condition": {"Between": {
         "Expression": {"Column": {"Expression": {"SourceRef": {"Source": "d"}}, "Property": prop}},

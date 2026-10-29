@@ -277,6 +277,11 @@
             "metadata": "Location.Location"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {

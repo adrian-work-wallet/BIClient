@@ -434,9 +434,12 @@ def add_relationship(relationships_tmdl: Path, from_ref: str, to_ref: str, extra
     """Adds a relationship, e.g. add_relationship(path, "Issue.'Occurred Date'", "Date.Date"); skipped if present.
     extra: further property lines, e.g. ["crossFilteringBehavior: bothDirections"]."""
     text = _read(relationships_tmdl).replace("\r\n", "\n")
-    if f"fromColumn: {from_ref}\n{T}toColumn: {to_ref}\n" in text + "\n":
-        return
-    rel = [f"relationship {tag('rel/' + from_ref + '->' + to_ref)}"] + [f"{T}{e}" for e in (extra or [])] + \
+    name = tag('rel/' + from_ref + '->' + to_ref)
+    unquote = lambda s: s.replace("'", "")
+    existing = re.findall(rf"\n{T}fromColumn: ([^\n]+)\n{T}toColumn: ([^\n]+)", "\n" + text)
+    if f"relationship {name}\n" in text or (unquote(from_ref), unquote(to_ref)) in {(unquote(a), unquote(b)) for a, b in existing}:
+        return  # already there (Desktop may have changed the quoting, e.g. 'Action' -> Action)
+    rel = [f"relationship {name}"] + [f"{T}{e}" for e in (extra or [])] + \
           [f"{T}fromColumn: {from_ref}", f"{T}toColumn: {to_ref}", "", ""]  # Desktop ends the file with a blank line
     _write_text(relationships_tmdl, text.rstrip("\n") + "\n\n" + "\n".join(rel))
 

@@ -311,7 +311,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Most overdue first; closure figures are for actions closed in the period'"
+                  "Value": "'Most overdue first; closure figures are for actions closed in the period, with a closing update'"
                 }
               }
             }

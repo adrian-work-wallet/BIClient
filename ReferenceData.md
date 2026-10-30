@@ -97,7 +97,7 @@ Jump to the relevant section:
 | 0 | Draft |
 | 1 | Open |
 | 2 | In Progress |
-| 3 | Closed |
+| 4 | Closed |
 
 | ActionTypeCode | ActionType |
 | --- | --- |

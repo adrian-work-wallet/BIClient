@@ -231,14 +231,14 @@ table Action
 
 		annotation SummarizationSetBy = Automatic
 
-	/// When the action was closed: the latest update that set it to a closed status. Blank while open, or if no closing update was recorded.
+	/// When the action was closed: the latest update that set it to Closed (actions have no closed date of their own). Blank while open, or if the action was closed without a closing update; such actions are left out of days to close and the on-time rate.
 	column 'Closed On' =
 			VAR ActionKey = 'Action'[Action_key]
 			VAR ClosedKeys =
-			    CALCULATETABLE ( VALUES ( 'Status'[ActionStatus_key] ), NOT 'Status'[ActionStatusCode] IN { 0, 1, 2 }, REMOVEFILTERS () )
+			    CALCULATETABLE ( VALUES ( 'Status'[ActionStatus_key] ), 'Status'[ActionStatusCode] = 4, REMOVEFILTERS () )
 			RETURN
 			    IF (
-			        NOT RELATED ( 'Status'[ActionStatusCode] ) IN { 0, 1, 2 },
+			        RELATED ( 'Status'[ActionStatusCode] ) = 4,
 			        MAXX (
 			            FILTER (
 			                'Action Update',

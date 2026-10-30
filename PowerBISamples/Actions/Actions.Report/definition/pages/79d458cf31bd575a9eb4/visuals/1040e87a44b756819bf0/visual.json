@@ -142,7 +142,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Raised by date raised; closed by date closed'"
+                  "Value": "'Raised by date raised; closed by date of the closing update (actions closed without one are left out)'"
                 }
               }
             }

@@ -14,7 +14,7 @@ table 'Action Measures'
 		lineageTag: 1003852c-effe-5d51-8552-5775c3301f57
 
 	/// Actions raised in the period that are now closed.
-	measure 'Closed Actions' = CALCULATE ( [Actions], KEEPFILTERS ( NOT 'Status'[ActionStatusCode] IN { 0, 1, 2 } ) )
+	measure 'Closed Actions' = CALCULATE ( [Actions], KEEPFILTERS ( 'Status'[ActionStatusCode] = 4 ) )
 		formatString: #,0
 		displayFolder: Actions
 		lineageTag: 4e52a049-7a3c-5125-9b0e-7edbf7a2a177
@@ -104,30 +104,30 @@ table 'Action Measures'
 		lineageTag: 0fcc242e-21b7-513e-8f6a-828a530be1c6
 
 	/// Actions closed in the period (by close date).
-	measure 'Actions Closed' = CALCULATE ( COUNTROWS ( 'Action' ), KEEPFILTERS ( NOT 'Status'[ActionStatusCode] IN { 0, 1, 2 } ), USERELATIONSHIP ( 'Date'[Date], 'Action'[Closed Date] ) )
+	measure 'Actions Closed' = CALCULATE ( COUNTROWS ( 'Action' ), KEEPFILTERS ( 'Status'[ActionStatusCode] = 4 ), USERELATIONSHIP ( 'Date'[Date], 'Action'[Closed Date] ) )
 		formatString: #,0
 		displayFolder: Closure
 		lineageTag: f621884a-28bc-540b-b89d-b4a428120458
 
-	/// Average days from raised to closed, for actions closed in the period.
-	measure 'Average Days To Close' = CALCULATE ( AVERAGE ( 'Action'[Days To Close] ), KEEPFILTERS ( NOT 'Status'[ActionStatusCode] IN { 0, 1, 2 } ), USERELATIONSHIP ( 'Date'[Date], 'Action'[Closed Date] ) )
+	/// Average days from raised to closed, for actions closed in the period. Actions closed without a closing update have no close date and are left out.
+	measure 'Average Days To Close' = CALCULATE ( AVERAGE ( 'Action'[Days To Close] ), KEEPFILTERS ( 'Status'[ActionStatusCode] = 4 ), USERELATIONSHIP ( 'Date'[Date], 'Action'[Closed Date] ) )
 		formatString: #,0
 		displayFolder: Closure
 		lineageTag: af89945e-d451-5b90-8aed-f810cb7e8770
 
 	/// Actions closed in the period on or before their due date.
-	measure 'Closed On Time' = CALCULATE ( COUNTROWS ( 'Action' ), KEEPFILTERS ( NOT 'Status'[ActionStatusCode] IN { 0, 1, 2 } ), KEEPFILTERS ( 'Action'[Closed On Time] = TRUE () ), USERELATIONSHIP ( 'Date'[Date], 'Action'[Closed Date] ) )
+	measure 'Closed On Time' = CALCULATE ( COUNTROWS ( 'Action' ), KEEPFILTERS ( 'Status'[ActionStatusCode] = 4 ), KEEPFILTERS ( 'Action'[Closed On Time] = TRUE () ), USERELATIONSHIP ( 'Date'[Date], 'Action'[Closed Date] ) )
 		formatString: #,0
 		displayFolder: Closure
 		lineageTag: 3494aabd-82e3-5d7c-bea5-129a52fe1e1a
 
 	/// Actions closed in the period that had a due date.
-	measure 'Closed With Due Date' = CALCULATE ( COUNTROWS ( 'Action' ), KEEPFILTERS ( NOT 'Status'[ActionStatusCode] IN { 0, 1, 2 } ), KEEPFILTERS ( NOT ISBLANK ( 'Action'[Closed On Time] ) ), USERELATIONSHIP ( 'Date'[Date], 'Action'[Closed Date] ) )
+	measure 'Closed With Due Date' = CALCULATE ( COUNTROWS ( 'Action' ), KEEPFILTERS ( 'Status'[ActionStatusCode] = 4 ), KEEPFILTERS ( NOT ISBLANK ( 'Action'[Closed On Time] ) ), USERELATIONSHIP ( 'Date'[Date], 'Action'[Closed Date] ) )
 		formatString: #,0
 		displayFolder: Closure
 		lineageTag: 009cbc95-fb2d-574b-9d34-093075b86b9b
 
-	/// Share of actions closed in the period that were closed by their due date.
+	/// Share of actions closed in the period that were closed by their due date. Actions closed without a closing update have no close date and are left out.
 	measure 'On Time Rate' = DIVIDE ( [Closed On Time], [Closed With Due Date] )
 		formatString: 0%
 		displayFolder: Closure
@@ -448,7 +448,7 @@ table 'Action Measures'
 		lineageTag: d404d73a-8688-5603-8f42-ae16327f8387
 
 	/// Text colour for a status: open or in progress (amber), closed (green), draft (grey).
-	measure 'Status Colour' = SWITCH ( TRUE (), SELECTEDVALUE ( 'Status'[ActionStatusCode] ) IN { 1, 2 }, "#C9901A", SELECTEDVALUE ( 'Status'[ActionStatusCode] ) = 0, "#4A5568", "#2E9E6B" )
+	measure 'Status Colour' = SWITCH ( SELECTEDVALUE ( 'Status'[ActionStatusCode] ), 1, "#C9901A", 2, "#C9901A", 4, "#2E9E6B", "#4A5568" )
 		isHidden
 		displayFolder: Formatting
 		lineageTag: 7bfaeb74-04d6-5a19-bc63-bfdbf1ab896b

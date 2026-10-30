@@ -122,7 +122,7 @@ table Assignment
 
 	column 'Replacement Requested On'
 		dataType: dateTime
-		formatString: General Date
+		formatString: dd/mm/yyyy hh:nn
 		lineageTag: 195c30fc-3d43-415d-a2bc-e1b0b48c7329
 		summarizeBy: none
 		sourceColumn: Replacement Requested On

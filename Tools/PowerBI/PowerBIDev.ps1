@@ -155,3 +155,23 @@ function Test-PbiMeasures {
     }
     if ($failed) { $failed } else { "All $($names.Count) measures in '$table' evaluate" }
 }
+
+function Get-PbiMeasureValues {
+    <# Evaluates the measures in a local measures-table .tmdl in one filter context and lists their values, to
+       sanity-check numbers and labels (e.g. the default 12-month period, an empty period or one record).
+       -Filters: CALCULATETABLE filter arguments, e.g. "DATESBETWEEN ( 'Date'[Date], EDATE ( TODAY (), -12 ) + 1, TODAY () )".
+       Mirror the report-level filters (e.g. "'Status'[Status] <> ""Deleted""") so values match the report.
+       -Match: regex on measure names to include (colour and previous-period helpers are skipped). #>
+    param([Parameter(Mandatory)] [string]$WorkspaceId, [Parameter(Mandatory)] [string]$ModelId, [Parameter(Mandatory)] [string]$TmdlPath,
+          [string]$Filters = "", [string]$Match = ".")
+    $table = (Select-String -Path $TmdlPath -Pattern '^table (.+)$' | Select-Object -First 1).Matches[0].Groups[1].Value.Trim("'")
+    $names = Select-String -Path $TmdlPath -Pattern "^\tmeasure (.+?) =" | ForEach-Object { $_.Matches[0].Groups[1].Value.Trim("'") } |
+        Where-Object { $_ -match $Match -and $_ -notmatch 'Colour|PP$' }
+    for ($i = 0; $i -lt $names.Count; $i += 25) {
+        $chunk = $names[$i..([Math]::Min($i + 24, $names.Count - 1))]
+        $cols = ($chunk | ForEach-Object { """$_"", '$table'[$_]" }) -join ', '
+        $query = if ($Filters) { "EVALUATE CALCULATETABLE ( ROW ( $cols ), $Filters )" } else { "EVALUATE ROW ( $cols )" }
+        $row = Invoke-PbiDax -WorkspaceId $WorkspaceId -ModelId $ModelId -Query $query
+        $row.PSObject.Properties | ForEach-Object { [pscustomobject]@{ Measure = $_.Name.Trim('[]'); Value = $_.Value } }
+    }
+}

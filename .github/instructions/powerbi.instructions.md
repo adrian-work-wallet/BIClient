@@ -66,7 +66,7 @@ The samples are developed against a demo wallet, but must not depend on it.
   - The reverse also applies: a measure that never returns blank (e.g. one that falls back to a parent-level value) pulls in unrelated dimension rows. Return `BLANK ()` when the row has no facts (`ISEMPTY ( Fact )`).
 - **`ISINSCOPE` checks must cover every column a visual might group by**, e.g. both a raw question column and its order-prefixed variant.
 - **Placeholder and excluded data**:
-  - Some date columns use `1899-12-30` for "no date" rather than blank. Calculated columns should treat dates on or before `1900-01-01` as blank. Check existing calculated columns too: a duration using a placeholder end date goes hugely negative (e.g. an ended assignment with no end date).
+  - Some date columns use `1899-12-30` for "no date" rather than blank, others `1900-01-01`. Calculated columns should treat dates on or before `1900-01-02` as blank. Check existing calculated columns too: a duration using a placeholder end date goes hugely negative (e.g. an ended assignment with no end date).
   - When profiling, count blanks and placeholders separately: `BLANK () <= DATE ( 1900, 1, 1 )` is true in DAX, so a "before 1900" count includes real blanks.
   - Exclude records with a Deleted status with a report-level filter on the status name (`pbir.set_report_filter_not_in`), and by code in measures that ignore report filters. Some modules use a `Deleted` flag or "draft" (not finalised) flag instead; exclude those too.
   - Remove stale report-level filters on display names (`pbir.remove_report_filters`), and replace stale page filters when rebuilding a page (`write_page(..., page_filters=[...])`).
@@ -77,10 +77,11 @@ The samples are developed against a demo wallet, but must not depend on it.
   - Tables built only from dimension columns aren't tied to the record either, and list every dimension row. Add a measure filter (`pbir.measure_filter`, e.g. `[Issues] > 0`) unless the relationships cross-filter both ways.
   - Keep these record-level measures (and their colour measures) for the record's tiles only. Measures used for conditional formatting are part of a table's query, so keep table colour measures cheap (`SELECTEDVALUE` of the grouped column). A colour measure that read the fact row made a register table with several dimension columns evaluate every combination and fail with "Query has exceeded the available resources".
 - **Text labels**: avoid "1 hours"-style plurals; use wording such as "within an hour", "the same day" and "the next day" for small values.
+- **Date formats**: give date and date/time columns explicit formats (`dd/mm/yyyy`, `dd/mm/yyyy hh:nn`). `Short Date`, `General Date` and `Long Date` follow the viewer's locale, so the service shows US dates (10/27/2026, AM/PM) to many viewers.
 - **Zero vs blank**: a KPI tile shows `--` for blank. Add `+ 0` when zero is the meaningful answer (e.g. "Serious, awaiting investigation"), but only in measures used by cards, because a measure that is never blank pulls every row into tables.
 - **DAX gotchas**:
   - Don't name variables after DAX functions or keywords (e.g. `TopCount`, `Text`, `Top`, `Current`, `LastDate`). The whole query fails with "Failed to resolve name 'SYNTAXERROR'", and `Test-PbiMeasures` lists every measure using one.
-  - Quote table names that are also DAX keywords or functions in queries and measures: `'Date'`, `'Status'`, `'Property'`.
+  - Quote table names that are also DAX keywords or functions in queries and measures: `'Date'`, `'Status'`, `'Property'`, `'Action'`.
   - `MEDIANX` over a date difference needs a numeric expression (`( a - b ) * 1.0`).
 - **Long text for KPI tiles** (e.g. a question) is truncated in the measure (`tmdl.truncate_label`, about 45 characters).
 - **New tables** need three things:
@@ -191,11 +192,12 @@ A repeatable sequence for bringing a sample report up to this design:
 
 1. **Review the existing report.** List each page's visuals and fields, and keep what users rely on. A short throwaway script that prints each page's visuals, fields and filters (from the PBIR JSON) is quicker than opening pages one by one.
 2. **Profile the data with DAX before designing**:
-   - status and type code distributions (e.g. how many records are Deleted);
+   - status and type code distributions (e.g. how many records are Deleted), and whether the codes match `ReferenceData.md` (they don't always);
    - placeholder dates, blank names or companies, "not set" codes;
    - which tables are empty in the dev wallet (optional features), so those pages are designed to explain empty data;
-   - relationship cross-filter directions (they decide whether dimension-only tables follow the page's filters).
-3. **Model**: add the `Date` table, relationship and measures table (`tmdl.py`). Publish, refresh once, then run `Test-PbiMeasures`.
+   - relationship cross-filter directions (they decide whether dimension-only tables follow the page's filters);
+   - how the product behaves, before treating something as a problem. For example, time-limited permits are closed automatically at expiry, so "closed after expiry" is only a failure for permits that need a manual close-out. Check timestamps (e.g. close time minus expiry) to confirm.
+3. **Model**: add the `Date` table, relationship and measures table (`tmdl.py`). Publish, refresh once, then run `Test-PbiMeasures`, and check the values with `Get-PbiMeasureValues` (default period with the report-level filters, an empty period, one record).
 4. **Report**: copy the theme (`pbir.apply_theme(copy_from=...)`). Keep existing page names (ids) where a page is kept, so links and bookmarks still work. Fold pages that are a single filtered table (e.g. one page per action) into a broader page with a dropdown, and delete them (`pbir.delete_page`). Set the report-level filters, page order and drillthrough targets (`set_report_filter_not_in`, `set_page_order`, `set_drillthrough`).
 5. **Publish and check every page in the browser**, including the drillthrough (select a row, click the button, then Back) and a record reached by URL filter.
 6. **Finish**: model docs, CHANGELOG, then the user's Power BI Desktop save (see [Finishing](#finishing)).
@@ -229,7 +231,7 @@ The loop: edit files, publish to a dev workspace (seconds), check measures with 
 - **Refresh limits**: Pro workspaces allow 8 API-triggered refreshes in any rolling 24 hours ("exceeded the amount of requests"), so only refresh when needed. When the limit is hit, ask the user to use "Refresh now" on the semantic model in the service; manual refreshes aren't counted.
 - **Verify measures** after every model change:
   - `Test-PbiMeasures -TmdlPath '<...>/<Module> Measures.tmdl'` evaluates every measure in the file and lists any that fail.
-  - Use `Invoke-PbiDax` with `CALCULATETABLE ( ROW ( … ), <filters> )` to test specific contexts (a date range, one record, ties). DAX errors arrive in the response body of a successful HTTP call; `Invoke-PbiDax` raises them.
+  - Use `Invoke-PbiDax` with `CALCULATETABLE ( ROW ( … ), <filters> )` to test specific contexts (a date range, one record, ties), or `Get-PbiMeasureValues -Filters …` to list every measure's value in one context. DAX errors arrive in the response body of a successful HTTP call; `Invoke-PbiDax` raises them.
 
 ### Checking pages in the browser
 
@@ -263,15 +265,16 @@ The loop: edit files, publish to a dev workspace (seconds), check measures with 
   - `Invoke-PbiRefresh`
   - `Invoke-PbiDax` (raises DAX errors with a readable message)
   - `Test-PbiMeasures` (evaluates every measure in a measures `.tmdl`)
+  - `Get-PbiMeasureValues` (lists every measure's value in one filter context)
 - **`Tools/PowerBI/pbir.py`**: report builders and the layout constants. It covers:
-  - header (`header`, `page_header`), date and dropdown slicers, the KPI card row, text cards, tables, matrices (optionally expanded), bar and column charts;
+  - header (`header`, `page_header`), date and dropdown slicers, the KPI card row, text cards, tables, matrices (optionally expanded), bar and column charts (stacked, or `clustered=True` for side-by-side measures);
   - Top N, not-blank, "is one of" (`in_filter`) and measure (`measure_filter`) filters, gradients, fixed series colours;
   - drillthrough and Back buttons;
   - pages and report settings: `create_page`, `delete_page`, `set_page_order`, `set_drillthrough` (a hidden drillthrough target), `set_report_filter_in` / `set_report_filter_not_in`, `remove_report_filters`;
   - `write_page` (writes only the given visuals, keeping other visuals, page filters and drillthrough bindings; `replace_all=True` rebuilds the page; `page_filters=` replaces the page filters) and `apply_theme` (`copy_from=` copies the theme from another report).
 - **`Tools/PowerBI/tmdl.py`**:
   - new tables: the `MeasuresTable` builder and the `Date` table; the writers need `overwrite=True` to replace an existing file;
-  - additive edits to an existing model: `add_columns`, `upsert_measures` (replaces by name in place, keeping lineage tags, or inserts), `set_sort_by`, `add_table_refs`, `add_relationship`, `add_diagram_page`;
+  - additive edits to an existing model: `add_columns` (`replace=True` updates existing calculated columns in place), `upsert_measures` (replaces by name in place, keeping lineage tags, or inserts), `set_sort_by`, `add_table_refs`, `add_relationship`, `add_diagram_page`;
   - DAX patterns: previous period, change labels, trend colours, tie-aware leader, truncation, semantic colours.
 - **`Tools/PowerBI/_guard.py`**: the shared check that stops the helpers writing over uncommitted changes (`allow_dirty=True` overrides it).
 - **`Tools/WorkWallet.BI.PowerBIModelDocGenerator`**: generates `PowerBISamplesModels.md` and `PowerBISamplesModels/*.md` from the TMDL and `diagramLayout.json`. Never edit its output by hand.

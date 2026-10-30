@@ -559,6 +559,48 @@ cultureInfo en-GB
 			          }
 			        }
 			      ]
+			    },
+			    "safety_card.recipient": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Safety Card",
+			          "ConceptualProperty": "Recipient"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Recipient": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "safety_card.recipient_company": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Safety Card",
+			          "ConceptualProperty": "Recipient Company"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Company": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    }
 			  }
 			}

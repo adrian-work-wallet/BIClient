@@ -149,7 +149,7 @@
       "ordinal": 1,
       "scrollPosition": {
         "x": 0,
-        "y": 14.545454545454545
+        "y": 13.888888888888914
       },
       "nodes": [
         {
@@ -160,7 +160,7 @@
           "nodeIndex": "Safety Card",
           "nodeLineageTag": "53255aa4-be37-4d64-b53e-1b27126e4ad1",
           "size": {
-            "height": 694,
+            "height": 774,
             "width": 266.22222222222229
           },
           "zIndex": 6
@@ -292,7 +292,7 @@
           "nodeIndex": "Safety Card",
           "nodeLineageTag": "53255aa4-be37-4d64-b53e-1b27126e4ad1",
           "size": {
-            "height": 676,
+            "height": 751,
             "width": 260
           },
           "zIndex": 2

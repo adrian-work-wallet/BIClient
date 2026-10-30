@@ -121,12 +121,6 @@ table 'Induction Measures'
 		displayFolder: Current Status
 		lineageTag: cd9fe00c-5a8d-5df0-bf2f-92d4fc3feb08
 
-	/// Latest attempt invalidated by a newer version of the induction: the person needs to take it again. As at the last data refresh.
-	measure 'Invalid Inductions' = CALCULATE ( [Inductions Taken], KEEPFILTERS ( 'Taken By'[Is Latest Attempt] = TRUE () ), REMOVEFILTERS ( 'Date' ), KEEPFILTERS ( 'Taken By'[Induction Status Order] = 5 ) )
-		formatString: #,0
-		displayFolder: Current Status
-		lineageTag: 7cec5fd1-e7a8-5702-850e-2751c26632f6
-
 	/// Share of people and inductions currently valid (including expiring soon).
 	measure 'Valid Share' = DIVIDE ( [Valid Inductions] + [Expiring Inductions], [Current Inductions] )
 		formatString: 0%
@@ -494,6 +488,12 @@ table 'Induction Measures'
 		isHidden
 		displayFolder: Formatting
 		lineageTag: 2219237f-c14b-5ac3-ae98-df5576079e8e
+
+	/// Latest attempt invalidated by a newer version of the induction: the person needs to take it again. As at the last data refresh.
+	measure 'Invalid Inductions' = CALCULATE ( [Inductions Taken], KEEPFILTERS ( 'Taken By'[Is Latest Attempt] = TRUE () ), REMOVEFILTERS ( 'Date' ), KEEPFILTERS ( 'Taken By'[Induction Status Order] = 5 ) )
+		formatString: #,0
+		displayFolder: Current Status
+		lineageTag: 7cec5fd1-e7a8-5702-850e-2751c26632f6
 
 	column Value
 		dataType: int64

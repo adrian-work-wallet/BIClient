@@ -109,6 +109,7 @@ inactive relationship. Each column is prefixed with its kind instead of its data
 [Safety Cards diagrams](PowerBISamplesModels/SafetyCards.md)
 
 * [Safety Cards - Main](PowerBISamplesModels/SafetyCards.md#safety-cards---main)
+* [Safety Cards - Date and measures](PowerBISamplesModels/SafetyCards.md#safety-cards---date-and-measures)
 
 ## For Maintainers
 

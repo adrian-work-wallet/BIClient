@@ -22,6 +22,7 @@ erDiagram
         attr SignatureDate
         attr Occupation
         attr ExternalIdentifier
+        calc SignedOn
     }
     "Location" {
         attr LocationType
@@ -34,6 +35,7 @@ erDiagram
         attr LocationExternalIdentifier
         attr AllDepartments
         attr SiteStatus
+        calc SiteName
     }
     "Status" {
         attr Status
@@ -59,4 +61,57 @@ erDiagram
     "Safety Card" }o--|| "Status" : "SafetyCardStatus_key"
     "Safety Card" }o--|| "Type" : "SafetyCardType_key"
     "Safety Card" }o--|| "Contact" : "EmployeeContact_key"
+```
+
+## Safety Cards - Date and measures
+
+```mermaid
+---
+config:
+  theme: neutral
+---
+erDiagram
+    "Date" {
+        attr Date
+        calc Year
+        calc Month
+        calc MonthStart
+        calc YearMonth
+        calc SlicerDate
+    }
+    "Safety Card Measures" {
+        measure SafetyCards
+        measure GreenCards
+        measure YellowCards
+        measure RedCards
+        measure WarningCards
+        measure PositiveShare
+        measure RedShare
+        measure SignedCards
+        measure SignedShare
+        measure PeopleCarded
+        measure RepeatRecipients
+        measure Employers
+        measure Reporters
+        measure LastCard
+        measure MonthlyAverageCards
+        measure MonthlyAverageLine
+        measure MostCommonCategory
+        measure MostCommonWarningCategory
+    }
+    "Safety Card" {
+        attr Reference
+        attr ReportedByUser
+        attr ReportedTime
+        attr Employer
+        attr Employee
+        attr InductionNumber
+        attr ReportDetails
+        attr HasSignature
+        attr SignatureDate
+        attr Occupation
+        attr ExternalIdentifier
+        calc SignedOn
+    }
+    "Safety Card" }o--|| "Date" : "Reported Date"
 ```

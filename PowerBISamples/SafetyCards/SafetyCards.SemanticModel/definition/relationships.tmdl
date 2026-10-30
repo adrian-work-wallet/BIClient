@@ -67,3 +67,7 @@ relationship 73fc1dff-5f96-c7ab-cdf3-d8f58dfeefbb
 	fromColumn: Contact.Wallet_key
 	toColumn: Wallet.Wallet_key
 
+relationship a525fd3f-27ce-589e-a95a-243dee6a664d
+	fromColumn: 'Safety Card'.'Reported Date'
+	toColumn: Date.Date
+

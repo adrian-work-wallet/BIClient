@@ -135,7 +135,7 @@ table 'Safety Card'
 
 	column 'Signature Date'
 		dataType: dateTime
-		formatString: General Date
+		formatString: dd/mm/yyyy hh:nn
 		lineageTag: 5f0131bc-d03e-46dd-ba19-4dec3dc786bb
 		summarizeBy: none
 		sourceColumn: Signature Date
@@ -210,6 +210,25 @@ table 'Safety Card'
 		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = User
+
+	/// Date part of Reported Time; relates safety cards to the Date table.
+	column 'Reported Date' = DATE ( YEAR ( 'Safety Card'[Reported Time] ), MONTH ( 'Safety Card'[Reported Time] ), DAY ( 'Safety Card'[Reported Time] ) )
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy
+		lineageTag: eb182aad-8a0d-569e-b3da-2cec71dca1cb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// When the card was signed by the recipient (blank if not signed; Work Wallet stores an 1899/1900 date for 'no date').
+	column 'Signed On' = IF ( 'Safety Card'[Signature Date] > DATE ( 1900, 1, 2 ), 'Safety Card'[Signature Date] )
+		dataType: dateTime
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: d3baec1c-56a1-57fb-978d-0a76044b6217
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
 
 	partition 'Safety Card' = m
 		mode: import

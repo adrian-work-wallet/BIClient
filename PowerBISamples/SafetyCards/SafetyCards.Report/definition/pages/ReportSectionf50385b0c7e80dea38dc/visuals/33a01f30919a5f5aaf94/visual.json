@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.2.0/schema.json",
-  "name": "ee2f79ac4b4b4b306de0",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "33a01f30919a5f5aaf94",
   "position": {
-    "x": 419.36932121859968,
-    "y": 0,
-    "z": 2000,
-    "height": 102.61892036344202,
-    "width": 283.91234633885625,
-    "tabOrder": 2000
+    "x": 1072,
+    "y": 10,
+    "z": 3001,
+    "height": 58,
+    "width": 184,
+    "tabOrder": 3001
   },
   "visual": {
     "visualType": "slicer",
@@ -20,15 +20,16 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Type"
+                      "Entity": "Safety Card"
                     }
                   },
-                  "Property": "Type"
+                  "Property": "Employer"
                 }
               },
-              "queryRef": "Type.Type",
-              "nativeQueryRef": "Type",
-              "active": true
+              "queryRef": "Safety Card.Employer",
+              "nativeQueryRef": "Employer",
+              "active": true,
+              "displayName": "Employer"
             }
           ]
         }
@@ -38,13 +39,6 @@
       "data": [
         {
           "properties": {
-            "isInvertedSelectionMode": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
             "mode": {
               "expr": {
                 "Literal": {
@@ -55,9 +49,17 @@
           }
         }
       ],
-      "general": [
+      "selection": [
         {
-          "properties": {}
+          "properties": {
+            "strictSingleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
         }
       ]
     },

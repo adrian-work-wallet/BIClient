@@ -23,6 +23,8 @@ ref table 'Occupation Role'
 ref table Status
 ref table Type
 ref table Contact
+ref table Date
+ref table 'Safety Card Measures'
 
 ref cultureInfo en-GB
 

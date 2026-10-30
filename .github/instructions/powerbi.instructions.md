@@ -126,6 +126,7 @@ The canvas is 1280 × 720. The constants live in `Tools/PowerBI/pbir.py`.
 - **Links to Work Wallet**: show `Url` (web URL) columns as a link icon (table `values` `urlIcon: true`), headed "Link".
 - **Charts and tables**:
   - Rank with visual-level Top N filters (`pbir.top_n_filter`).
+  - A table's sort only applies to a field that is in the table. To sort by a measure (e.g. "most warnings first"), include it as a column.
   - Use colour scales for heatmap matrices (`score_gradient` for 0–1 percentages, `count_gradient` for counts).
   - Open matrix row levels by default (`pbir.matrix(..., expanded=True)`, or a number of levels). A collapsed matrix shows a few top-level rows and a lot of empty space. The expansion is level-wide, so it doesn't depend on the data.
   - Fix colours for fixed lists (e.g. severity) by code with `series_colours` / colour measures; let the theme colour everything else.

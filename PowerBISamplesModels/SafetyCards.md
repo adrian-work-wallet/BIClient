@@ -23,6 +23,8 @@ erDiagram
         attr Occupation
         attr ExternalIdentifier
         calc SignedOn
+        calc RecipientCompany
+        calc Recipient
     }
     "Location" {
         attr LocationType
@@ -112,6 +114,8 @@ erDiagram
         attr Occupation
         attr ExternalIdentifier
         calc SignedOn
+        calc RecipientCompany
+        calc Recipient
     }
     "Safety Card" }o--|| "Date" : "Reported Date"
 ```

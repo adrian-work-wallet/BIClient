@@ -55,14 +55,14 @@ table 'Safety Card Measures'
 		displayFolder: Safety Cards
 		lineageTag: 65d5549b-7446-5692-b376-7f0f331d4928
 
-	/// Distinct people who received a card.
-	measure 'People Carded' = DISTINCTCOUNT ( 'Safety Card'[Employee] )
+	/// Distinct people who received a card (matched by Work Wallet contact; names typed on the card by name and employer).
+	measure 'People Carded' = DISTINCTCOUNT ( 'Safety Card'[Recipient Key] )
 		formatString: #,0
 		displayFolder: People
 		lineageTag: e3a6edce-50e6-5f78-9992-7c3ce6a0e0d1
 
-	/// People who received two or more yellow or red cards.
-	measure 'Repeat Recipients' = COUNTROWS ( FILTER ( VALUES ( 'Safety Card'[Employee] ), [Warning Cards] >= 2 ) ) + 0
+	/// People who received two or more yellow or red cards (matched by Work Wallet contact; names typed on the card by name and employer).
+	measure 'Repeat Recipients' = COUNTROWS ( FILTER ( VALUES ( 'Safety Card'[Recipient Key] ), [Warning Cards] >= 2 ) ) + 0
 		formatString: #,0
 		displayFolder: People
 		lineageTag: 02c06f4f-cd00-59e5-9fb5-4dda811e6959

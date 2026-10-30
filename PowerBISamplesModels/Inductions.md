@@ -94,12 +94,12 @@ erDiagram
         measure ExpiringInductions
         measure ExpiredInductions
         measure NotPassedInductions
-        measure InvalidInductions
         measure ValidShare
         measure CustomQuestionAnswers
         measure CustomQuestions
         measure PeopleAnswering
         measure MostAnsweredQuestion
+        measure InvalidInductions
     }
     "Taken By" {
         attr Person

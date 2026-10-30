@@ -29,6 +29,11 @@ The samples are developed against a demo wallet, but must not depend on it.
   - Measures and calculated columns match statuses and types by code (see `ReferenceData.md`), not by display name. Codes are stable; names can differ from the reference list (e.g. "Decomissioned", "InProgress") or be reworded later.
   - Report, page and visual filters use the display-name column (e.g. `Status` is not "Deleted"), because users see them in the Filters pane and must be able to read and change them. Check each name in the data first (with DAX), and use the name that matches the code you mean.
   - True/false flag filters (e.g. "Is Latest is True") are readable as they are.
+- **Identify people by id, never by name alone**:
+  - Count, rank, match or group people (and anything else with an id) by a key such as `Contact_key` or `ContactId`. Different people often share a name, and one person's name can change. The demo wallet has both: two Adam Civvals at different companies, and a contact whose cards were issued under an earlier name.
+  - Where the export has no id (a name typed on a record, or an Actions assignee), fall back to the most specific combination available, e.g. name plus employer, or name plus email.
+  - For tables that list people, add a display column that is unique per person. Show the name, then add the company, then the email or "not a contact", only as far as needed to tell same-name people apart (see `'Safety Card'[Recipient]`). Otherwise the visual merges them into one row.
+  - Companies have no id in the exports, so counting distinct company names is the best available.
 - **Use colours the wallet provides** (e.g. grading set colours) rather than fixed thresholds. Where a scale is needed, use a neutral fixed scale (e.g. 0%–100%), not business thresholds.
 - **Handle sentinel values.** Scores, potentials and percentages use `-1` for "not scored"; exclude them (`>= 0`) from sums and averages.
 - **Handle ties.** `TOPN(1, …)` returns every tied row, so never use it to pick "the" top item. Use the tie-aware leader pattern (`Name (+n tied)`).
@@ -80,7 +85,7 @@ The samples are developed against a demo wallet, but must not depend on it.
 - **Date formats**: give date and date/time columns explicit formats (`dd/mm/yyyy`, `dd/mm/yyyy hh:nn`). `Short Date`, `General Date` and `Long Date` follow the viewer's locale, so the service shows US dates (10/27/2026, AM/PM) to many viewers.
 - **Zero vs blank**: a KPI tile shows `--` for blank. Add `+ 0` when zero is the meaningful answer (e.g. "Serious, awaiting investigation"), but only in measures used by cards, because a measure that is never blank pulls every row into tables.
 - **DAX gotchas**:
-  - Don't name variables after DAX functions or keywords (e.g. `TopCount`, `Text`, `Top`, `Current`, `LastDate`). The whole query fails with "Failed to resolve name 'SYNTAXERROR'", and `Test-PbiMeasures` lists every measure using one.
+  - Don't name variables after DAX functions or keywords (e.g. `TopCount`, `Text`, `Top`, `Current`, `LastDate`, `Name`). The whole query fails with "Failed to resolve name 'SYNTAXERROR'", and `Test-PbiMeasures` lists every measure using one.
   - Quote table names that are also DAX keywords or functions in queries and measures: `'Date'`, `'Status'`, `'Property'`, `'Action'`.
   - `MEDIANX` over a date difference needs a numeric expression (`( a - b ) * 1.0`).
 - **Long text for KPI tiles** (e.g. a question) is truncated in the measure (`tmdl.truncate_label`, about 45 characters).

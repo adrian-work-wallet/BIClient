@@ -23,10 +23,10 @@
                       "Entity": "Safety Card"
                     }
                   },
-                  "Property": "Employee"
+                  "Property": "Recipient"
                 }
               },
-              "queryRef": "Safety Card.Employee",
+              "queryRef": "Safety Card.Recipient",
               "nativeQueryRef": "Recipient",
               "displayName": "Recipient"
             },
@@ -38,11 +38,12 @@
                       "Entity": "Safety Card"
                     }
                   },
-                  "Property": "Employer"
+                  "Property": "Recipient Company"
                 }
               },
-              "queryRef": "Safety Card.Employer",
-              "nativeQueryRef": "Employer"
+              "queryRef": "Safety Card.Recipient Company",
+              "nativeQueryRef": "Company",
+              "displayName": "Company"
             },
             {
               "field": {
@@ -195,7 +196,7 @@
             }
           },
           "selector": {
-            "metadata": "Safety Card.Employee"
+            "metadata": "Safety Card.Recipient"
           }
         },
         {
@@ -209,7 +210,7 @@
             }
           },
           "selector": {
-            "metadata": "Safety Card.Employer"
+            "metadata": "Safety Card.Recipient Company"
           }
         },
         {
@@ -337,7 +338,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Most warnings (yellow or red) first'"
+                  "Value": "'One row per person (Work Wallet contact, or typed-in name and employer); most warnings first'"
                 }
               }
             }

@@ -91,15 +91,16 @@ table 'Action Measures'
 		displayFolder: Actions
 		lineageTag: 2bf89bc8-2da5-5d28-a70f-815741f69458
 
-	/// Person with the most overdue actions (by name); ties are reported.
+	/// Person with the most overdue actions; ties are reported. People are matched by name and email (Assignee), so two people with the same name are not merged; the name is shown.
 	measure 'Most Overdue Assignee' =
-			VAR Items = FILTER ( ADDCOLUMNS ( FILTER ( VALUES ( 'Action'[Name] ), LEN ( 'Action'[Name] ) > 0 ), "@Value", [Overdue Actions] ), NOT ISBLANK ( [@Value] ) )
+			VAR Items = FILTER ( ADDCOLUMNS ( FILTER ( VALUES ( 'Action'[Assignee] ), 'Action'[Assignee] <> "(Unassigned)" ), "@Value", [Overdue Actions] ), NOT ISBLANK ( [@Value] ) )
 			VAR Target = MAXX ( Items, [@Value] )
 			VAR Leaders = FILTER ( Items, [@Value] = Target )
 			VAR LeaderCount = COUNTROWS ( Leaders )
-			VAR FirstLeader = MINX ( Leaders, 'Action'[Name] )
+			VAR FirstLeader = MINX ( Leaders, 'Action'[Assignee] )
+			VAR FirstLeaderName = CALCULATE ( MIN ( 'Action'[Name] ), 'Action'[Assignee] = FirstLeader )
 			RETURN
-			    IF ( LeaderCount > 1, FirstLeader & " (+" & ( LeaderCount - 1 ) & " tied)", FirstLeader )
+			    IF ( LeaderCount > 1, FirstLeaderName & " (+" & ( LeaderCount - 1 ) & " tied)", FirstLeaderName )
 		displayFolder: Actions
 		lineageTag: 0fcc242e-21b7-513e-8f6a-828a530be1c6
 

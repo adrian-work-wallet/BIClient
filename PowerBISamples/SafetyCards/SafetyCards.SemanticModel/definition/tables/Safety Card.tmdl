@@ -230,6 +230,69 @@ table 'Safety Card'
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Identifies the person who received the card: their Work Wallet contact, or for a name typed on the card (no contact), the name and employer. Use this, not the name, to count or match people.
+	column 'Recipient Key' =
+			IF (
+			    NOT ISBLANK ( 'Safety Card'[EmployeeContact_key] ),
+			    "C" & 'Safety Card'[EmployeeContact_key],
+			    "N|" & UPPER ( TRIM ( 'Safety Card'[Employee] ) ) & "|" & UPPER ( TRIM ( 'Safety Card'[Employer] ) )
+			)
+		dataType: string
+		isHidden
+		lineageTag: e6ce7678-9e01-56a1-9483-d5eac90d63a3
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The recipient's name: the contact's current name, or the name typed on the card.
+	column 'Recipient Name' =
+			VAR ContactName = IF ( NOT ISBLANK ( 'Safety Card'[EmployeeContact_key] ), TRIM ( RELATED ( Contact[Contact Name] ) ) )
+			RETURN
+			    IF ( LEN ( ContactName ) > 0, ContactName, TRIM ( 'Safety Card'[Employee] ) )
+		dataType: string
+		isHidden
+		lineageTag: f98c649d-b5fb-5ac5-8206-7cbdc655614e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The recipient's company: the contact's current company, or the employer typed on the card.
+	column 'Recipient Company' =
+			VAR ContactCompany = IF ( NOT ISBLANK ( 'Safety Card'[EmployeeContact_key] ), TRIM ( RELATED ( Contact[Company] ) ) )
+			RETURN
+			    IF ( LEN ( ContactCompany ) > 0, ContactCompany, TRIM ( 'Safety Card'[Employer] ) )
+		dataType: string
+		lineageTag: 0e48a84a-ba46-5014-8340-351ab811060f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The person who received the card, one value per person (see Recipient Key). Where different people share a name, their company is added, then their email (or 'not a contact' for a name typed on the card), so they are never merged.
+	column Recipient =
+			VAR ThisName = 'Safety Card'[Recipient Name]
+			VAR ThisCompany = 'Safety Card'[Recipient Company]
+			VAR People = ALL ( 'Safety Card'[Recipient Key], 'Safety Card'[Recipient Name], 'Safety Card'[Recipient Company] )
+			VAR SameName = COUNTROWS ( DISTINCT ( SELECTCOLUMNS ( FILTER ( People, 'Safety Card'[Recipient Name] = ThisName ), "@Key", 'Safety Card'[Recipient Key] ) ) )
+			VAR SameNameAndCompany =
+			    COUNTROWS ( DISTINCT ( SELECTCOLUMNS ( FILTER ( People, 'Safety Card'[Recipient Name] = ThisName && 'Safety Card'[Recipient Company] = ThisCompany ), "@Key", 'Safety Card'[Recipient Key] ) ) )
+			VAR IsContact = NOT ISBLANK ( 'Safety Card'[EmployeeContact_key] )
+			VAR ThisEmail = IF ( IsContact, TRIM ( RELATED ( Contact[Email] ) ) )
+			VAR CompanyText = IF ( LEN ( ThisCompany ) > 0, ThisCompany, "no company" )
+			VAR DetailText =
+			    SWITCH ( TRUE (), NOT IsContact, "not a contact", LEN ( ThisEmail ) > 0, ThisEmail, "contact " & RIGHT ( RELATED ( Contact[ContactId] ), 4 ) )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        SameName = 1, ThisName,
+			        SameNameAndCompany = 1, ThisName & " (" & CompanyText & ")",
+			        ThisName & " (" & CompanyText & ", " & DetailText & ")"
+			    )
+		dataType: string
+		lineageTag: 9f5a0607-6c21-5efc-b643-448c9640b64d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'Safety Card' = m
 		mode: import
 		source =

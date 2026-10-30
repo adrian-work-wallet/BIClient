@@ -173,7 +173,7 @@ Saving in Power BI Desktop rewrites files into its own form. Expect this after e
   A dropped property means it is unsupported or misnamed, so fix the generator rather than re-adding it.
 - **TMDL**:
   - Table-level properties are reordered (`lineageTag` before `dataCategory`).
-  - Measures can move to a different position in the table file.
+  - Measures can move to a different position in the table file. Measures added to a table since the last Desktop save are moved to the end of the table (after the existing ones).
   - `relationships.tmdl` ends with a blank line (`tmdl.add_relationship` writes it).
   - Names are quoted only when they contain spaces or special characters (`Action.'Raised Date'`, not `'Action'.'Raised Date'`), even when the name is a DAX keyword that must be quoted inside DAX expressions. Pass unquoted table names to `tmdl.add_relationship` unless they contain spaces.
   - Content is otherwise unchanged.

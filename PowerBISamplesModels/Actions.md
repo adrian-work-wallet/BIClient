@@ -87,13 +87,13 @@ erDiagram
         measure MostOverdueAssignee
         measure ActionsClosed
         measure AverageDaysToClose
-        measure AverageCloseOutDays
         measure ClosedOnTime
         measure ClosedWithDueDate
         measure OnTimeRate
         measure ClosureRate
         measure Updates
         measure ActionsWithUpdates
+        measure AverageCloseOutDays
     }
     "Action" {
         attr TargetReference

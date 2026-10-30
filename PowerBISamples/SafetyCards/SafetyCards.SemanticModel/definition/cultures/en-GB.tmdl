@@ -15,7 +15,7 @@ cultureInfo en-GB
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Safety cards": {
+			          "Total safety cards": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -26,6 +26,16 @@ cultureInfo en-GB
 			        },
 			        {
 			          "Cards": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Safety cards": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -97,6 +107,16 @@ cultureInfo en-GB
 			      },
 			      "State": "Generated",
 			      "Terms": [
+			        {
+			          "Red cards": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
 			        {
 			          "Red": {
 			            "State": "Suggested",

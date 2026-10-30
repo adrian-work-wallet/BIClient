@@ -277,6 +277,16 @@ cultureInfo en-GB
 			      "State": "Generated",
 			      "Terms": [
 			        {
+			          "Open actions": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
 			          "Open": {
 			            "State": "Suggested",
 			            "Source": {
@@ -297,6 +307,16 @@ cultureInfo en-GB
 			      },
 			      "State": "Generated",
 			      "Terms": [
+			        {
+			          "Overdue actions": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
 			        {
 			          "Overdue": {
 			            "State": "Suggested",
@@ -550,6 +570,27 @@ cultureInfo en-GB
 			      "Terms": [
 			        {
 			          "Status": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "action_measures.average_close_out_days": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Action Measures",
+			          "ConceptualProperty": "Average Close Out Days"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Average close out days": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",

@@ -85,7 +85,7 @@ table Permit
 
 	column 'Issued On'
 		dataType: dateTime
-		formatString: Short Date
+		formatString: dd/mm/yyyy
 		lineageTag: 68d5d435-06e4-45f8-94e5-a5b5ca2dab61
 		summarizeBy: none
 		sourceColumn: Issued On
@@ -108,7 +108,7 @@ table Permit
 
 	column 'Issued Expiry'
 		dataType: dateTime
-		formatString: Short Date
+		formatString: dd/mm/yyyy
 		lineageTag: cc43ca9f-485e-4a7c-9c09-544cd511f483
 		summarizeBy: none
 		sourceColumn: Issued Expiry
@@ -122,7 +122,7 @@ table Permit
 
 	column 'Closed On'
 		dataType: dateTime
-		formatString: Short Date
+		formatString: dd/mm/yyyy
 		lineageTag: b063977a-a34f-489c-92e2-3bbf57a8a8a2
 		summarizeBy: none
 		sourceColumn: Closed On
@@ -233,6 +233,84 @@ table Permit
 			    )
 		lineageTag: 6a79637b-80b8-48b7-8922-44b17a70d109
 		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Date part of Issued On (blank if never issued; Work Wallet stores 01/01/1900 for 'no date'); relates permits to the Date table.
+	column 'Issued Date' =
+			VAR IssuedOn = IF ( Permit[Issued On] > DATE ( 1900, 1, 2 ), Permit[Issued On] )
+			RETURN
+			    IF ( NOT ISBLANK ( IssuedOn ), DATE ( YEAR ( IssuedOn ), MONTH ( IssuedOn ), DAY ( IssuedOn ) ) )
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy
+		lineageTag: b04f6f4b-af54-592f-8c6e-59cbdcff4ad1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// When the permit was issued (blank if never issued).
+	column Issued = IF ( Permit[Issued On] > DATE ( 1900, 1, 2 ), Permit[Issued On] )
+		dataType: dateTime
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: 76ee0660-6443-5c40-99b7-490f6d9a7cbc
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// When the issued permit expires (blank if never issued).
+	column Expires = IF ( Permit[Issued Expiry] > DATE ( 1900, 1, 2 ), Permit[Issued Expiry] )
+		dataType: dateTime
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: 3587c82e-17cb-50dd-9ca0-53f3b343620a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// When the permit was closed out (blank if not closed).
+	column Closed = IF ( Permit[Closed On] > DATE ( 1900, 1, 2 ), Permit[Closed On] )
+		dataType: dateTime
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: 29767b28-8cde-5efb-81a8-85cf4703d45c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Hours from issue to close-out, for closed permits.
+	column 'Hours Open' = IF ( NOT ISBLANK ( Permit[Closed] ) && NOT ISBLANK ( Permit[Issued] ), ROUND ( ( Permit[Closed] - Permit[Issued] ) * 24, 1 ) )
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 5d3c5992-881c-5815-b1ce-a421acbfa58c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Sort order for Outcome.
+	column 'Outcome Order' =
+			VAR Code = RELATED ( 'Status'[PermitStatusCode] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        Code IN { 3, 8 }, 1,
+			        NOT ISBLANK ( Permit[Closed] ) && ( ISBLANK ( Permit[Expires] ) || Permit[Closed] <= Permit[Expires] ), 2,
+			        NOT ISBLANK ( Permit[Closed] ), 3,
+			        Code = 4, 4,
+			        5
+			    )
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1d2ec491-6466-511a-a31c-48813ed22b06
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Live (active or extended), closed out before or after expiry, or expired without being closed out. 'Other' covers drafts, pending and archived permits that were never closed.
+	column Outcome = SWITCH ( Permit[Outcome Order], 1, "Live", 2, "Closed before expiry", 3, "Closed after expiry", 4, "Expired, not closed out", "Other" )
+		dataType: string
+		lineageTag: 3a9e4297-2cee-509d-90a3-fde06b258d3a
+		summarizeBy: none
+		sortByColumn: 'Outcome Order'
 
 		annotation SummarizationSetBy = Automatic
 

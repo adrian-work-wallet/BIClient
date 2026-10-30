@@ -76,6 +76,7 @@ inactive relationship. Each column is prefixed with its kind instead of its data
 * [Permits - Checklist Answer](PowerBISamplesModels/Permits.md#permits---checklist-answer)
 * [Permits - Branch Option](PowerBISamplesModels/Permits.md#permits---branch-option)
 * [Permits - Signed By](PowerBISamplesModels/Permits.md#permits---signed-by)
+* [Permits - Date and measures](PowerBISamplesModels/Permits.md#permits---date-and-measures)
 
 ## PPE
 

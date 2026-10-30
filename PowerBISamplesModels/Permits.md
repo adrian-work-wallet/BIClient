@@ -24,6 +24,11 @@ erDiagram
         attr HasBeenExtended
         calc Assignees
         calc Signatories
+        calc Issued
+        calc Expires
+        calc Closed
+        calc HoursOpen
+        calc Outcome
     }
     "Status" {
         attr Status
@@ -100,6 +105,11 @@ erDiagram
         attr HasBeenExtended
         calc Assignees
         calc Signatories
+        calc Issued
+        calc Expires
+        calc Closed
+        calc HoursOpen
+        calc Outcome
     }
     "Numeric Question" }o--|| "Unit" : "Unit_key"
     "Numeric Answer Fact" }o--|| "Permit" : "Permit_key"
@@ -128,6 +138,11 @@ erDiagram
         attr HasBeenExtended
         calc Assignees
         calc Signatories
+        calc Issued
+        calc Expires
+        calc Closed
+        calc HoursOpen
+        calc Outcome
     }
     "Date Time Answer Fact" {
         attr DateandTimeAnswer
@@ -170,6 +185,11 @@ erDiagram
         attr HasBeenExtended
         calc Assignees
         calc Signatories
+        calc Issued
+        calc Expires
+        calc Closed
+        calc HoursOpen
+        calc Outcome
     }
     "Checklist Answer Fact" {
         calc ChecklistAnswerCount
@@ -220,6 +240,11 @@ erDiagram
         attr HasBeenExtended
         calc Assignees
         calc Signatories
+        calc Issued
+        calc Expires
+        calc Closed
+        calc HoursOpen
+        calc Outcome
     }
     "Branch Option Fact" }o--|| "Branch Option" : "PermitBranchOption_key"
     "Branch Option Fact" }o--|| "Permit" : "Permit_key"
@@ -247,6 +272,11 @@ erDiagram
         attr HasBeenExtended
         calc Assignees
         calc Signatories
+        calc Issued
+        calc Expires
+        calc Closed
+        calc HoursOpen
+        calc Outcome
     }
     "Signed By Contact" {
         attr ContactName
@@ -261,4 +291,62 @@ erDiagram
     }
     "Signature Fact" }o--|| "Permit" : "Permit_key"
     "Signature Fact" }o--|| "Signed By Contact" : "Contact_key"
+```
+
+## Permits - Date and measures
+
+```mermaid
+---
+config:
+  theme: neutral
+---
+erDiagram
+    "Date" {
+        attr Date
+        calc Year
+        calc Month
+        calc MonthStart
+        calc YearMonth
+        calc SlicerDate
+    }
+    "Permit Measures" {
+        measure Permits
+        measure LivePermits
+        measure ClosedBeforeExpiry
+        measure ClosedAfterExpiry
+        measure ExpiredNotClosed
+        measure FinishedPermits
+        measure Close_outRate
+        measure ExtendedPermits
+        measure AverageHoursOpen
+        measure CompaniesIssuedTo
+        measure Sites
+        measure MonthlyAveragePermits
+        measure MonthlyAverageLine
+        measure MostCommonCategory
+        measure MostExpiredCategory
+        measure Signatures
+        measure Assignees
+    }
+    "Permit" {
+        attr PermitReference
+        attr Permit
+        attr IssuedToCompany
+        attr IssuedOn
+        attr IssuedForMinutes
+        attr IssuedExpiry
+        attr ClosedOn
+        attr HasBeenExpired
+        attr HasBeenClosed
+        calc PermitCount
+        attr HasBeenExtended
+        calc Assignees
+        calc Signatories
+        calc Issued
+        calc Expires
+        calc Closed
+        calc HoursOpen
+        calc Outcome
+    }
+    "Permit" }o--|| "Date" : "Issued Date"
 ```

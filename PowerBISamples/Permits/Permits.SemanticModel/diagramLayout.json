@@ -232,6 +232,32 @@
             "width": 234
           },
           "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3000,
+            "y": 1200
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "9f926b70-3c67-50df-bdf9-e93c77dee92a",
+          "size": {
+            "height": 400,
+            "width": 260
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 3000,
+            "y": 1600
+          },
+          "nodeIndex": "Permit Measures",
+          "nodeLineageTag": "2b19f96c-e9fc-5be1-8b06-c5067179dedc",
+          "size": {
+            "height": 400,
+            "width": 260
+          },
+          "zIndex": 9
         }
       ],
       "name": "All tables",
@@ -611,6 +637,60 @@
         }
       ],
       "name": "Signed By",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 7,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "9f926b70-3c67-50df-bdf9-e93c77dee92a",
+          "size": {
+            "height": 400,
+            "width": 260
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 300,
+            "y": 0
+          },
+          "nodeIndex": "Permit Measures",
+          "nodeLineageTag": "2b19f96c-e9fc-5be1-8b06-c5067179dedc",
+          "size": {
+            "height": 400,
+            "width": 260
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 600,
+            "y": 0
+          },
+          "nodeIndex": "Permit",
+          "nodeLineageTag": "29fa843e-5d6f-5f45-8d48-b95cd9e9a9e6",
+          "size": {
+            "height": 400,
+            "width": 260
+          },
+          "zIndex": 2
+        }
+      ],
+      "name": "Date and measures",
       "zoomValue": 100,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,

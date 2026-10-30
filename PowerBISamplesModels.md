@@ -64,6 +64,7 @@ inactive relationship. Each column is prefixed with its kind instead of its data
 [Inductions diagrams](PowerBISamplesModels/Inductions.md)
 
 * [Inductions - Main](PowerBISamplesModels/Inductions.md#inductions---main)
+* [Inductions - Date and measures](PowerBISamplesModels/Inductions.md#inductions---date-and-measures)
 
 ## Permits
 

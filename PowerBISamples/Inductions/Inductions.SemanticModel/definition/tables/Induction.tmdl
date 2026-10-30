@@ -52,7 +52,7 @@ table Induction
 
 	column 'Created On'
 		dataType: dateTime
-		formatString: General Date
+		formatString: dd/mm/yyyy hh:nn
 		lineageTag: 9885d8b8-8212-460a-85a8-111b013854ac
 		summarizeBy: none
 		sourceColumn: Created On

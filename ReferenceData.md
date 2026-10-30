@@ -187,6 +187,8 @@ Jump to the relevant section:
 | 8 | Rejected |
 | 9 | Deleted |
 
+Invalid (7) is not exported: Work Wallet works it out when it displays an attempt (a later version of the induction has "previous versions invalid" set) rather than storing it. The extract has the attempt's stored status, so an attempt invalidated by a newer version still shows its original status (e.g. Passed).
+
 ## Permits
 
 | PermitStatusCode | PermitStatus |

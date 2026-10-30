@@ -41,18 +41,17 @@ The samples are developed against a demo wallet, but must not depend on it.
 - **Default filters and slicers may use demo values**, as consumers are expected to reset them. Prefer no saved selection where the page still makes sense.
 - **Match the Work Wallet portal's defaults** so the report's numbers agree with what users see in Work Wallet. For example, the portal's Assets page shows Active assets by default. Check the portal page for the module and mirror its default with an editable report-level filter on the status name (`pbir.set_report_filter_in`). Tell users on the page when the filter hides records (e.g. a KPI label "7 more with other statuses (see Filters)").
   - Compare the portal's headline figures with the report's KPIs (e.g. PPE: available stock, assigned PPE, require replacement). If they already agree, no default filter is needed. Use the portal's wording for those tiles so the two read the same.
-  - Portal tile definitions found so far. The last-12-months figures match each report's default date slicer, and the "Actions list" and "Safety cards list" cards use the portal's wording.
+  - How the portal defines its tiles. Its "last 12 months" matches the reports' default date slicer.
 
-    | Module | Portal tile | Definition that reproduces it |
+    | Module | Portal tile | Definition |
     | --- | --- | --- |
     | Actions | Open actions | Status Open or In Progress, raised in the last 12 months, not deleted |
     | Actions | Overdue actions | Open, and the due date and time has passed (an action due today is overdue) |
     | Actions | Average close out days | Average days from raised to closed, for closed actions raised in the last 12 months |
     | Safety Cards | Total safety cards, Red cards | Active cards reported in the last 12 months |
-    | Safety Cards | Assigned categories | Distinct categories on those cards (not in the report) |
+    | Safety Cards | Assigned categories | Distinct categories on those cards |
     | Inductions | Enrolled individuals | Each person's latest attempt at each induction, across all induction statuses |
-    | Inductions | Valid inductions % | Latest attempts that are valid and not expiring within 30 days, divided by enrolled. The report differs for now: its Valid share includes expiring soon, and the report filters to Active-status inductions |
-    | Inductions, Permits | Active inductions; Live permits, Requires review, Timely closure | Not reproducible yet: the extracts omit untaken inductions and live (draft, pending, active) permits |
+    | Inductions | Valid inductions % | Latest attempts that are valid and not expiring within 30 days, divided by enrolled individuals |
 - **Check edge cases with DAX** before publishing: empty periods, a single item, ties, and data without the optional feature.
 - **Explain empty data on the page.** Pages for optional features (e.g. investigation answers a wallet doesn't record) should say so, e.g. with a subtitle measure ("None recorded in this period"), rather than show empty visuals.
 

@@ -150,8 +150,8 @@ table 'Taken By'
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Passed or completed (including 'expiring soon' statuses).
-	column 'Is Successful' = RELATED ( 'Taken Status'[InductionTakenStatusCode] ) IN { 1, 2, 4, 5 }
+	/// Passed or completed (including the 'expiring soon' and 'expired' statuses, which are passes whose validity is running or has run out).
+	column 'Is Successful' = RELATED ( 'Taken Status'[InductionTakenStatusCode] ) IN { 1, 2, 4, 5, 6 }
 		dataType: boolean
 		lineageTag: 29410cfc-b70c-5287-9b1d-1d05ee9e9197
 		summarizeBy: none
@@ -167,14 +167,22 @@ table 'Taken By'
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Whether this is the person's latest attempt at the induction (any version).
+	/// Whether this is the person's latest attempt at the induction (any version, by taken date), ignoring deleted attempts, as Work Wallet does.
 	column 'Is Latest Attempt' =
 			VAR Person = 'Taken By'[ContactId]
 			VAR InductionName = 'Taken By'[Induction Name]
+			VAR DeletedKeys = CALCULATETABLE ( VALUES ( 'Taken Status'[InductionTakenStatus_key] ), 'Taken Status'[InductionTakenStatusCode] = 9, REMOVEFILTERS () )
 			VAR Latest =
-			    MAXX ( FILTER ( 'Taken By', 'Taken By'[ContactId] = Person && 'Taken By'[Induction Name] = InductionName ), 'Taken By'[Taken On] )
+			    MAXX (
+			        FILTER (
+			            'Taken By',
+			            'Taken By'[ContactId] = Person && 'Taken By'[Induction Name] = InductionName
+			                && NOT 'Taken By'[InductionTakenStatus_key] IN DeletedKeys
+			        ),
+			        'Taken By'[Taken On]
+			    )
 			RETURN
-			    'Taken By'[Taken On] = Latest
+			    'Taken By'[Taken On] = Latest && RELATED ( 'Taken Status'[InductionTakenStatusCode] ) <> 9
 		dataType: boolean
 		lineageTag: aefce27e-af91-5a03-b6ba-09e6cba2ddbd
 		summarizeBy: none
@@ -196,6 +204,7 @@ table 'Taken By'
 			    'Taken By'[Is Latest Attempt],
 			    SWITCH (
 			        TRUE (),
+			        RELATED ( 'Taken Status'[InductionTakenStatusCode] ) = 7, 5,
 			        NOT 'Taken By'[Is Successful], 4,
 			        'Taken By'[Days Until Expiry] < 0, 3,
 			        'Taken By'[Days Until Expiry] <= 30, 2,
@@ -210,8 +219,16 @@ table 'Taken By'
 
 		annotation SummarizationSetBy = Automatic
 
-	/// For a person's latest attempt at an induction: valid, expiring within 30 days, expired, or not passed. As at the last data refresh.
-	column 'Current Status' = SWITCH ( 'Taken By'[Induction Status Order], 1, "Valid", 2, "Expires within 30 days", 3, "Expired", 4, "Not passed" )
+	/// For a person's latest attempt at an induction: valid, expiring within 30 days, expired (valid until is before today), not passed (failed or rejected), or invalid (a later version of the induction invalidated earlier attempts). Only passed or completed attempts count as currently inducted. As at the last data refresh.
+	column 'Current Status' =
+			SWITCH (
+			    'Taken By'[Induction Status Order],
+			    1, "Valid",
+			    2, "Expires within 30 days",
+			    3, "Expired",
+			    4, "Not passed",
+			    5, "Invalid (newer version)"
+			)
 		dataType: string
 		lineageTag: d9bd0633-82fc-5040-b30a-8aaae0a4ac77
 		summarizeBy: none

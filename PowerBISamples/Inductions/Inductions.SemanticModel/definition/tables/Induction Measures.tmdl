@@ -115,11 +115,17 @@ table 'Induction Measures'
 		displayFolder: Current Status
 		lineageTag: 21086db7-ba29-5f72-a55b-0ac6a26e06a3
 
-	/// Latest attempt failed: the person has not been inducted. As at the last data refresh.
+	/// Latest attempt failed or was rejected: the person has not been inducted. As at the last data refresh.
 	measure 'Not Passed Inductions' = CALCULATE ( [Inductions Taken], KEEPFILTERS ( 'Taken By'[Is Latest Attempt] = TRUE () ), REMOVEFILTERS ( 'Date' ), KEEPFILTERS ( 'Taken By'[Induction Status Order] = 4 ) )
 		formatString: #,0
 		displayFolder: Current Status
 		lineageTag: cd9fe00c-5a8d-5df0-bf2f-92d4fc3feb08
+
+	/// Latest attempt invalidated by a newer version of the induction: the person needs to take it again. As at the last data refresh.
+	measure 'Invalid Inductions' = CALCULATE ( [Inductions Taken], KEEPFILTERS ( 'Taken By'[Is Latest Attempt] = TRUE () ), REMOVEFILTERS ( 'Date' ), KEEPFILTERS ( 'Taken By'[Induction Status Order] = 5 ) )
+		formatString: #,0
+		displayFolder: Current Status
+		lineageTag: 7cec5fd1-e7a8-5702-850e-2751c26632f6
 
 	/// Share of people and inductions currently valid (including expiring soon).
 	measure 'Valid Share' = DIVIDE ( [Valid Inductions] + [Expiring Inductions], [Current Inductions] )
@@ -364,7 +370,10 @@ table 'Induction Measures'
 		displayFolder: Labels
 		lineageTag: 161ad838-6728-5c72-b991-105a8225e008
 
-	measure 'Not Passed Label' = "Latest attempt failed"
+	measure 'Not Passed Label' =
+			VAR InvalidCount = [Invalid Inductions] + 0
+			RETURN
+			    IF ( InvalidCount > 0, "Failed or rejected; " & FORMAT ( InvalidCount, "#,0" ) & " more invalidated by a new version", "Latest attempt failed or rejected" )
 		isHidden
 		displayFolder: Labels
 		lineageTag: 77caf516-fbec-5954-8ab8-40ad67145985
@@ -466,19 +475,22 @@ table 'Induction Measures'
 		displayFolder: Formatting
 		lineageTag: bbfe98d8-5ae9-578a-8188-4f2df5a4d73b
 
-	measure 'Attention Colour' = IF ( [Expired Inductions] + [Not Passed Inductions] > 0, [Colour Bad], [Colour Neutral] )
+	measure 'Attention Colour' = IF ( [Expired Inductions] + [Not Passed Inductions] + [Invalid Inductions] > 0, [Colour Bad], [Colour Neutral] )
 		isHidden
 		displayFolder: Formatting
 		lineageTag: 817ab019-8b8b-5f48-811b-e332b02e28a3
 
-	/// Text colour for a result: passed or completed (green), failed (red).
-	measure 'Result Colour' = SWITCH ( TRUE (), SELECTEDVALUE ( 'Taken Status'[InductionTakenStatusCode] ) IN { 1, 2, 4, 5 }, "#2E9E6B", SELECTEDVALUE ( 'Taken Status'[InductionTakenStatusCode] ) = 3, "#D6493A", "#4A5568" )
+	/// Text colour for a result: passed or completed (green), failed or rejected (red), other (grey).
+	measure 'Result Colour' =
+			VAR Code = SELECTEDVALUE ( 'Taken Status'[InductionTakenStatusCode] )
+			RETURN
+			    SWITCH ( TRUE (), Code IN { 1, 2, 4, 5, 6 }, "#2E9E6B", Code IN { 3, 8 }, "#D6493A", "#4A5568" )
 		isHidden
 		displayFolder: Formatting
 		lineageTag: 76d1800b-0aa1-5bb9-9f86-9df382b12a28
 
-	/// Text colour for a current status: valid (green), expiring (amber), expired or not passed (red).
-	measure 'Current Status Colour' = SWITCH ( SELECTEDVALUE ( 'Taken By'[Induction Status Order] ), 1, "#2E9E6B", 2, "#C9901A", 3, "#D6493A", 4, "#D6493A", "#4A5568" )
+	/// Text colour for a current status: valid (green), expiring (amber), expired, not passed or invalid (red).
+	measure 'Current Status Colour' = SWITCH ( SELECTEDVALUE ( 'Taken By'[Induction Status Order] ), 1, "#2E9E6B", 2, "#C9901A", 3, "#D6493A", 4, "#D6493A", 5, "#D6493A", "#4A5568" )
 		isHidden
 		displayFolder: Formatting
 		lineageTag: 2219237f-c14b-5ac3-ae98-df5576079e8e

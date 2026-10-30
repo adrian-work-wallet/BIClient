@@ -45,7 +45,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Who is currently inducted: each person's latest attempt at each induction.",
+                    "value": "Who is currently inducted: each person's latest attempt at each induction (passed or completed, and in date).",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "9pt",

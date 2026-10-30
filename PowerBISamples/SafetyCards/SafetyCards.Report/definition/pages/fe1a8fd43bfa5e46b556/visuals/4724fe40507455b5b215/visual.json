@@ -27,8 +27,8 @@
                 }
               },
               "queryRef": "Safety Card Measures.Safety Cards",
-              "nativeQueryRef": "Safety cards",
-              "displayName": "Safety cards"
+              "nativeQueryRef": "Total safety cards",
+              "displayName": "Total safety cards"
             },
             {
               "field": {
@@ -72,8 +72,8 @@
                 }
               },
               "queryRef": "Safety Card Measures.Red Cards",
-              "nativeQueryRef": "Red",
-              "displayName": "Red"
+              "nativeQueryRef": "Red cards",
+              "displayName": "Red cards"
             }
           ]
         }

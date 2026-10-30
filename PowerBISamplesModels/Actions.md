@@ -87,6 +87,7 @@ erDiagram
         measure MostOverdueAssignee
         measure ActionsClosed
         measure AverageDaysToClose
+        measure AverageCloseOutDays
         measure ClosedOnTime
         measure ClosedWithDueDate
         measure OnTimeRate

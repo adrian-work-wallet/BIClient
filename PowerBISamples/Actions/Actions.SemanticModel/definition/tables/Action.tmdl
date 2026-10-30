@@ -287,11 +287,11 @@ table Action
 
 		annotation SummarizationSetBy = Automatic
 
-	/// For open actions past their due date: days overdue, as at the last data refresh.
+	/// For open actions past their due date and time (as Work Wallet counts overdue, so an action due today is overdue, 0 days): whole days overdue, as at the last data refresh.
 	column 'Days Overdue' =
 			IF (
-			    'Action'[Is Open] && NOT ISBLANK ( 'Action'[Due Date] ) && 'Action'[Due Date] < TODAY (),
-			    INT ( TODAY () - 'Action'[Due Date] )
+			    'Action'[Is Open] && NOT ISBLANK ( 'Action'[Due Date] ) && 'Action'[Due Date] < NOW (),
+			    INT ( NOW () - 'Action'[Due Date] )
 			)
 		dataType: int64
 		formatString: #,0
@@ -314,7 +314,7 @@ table Action
 		annotation SummarizationSetBy = Automatic
 
 	/// How long an open action has been overdue, as at the last data refresh.
-	column 'Overdue Band' = SWITCH ( 'Action'[Overdue Band Order], 1, "1–7 days", 2, "8–30 days", 3, "31–90 days", 4, "91–365 days", 5, "Over a year" )
+	column 'Overdue Band' = SWITCH ( 'Action'[Overdue Band Order], 1, "Up to 7 days", 2, "8–30 days", 3, "31–90 days", 4, "91–365 days", 5, "Over a year" )
 		dataType: string
 		lineageTag: 6b8ec8ce-6e6b-5a72-9a84-3c428fe4f242
 		summarizeBy: none

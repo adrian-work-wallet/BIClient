@@ -116,6 +116,12 @@ table 'Action Measures'
 		displayFolder: Closure
 		lineageTag: af89945e-d451-5b90-8aed-f810cb7e8770
 
+	/// Average days from raised to closed, for closed actions raised in the period (Work Wallet's 'Average close out days'). Actions closed without a closing update have no close date and are left out.
+	measure 'Average Close Out Days' = CALCULATE ( AVERAGE ( 'Action'[Days To Close] ), KEEPFILTERS ( 'Status'[ActionStatusCode] = 4 ) )
+		formatString: #,0
+		displayFolder: Closure
+		lineageTag: 7a7513bf-3847-5693-af98-8f1909678d93
+
 	/// Actions closed in the period on or before their due date.
 	measure 'Closed On Time' = CALCULATE ( COUNTROWS ( 'Action' ), KEEPFILTERS ( 'Status'[ActionStatusCode] = 4 ), KEEPFILTERS ( 'Action'[Closed On Time] = TRUE () ), USERELATIONSHIP ( 'Date'[Date], 'Action'[Closed Date] ) )
 		formatString: #,0
@@ -307,6 +313,14 @@ table 'Action Measures'
 		isHidden
 		displayFolder: Labels
 		lineageTag: ea34ed78-d215-55fc-99ea-9c0d38b6344a
+
+	measure 'Close Out Days Label' =
+			VAR ClosedCount = CALCULATE ( COUNTROWS ( 'Action' ), KEEPFILTERS ( 'Status'[ActionStatusCode] = 4 ), KEEPFILTERS ( NOT ISBLANK ( 'Action'[Days To Close] ) ) )
+			RETURN
+			    IF ( ClosedCount > 0, "For " & FORMAT ( ClosedCount, "#,0" ) & " closed actions raised in the period" )
+		isHidden
+		displayFolder: Labels
+		lineageTag: 357c368f-5061-5bec-8be7-76215f9ec107
 
 	measure 'Peak Month Label' =
 			VAR Months = ADDCOLUMNS ( VALUES ( 'Date'[Month Start] ), "@Actions", [Actions] )

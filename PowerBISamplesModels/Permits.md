@@ -313,8 +313,10 @@ erDiagram
         measure Permits
         measure LivePermits
         measure ClosedBeforeExpiry
+        measure EndedAtExpiry
         measure ClosedAfterExpiry
         measure ExpiredNotClosed
+        measure EndedOnTime
         measure FinishedPermits
         measure Close_outRate
         measure ExtendedPermits

@@ -311,15 +311,22 @@ def calc_column_lines(table, name, expr, dtype, fmt=None, hidden=False, desc=Non
     return out
 
 
-def add_columns(table_tmdl: Path, columns: list[list[str]]) -> list[str]:
+def add_columns(table_tmdl: Path, columns: list[list[str]], replace: bool = False) -> list[str]:
     """Inserts calculated columns (from calc_column_lines) before the table's first partition/hierarchy.
-    Columns that already exist (by name) are skipped. Returns the names added."""
+    Columns that already exist (by name) are skipped, or replaced in place when replace=True (e.g. to change a
+    column this tooling created earlier). Returns the names added or replaced."""
     text = _read(table_tmdl).replace("\r\n", "\n")
     added = []
     for lines in columns:
         decl = next(l for l in lines if l.startswith(f"{T}column "))
         name = decl[len(f"{T}column "):].split(" =")[0]
         if f"\n{T}column {name}\n" in text or f"\n{T}column {name} =" in text:
+            if replace:
+                all_lines = text.split("\n")
+                start, end = _object_span(all_lines, "column", name.strip("'"))
+                all_lines[start:end] = lines
+                text = "\n".join(all_lines)
+                added.append(name.strip("'"))
             continue
         anchor = min(i for i in (text.find(f"\n{T}hierarchy "), text.find(f"\n{T}partition ")) if i >= 0)
         text = text[:anchor + 1] + "\n".join(lines) + "\n" + text[anchor + 1:]
@@ -329,6 +336,21 @@ def add_columns(table_tmdl: Path, columns: list[list[str]]) -> list[str]:
 
 
 _TOP_LEVEL = re.compile(rf"^{T}(///|measure |column |partition |hierarchy |annotation |calculationGroup)")
+
+
+def _object_span(lines: list[str], kind: str, name: str):
+    """(start, end) line indexes of a measure or column block, including its /// description; None if absent."""
+    decl = re.compile(rf"^{T}{kind} {re.escape(_quote(name))}( =|$)")
+    for idx, line in enumerate(lines):
+        if decl.match(line):
+            start = idx
+            while start > 0 and lines[start - 1].startswith(f"{T}///"):
+                start -= 1
+            end = idx + 1
+            while end < len(lines) and not _TOP_LEVEL.match(lines[end]):
+                end += 1
+            return start, end
+    return None
 
 
 def _measure_span(lines: list[str], name: str):

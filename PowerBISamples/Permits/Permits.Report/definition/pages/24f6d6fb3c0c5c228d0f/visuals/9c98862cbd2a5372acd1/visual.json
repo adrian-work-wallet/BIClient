@@ -53,12 +53,12 @@
                       "Entity": "Permit Measures"
                     }
                   },
-                  "Property": "Closed Before Expiry"
+                  "Property": "Ended On Time"
                 }
               },
-              "queryRef": "Permit Measures.Closed Before Expiry",
-              "nativeQueryRef": "Closed on time",
-              "displayName": "Closed on time"
+              "queryRef": "Permit Measures.Ended On Time",
+              "nativeQueryRef": "Ended on time",
+              "displayName": "Ended on time"
             },
             {
               "field": {
@@ -182,7 +182,7 @@
             }
           },
           "selector": {
-            "metadata": "Permit Measures.Closed Before Expiry"
+            "metadata": "Permit Measures.Ended On Time"
           }
         },
         {

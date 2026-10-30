@@ -19,26 +19,38 @@ table 'Permit Measures'
 		displayFolder: Close-out
 		lineageTag: 6e368c50-e32b-5004-96cc-1a261ce13280
 
-	/// Permits closed out after their expiry: work may have continued without a valid permit.
-	measure 'Closed After Expiry' = CALCULATE ( [Permits], KEEPFILTERS ( Permit[Outcome Order] = 3 ) )
+	/// Time-limited (Timelapse) permits that ended at their expiry, as designed.
+	measure 'Ended At Expiry' = CALCULATE ( [Permits], KEEPFILTERS ( Permit[Outcome Order] = 3 ) )
+		formatString: #,0
+		displayFolder: Close-out
+		lineageTag: 66267ec1-ee28-54c2-b261-ff3764038d08
+
+	/// Close-out-required permits closed out after their expiry: work may have continued without a valid permit.
+	measure 'Closed After Expiry' = CALCULATE ( [Permits], KEEPFILTERS ( Permit[Outcome Order] = 4 ) )
 		formatString: #,0
 		displayFolder: Close-out
 		lineageTag: 570d63a3-9eff-5bdd-ba43-d8bf4959530e
 
-	/// Permits that expired without being closed out: the area may not have been made safe or handed back.
-	measure 'Expired Not Closed' = CALCULATE ( [Permits], KEEPFILTERS ( Permit[Outcome Order] = 4 ) )
+	/// Close-out-required permits that expired without being closed out: the area may not have been made safe or handed back.
+	measure 'Expired Not Closed' = CALCULATE ( [Permits], KEEPFILTERS ( Permit[Outcome Order] = 5 ) )
 		formatString: #,0
 		displayFolder: Close-out
 		lineageTag: e907ab26-7871-5c42-9533-f42c84d0c556
 
+	/// Permits closed out before expiry, or time-limited permits that ended at expiry.
+	measure 'Ended On Time' = [Closed Before Expiry] + [Ended At Expiry]
+		formatString: #,0
+		displayFolder: Close-out
+		lineageTag: 7c819141-dfe0-597b-99ec-6aa3fef59ab1
+
 	/// Permits that have ended (closed out or expired).
-	measure 'Finished Permits' = [Closed Before Expiry] + [Closed After Expiry] + [Expired Not Closed]
+	measure 'Finished Permits' = [Ended On Time] + [Closed After Expiry] + [Expired Not Closed]
 		formatString: #,0
 		displayFolder: Close-out
 		lineageTag: ba1f8fbf-28e5-57e3-b900-240b6861489a
 
-	/// Share of ended permits that were closed out on or before their expiry.
-	measure 'Close-out Rate' = DIVIDE ( [Closed Before Expiry], [Finished Permits] )
+	/// Share of ended permits that ended correctly: closed out before expiry, or time-limited permits ending at expiry.
+	measure 'Close-out Rate' = DIVIDE ( [Ended On Time], [Finished Permits] )
 		formatString: 0%
 		displayFolder: Close-out
 		lineageTag: 9e446aff-c08f-51c2-80c6-3c9d50c0062f
@@ -257,7 +269,7 @@ table 'Permit Measures'
 	measure 'Close-out Label' =
 			VAR Finished = [Finished Permits]
 			RETURN
-			    IF ( Finished > 0, FORMAT ( [Closed Before Expiry] + 0, "#,0" ) & " of " & FORMAT ( Finished, "#,0" ) & " ended permits" )
+			    IF ( Finished > 0, FORMAT ( [Ended On Time] + 0, "#,0" ) & " of " & FORMAT ( Finished, "#,0" ) & " ended permits" )
 		isHidden
 		displayFolder: Labels
 		lineageTag: 80390b1e-b16f-5ce6-a45e-695b1a2769cb
@@ -447,8 +459,8 @@ table 'Permit Measures'
 		displayFolder: Formatting
 		lineageTag: 647c9776-8051-5995-8659-57ccd9554ff2
 
-	/// Text colour for an outcome: live (blue), closed before expiry (green), closed after expiry (amber), expired not closed (red).
-	measure 'Outcome Colour' = SWITCH ( SELECTEDVALUE ( Permit[Outcome Order] ), 1, "#2F6F8F", 2, "#2E9E6B", 3, "#C9901A", 4, "#D6493A", "#4A5568" )
+	/// Text colour for an outcome: live (blue), ended on time (green), closed after expiry (amber), expired not closed (red).
+	measure 'Outcome Colour' = SWITCH ( SELECTEDVALUE ( Permit[Outcome Order] ), 1, "#2F6F8F", 2, "#2E9E6B", 3, "#2E9E6B", 4, "#C9901A", 5, "#D6493A", "#4A5568" )
 		isHidden
 		displayFolder: Formatting
 		lineageTag: a001c07c-2df8-566f-87fb-917de46a2f8e

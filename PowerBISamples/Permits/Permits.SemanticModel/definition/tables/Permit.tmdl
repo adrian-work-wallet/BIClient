@@ -288,14 +288,16 @@ table Permit
 	/// Sort order for Outcome.
 	column 'Outcome Order' =
 			VAR Code = RELATED ( 'Status'[PermitStatusCode] )
+			VAR TimeLimited = RELATED ( Category[ExpiryTypeId] ) = 1
 			RETURN
 			    SWITCH (
 			        TRUE (),
 			        Code IN { 3, 8 }, 1,
 			        NOT ISBLANK ( Permit[Closed] ) && ( ISBLANK ( Permit[Expires] ) || Permit[Closed] <= Permit[Expires] ), 2,
-			        NOT ISBLANK ( Permit[Closed] ), 3,
-			        Code = 4, 4,
-			        5
+			        TimeLimited && ( NOT ISBLANK ( Permit[Closed] ) || Code = 4 ), 3,
+			        NOT ISBLANK ( Permit[Closed] ), 4,
+			        Code = 4, 5,
+			        6
 			    )
 		dataType: int64
 		isHidden
@@ -305,8 +307,17 @@ table Permit
 
 		annotation SummarizationSetBy = Automatic
 
-	/// Live (active or extended), closed out before or after expiry, or expired without being closed out. 'Other' covers drafts, pending and archived permits that were never closed.
-	column Outcome = SWITCH ( Permit[Outcome Order], 1, "Live", 2, "Closed before expiry", 3, "Closed after expiry", 4, "Expired, not closed out", "Other" )
+	/// Live (active or extended); closed out before expiry; ended at expiry (time-limited 'Timelapse' categories, which Work Wallet closes automatically); closed out after expiry; or expired without being closed out. 'Other' covers drafts, pending and archived permits never closed.
+	column Outcome =
+			SWITCH (
+			    Permit[Outcome Order],
+			    1, "Live",
+			    2, "Closed before expiry",
+			    3, "Ended at expiry (time-limited)",
+			    4, "Closed after expiry",
+			    5, "Expired, not closed out",
+			    "Other"
+			)
 		dataType: string
 		lineageTag: 3a9e4297-2cee-509d-90a3-fde06b258d3a
 		summarizeBy: none

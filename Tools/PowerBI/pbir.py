@@ -551,16 +551,20 @@ def matrix(page, key, x, y, w, h, rows, columns, values, title_text, subtitle=No
 
 
 def column_chart(page, key, x, y, w, h, category, values, title_text, subtitle=None, series=None, line=None,
-                 series_colours=None, legend=True, z=1000):
+                 series_colours=None, legend=True, clustered=False, z=1000):
     """Stacked column chart by category (e.g. month), optionally split by a series and with a dashed line
-    measure (e.g. a monthly average). series_colours: {value: hex} for a fixed palette (e.g. severity)."""
-    vtype = "lineStackedColumnComboChart" if line else "columnChart"
+    measure (e.g. a monthly average). series_colours: {value: hex} for a fixed palette (e.g. severity).
+    clustered=True puts several measures side by side (e.g. raised vs closed) with a legend."""
+    if line:
+        vtype = "lineClusteredColumnComboChart" if clustered else "lineStackedColumnComboChart"
+    else:
+        vtype = "clusteredColumnChart" if clustered else "columnChart"
     state = {"Category": {"projections": [category]}, "Y": {"projections": values}}
     if series:
         state["Series"] = {"projections": [series]}
     if line:
         state["Y2"] = {"projections": [line]}
-    objects = {"legend": props(show=b(legend and bool(series)), position=s("Top"))}
+    objects = {"legend": props(show=b(legend and (bool(series) or len(values) > 1)), position=s("Top"))}
     if line:
         objects["lineStyles"] = props(strokeWidth=i(2), lineStyle=s("dashed"), showMarker=b(False))
         objects["valueAxis"] = props(secShow=b(False))

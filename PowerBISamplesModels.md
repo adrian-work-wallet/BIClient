@@ -22,6 +22,7 @@ inactive relationship. Each column is prefixed with its kind instead of its data
 [Actions diagrams](PowerBISamplesModels/Actions.md)
 
 * [Actions - Main](PowerBISamplesModels/Actions.md#actions---main)
+* [Actions - Date and measures](PowerBISamplesModels/Actions.md#actions---date-and-measures)
 
 ## Assets
 
